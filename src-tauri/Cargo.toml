@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "request"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
-repository = ""
-default-run = "app"
+description = "HTTP Client"
+authors = ["github.com/aiocat"]
+license = "MUT"
+repository = "github.com/aiocat/request"
+default-run = "request"
 edition = "2021"
 rust-version = "1.57"
 
