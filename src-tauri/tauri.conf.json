@@ -53,6 +53,9 @@
         "all": true,
         "request": true,
         "scope": ["https://**", "http://**"]
+      },
+      "clipboard": {
+        "writeText": true
       }
     },
     "windows": [

@@ -51,7 +51,8 @@ html {
 #section-1 select,
 #section-1 input,
 #section-1 button,
-#section-2 #nav button {
+#nav button,
+#response-options button {
   outline: none;
   padding: 5px 10px 5px 10px;
   margin: 5px;
@@ -71,11 +72,12 @@ html {
 
 #section-1 select,
 #section-1 button,
-#section-2 #nav button {
+#nav button,
+#response-options button {
   cursor: pointer;
 }
 
-#section-2 #nav button {
+#nav button {
   color: var(--white-2);
   background: var(--black-2);
   border: 4px solid var(--black-3);
@@ -85,26 +87,34 @@ html {
 #section-1 select:focus,
 #section-1 input:hover,
 #section-1 input:focus,
-#section-1 button:hover {
+#section-1 button:hover,
+#response-options button:hover {
   background: var(--black-4);
   border: 4px solid var(--black-5);
+
+  transform: scale(1.05);
 }
 
-#section-2 #nav button:hover {
+#nav button:hover {
   color: var(--white-1);
   background: var(--black-3);
   border: 4px solid var(--black-4);
+
+  transform: scale(1.05);
 }
 
-#section-2 #nav button:focus {
+#nav button:focus {
   color: var(--white-1);
   background: var(--black-4);
   border: 4px solid var(--black-4);
+
+  transform: scale(1);
 }
 
-#section-1 button:focus {
+#section-1 button:focus, #response-options button:focus {
   background: var(--black-5);
   border: 4px solid var(--black-5);
+  transform: scale(1);
 }
 
 #section-2 {
@@ -122,14 +132,14 @@ html {
   background: var(--black-3);
 }
 
-#response #stats {
+#stats {
   display: flex;
   align-items: center;
   justify-content: space-around;
   margin: 5px auto;
 }
 
-#response #stats p {
+#stats p {
   font-size: 18px;
   font-weight: 600;
   color: var(--white-2);
@@ -158,4 +168,48 @@ html {
 ::placeholder {
   color: var(--white-2);
   opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--black-5);
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: transparent;
+}
+
+::-webkit-scrollbar-track:active {
+  background: transparent;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+@media only screen and (max-width: 350px) {
+  h1 {
+      font-size: 32px;
+  }
+
+  .buttons a,
+  #desc {
+      font-size: 16px;
+      font-weight: 500;
+  }
 }

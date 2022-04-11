@@ -5,6 +5,7 @@
 
 import "./style.css";
 import spawnRequest from "./request";
+import "./responseButtons";
 
 let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
 
