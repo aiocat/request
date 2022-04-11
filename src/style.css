@@ -9,8 +9,8 @@
   --white-2: rgb(185, 189, 199);
   --white-3: rgb(109, 113, 124);
 
-  --red-1: rgb(255, 87, 87);
-  --red-2: rgb(204, 44, 44);
+  --red-1: rgb(255, 52, 52);
+  --red-2: rgb(161, 31, 31);
 }
 
 body,
@@ -34,7 +34,27 @@ html {
   margin: 0 auto;
   box-sizing: border-box;
 
+  display: flex;
+
   background: var(--black-1);
+}
+
+#right {
+  width: 100vw;
+  overflow: auto;
+}
+
+#left {
+  position: relative;
+  height: 100%;
+
+  background: var(--black-3);
+  border-right: 4px solid var(--black-4);
+
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: auto;
 }
 
 #section-1 {
@@ -57,10 +77,10 @@ html {
 #section-1 button,
 #nav button,
 #response-options button,
-#header-flex button {
+#header-flex button,
+#left #save {
   outline: none;
   padding: 5px 10px 5px 10px;
-  margin: 5px;
 
   background: var(--black-3);
   border: 4px solid var(--black-4);
@@ -75,11 +95,81 @@ html {
   transition: 250ms;
 }
 
+#left #save {
+  margin: 5px auto;
+  width: 100%;
+}
+
+.saved {
+  width: 100%;
+
+  background: var(--black-4);
+  border: 4px solid var(--black-5);
+
+  margin: 5px auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.saved h1 {
+  margin: 4px;
+  text-align: left;
+
+  color: var(--white-1);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.saved h2 {
+  width: max-content;
+  margin: 2px;
+
+  background: var(--black-3);
+  color: #2951ff;
+
+  font-size: 14px;
+  font-weight: 800;
+  padding: 2px 6px 2px 6px;
+  border-radius: 10px;
+}
+
+.saved p {
+  text-align: left;
+  margin: 0px;
+
+  color: var(--white-2);
+
+  font-size: 14px;
+  font-weight: 600;
+  padding: 2px 6px 2px 6px;
+  border-radius: 10px;
+}
+
+.saved button {
+  outline: none;
+  padding: 3px 6px 3px 6px;
+  margin: 5px;
+
+  background: var(--red-1);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--white-1);
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: 250ms;
+}
+
 #section-1 select,
 #header-flex select,
 #section-1 button,
 #nav button,
-#response-options button {
+#response-options button,
+#left #save {
   cursor: pointer;
 }
 
@@ -99,7 +189,8 @@ html {
 .header input:focus,
 #section-1 button:hover,
 #response-options button:hover,
-#header-flex button:hover {
+#header-flex button:hover,
+#left #save:hover {
   background: var(--black-4);
   border: 4px solid var(--black-5);
 
@@ -124,7 +215,8 @@ html {
 
 #section-1 button:focus,
 #response-options button:focus,
-#header-flex button:focus {
+#header-flex button:focus,
+#left #save:focus {
   background: var(--black-5);
   border: 4px solid var(--black-5);
   transform: scale(1);
