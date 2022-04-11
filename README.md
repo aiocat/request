@@ -1,6 +1,6 @@
 <div align="center">
 
-![Logo](/src-tauri/icons/request.png)
+![Logo](/assets/logo.png)
 # Request
 Minimal HTTP Client for your next toy project
 ## Screenshots
