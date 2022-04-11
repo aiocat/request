@@ -24,45 +24,20 @@ requestMethodElement!.onchange = () => {
 }
 
 sendButton!.onclick = async (): Promise<void> => {
-    const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"];
-    const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
-    let requestMethod: HttpVerb = "GET";
-
-    requestMethod = requestMethods[requestMethodElement!.selectedIndex];
-
-    let requestUrl: string = "";
-    let requestUrlElement: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#url");
-    requestUrl = requestUrlElement!.value;
+    let requestMethod: HttpVerb = getMethod();
 
     let timeNow: number = Date.now();
     let fetchOptions: FetchOptions = {
         method: requestMethod,
         responseType: 2,
+        headers: getHeaders()
     };
 
     if (requestMethod == "POST" || requestMethod == "PUT" || requestMethod == "PATCH") {
-        let bodyType: string = "";
-        let bodyTypeElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#body-type");
-        bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
-
-        let bodyContent: string = "";
-        let bodyContentElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
-        bodyContent = bodyContentElement!.value;
-
-        let bodyParsed: tauriBody = tauriBody.text(bodyContent);
-
-        if (bodyContent == "Json") {
-            bodyParsed = tauriBody.json(JSON.parse(bodyType));
-        } else if (bodyContent == "Text") {
-            bodyParsed = tauriBody.text(bodyContent);
-        } else if (bodyContent == "Bytes") {
-            bodyParsed = tauriBody.bytes((new TextEncoder()).encode(bodyContent))
-        }
-
-        fetchOptions.body = bodyParsed
+        fetchOptions.body = getBody();
     }
 
-    let response: tauriResponse<string> = await tauriFetch(requestUrl, fetchOptions);
+    let response: tauriResponse<string> = await tauriFetch(getUrl(), fetchOptions);
     let responseMillisecond: number = Date.now() - timeNow;
     let responseBody: string = response.data;
 
@@ -83,4 +58,53 @@ function writeStats(response: tauriResponse<string>, content: string, speed: num
     responseStatusElement!.innerText = response.status.toString();
     responseByteElement!.innerText = `${(new TextEncoder().encode(content)).length}B`;
     responseSpeedElement!.innerText = `${speed}ms`;
+}
+
+function getHeaders(): Record<string, string> {
+    let records: Record<string, string> = {};
+    let headersDiv: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#headers");
+
+    headersDiv!.childNodes.forEach((element: any) => {
+        let inputs: any = element.childNodes[0].childNodes;
+        let key: HTMLInputElement = inputs[0];
+        let value: HTMLInputElement = inputs[1];
+
+        records[key.value] = value.value;
+    });
+
+    return records;
+}
+
+function getBody(): tauriBody {
+    const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
+
+    let bodyType: string = "";
+    let bodyTypeElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#body-type");
+    bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
+
+    let bodyContent: string = "";
+    let bodyContentElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
+    bodyContent = bodyContentElement!.value;
+
+    let bodyParsed: tauriBody = tauriBody.text(bodyContent);
+
+    if (bodyContent == "Json") {
+        bodyParsed = tauriBody.json(JSON.parse(bodyType));
+    } else if (bodyContent == "Text") {
+        bodyParsed = tauriBody.text(bodyContent);
+    } else if (bodyContent == "Bytes") {
+        bodyParsed = tauriBody.bytes((new TextEncoder()).encode(bodyContent));
+    }
+
+    return bodyParsed;
+}
+
+function getMethod(): HttpVerb {
+    const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"];
+    return requestMethods[requestMethodElement!.selectedIndex];
+}
+
+function getUrl(): string {
+    let requestUrlElement: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#url");
+    return requestUrlElement!.value;
 }

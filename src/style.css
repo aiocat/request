@@ -121,7 +121,9 @@ html {
   transform: scale(1);
 }
 
-#section-1 button:focus, #response-options button:focus, #header-flex button:focus {
+#section-1 button:focus,
+#response-options button:focus,
+#header-flex button:focus {
   background: var(--black-5);
   border: 4px solid var(--black-5);
   transform: scale(1);
@@ -134,7 +136,8 @@ html {
   padding: 20px;
 }
 
-#response, #request {
+#response,
+#request {
   margin: 10px auto;
   border-radius: 10px;
   padding: 10px;
@@ -154,7 +157,8 @@ html {
   color: var(--white-2);
 }
 
-#response textarea, #request textarea {
+#response textarea,
+#request textarea {
   margin: 5px auto;
   outline: none;
   padding: 5px;
@@ -282,12 +286,12 @@ html {
 
 @media only screen and (max-width: 350px) {
   h1 {
-      font-size: 32px;
+    font-size: 32px;
   }
 
   .buttons a,
   #desc {
-      font-size: 16px;
-      font-weight: 500;
+    font-size: 16px;
+    font-weight: 500;
   }
 }
