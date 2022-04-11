@@ -43,6 +43,7 @@ sendButton!.onclick = async (): Promise<void> => {
 
     writeResponse(responseBody);
     writeStats(response, responseBody, responseMillisecond);
+    writeHeaders(response.headers);
 }
 
 function writeResponse(content: string): void {
@@ -60,9 +61,38 @@ function writeStats(response: tauriResponse<string>, content: string, speed: num
     responseSpeedElement!.innerText = `${speed}ms`;
 }
 
+function writeHeaders(headers: Record<string, string>): void {
+    let headersDiv: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#response-headers");
+    headersDiv!.innerHTML = "";
+
+    for (let key in headers) {
+        let value: string = headers[key];
+
+        let header: HTMLDivElement = document.createElement("div");
+        header.className = "header";
+
+        let headerKey: HTMLInputElement = document.createElement("input");
+        headerKey.type = "text";
+        headerKey.name = "key";
+        headerKey.value = key;
+
+        let headerValue: HTMLInputElement = document.createElement("input");
+        headerValue.type = "text";
+        headerValue.name = "value";
+        headerValue.value = value;
+
+        header.appendChild(headerKey);
+        header.appendChild(headerValue);
+
+        headersDiv!.appendChild(header);
+    }
+}
+
 function getHeaders(): Record<string, string> {
     let records: Record<string, string> = {};
     let headersDiv: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#headers");
+
+    if (headersDiv!.childElementCount < 1) return records;
 
     headersDiv!.childNodes.forEach((element: any) => {
         let inputs: any = element.childNodes[0].childNodes;

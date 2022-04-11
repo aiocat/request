@@ -148,13 +148,25 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  
+  background-color: var(--black-2);
+
   margin: 5px auto;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 #stats p {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 600;
-  color: var(--white-2);
+
+  color: var(--white-1);
+  background-color: var(--black-1);
+
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+
+  margin: 0px;
 }
 
 #response textarea,
@@ -178,7 +190,7 @@ html {
   font-weight: 500;
 }
 
-#request h1 {
+#request h1, #response h1 {
   font-size: 28px;
   font-weight: 600;
   color: var(--white-1);
@@ -191,7 +203,7 @@ html {
   justify-content: space-between;
 }
 
-#headers {
+#headers, #response-headers {
   margin: 5px auto;
   padding: 10px;
 
