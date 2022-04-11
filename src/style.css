@@ -246,6 +246,17 @@ html {
   justify-content: space-between;
 }
 
+.header p {
+  width: 50%;
+
+  color: var(--white-2);
+
+  font-size: 24px;
+  font-weight: 600;
+  margin: 5px;
+  text-transform: capitalize;
+}
+
 .header button {
   outline: none;
   padding: 5px 10px 5px 10px;

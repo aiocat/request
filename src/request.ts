@@ -71,11 +71,8 @@ function writeHeaders(headers: Record<string, string>): void {
         let header: HTMLDivElement = document.createElement("div");
         header.className = "header";
 
-        let headerKey: HTMLInputElement = document.createElement("input");
-        headerKey.type = "text";
-        headerKey.name = "key";
-        headerKey.readOnly = true;
-        headerKey.value = key;
+        let headerKey: HTMLParagraphElement = document.createElement("p");
+        headerKey.innerText = key;
 
         let headerValue: HTMLInputElement = document.createElement("input");
         headerValue.type = "text";
