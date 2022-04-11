@@ -1,6 +1,6 @@
 <div align="center">
 
-![Logo](/src-tauri/icons/request.png)
+![Logo](/assets/logo.png)
 # Request
 Minimal HTTP Client for your next toy project
 ## Screenshots
@@ -33,7 +33,7 @@ Clone the repo and:
 
 ## Download
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
-- **Current Version**: `v0.1.0-alpha`
+- **Current Version**: `v0.2.0`
 ## License
-GcWin is distributed under MIT license. for more information:
+Request is distributed under MIT license. for more information:
 - https://raw.githubusercontent.com/aiocat/request/main/LICENSE

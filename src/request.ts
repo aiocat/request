@@ -3,8 +3,9 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http"
-import { fetch as tauriFetch, Body as tauriBody, Response as tauriResponse } from "@tauri-apps/api/http"
+import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http";
+import { fetch as tauriFetch, Response as tauriResponse } from "@tauri-apps/api/http";
+import { getBody, getHeaders, getUrl, getMethod } from "./requestDom";
 
 let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
 let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
@@ -34,10 +35,16 @@ sendButton!.onclick = async (): Promise<void> => {
     };
 
     if (requestMethod == "POST" || requestMethod == "PUT" || requestMethod == "PATCH") {
-        fetchOptions.body = getBody();
+        let body = getBody();
+        if (!body) return;
+
+        fetchOptions.body = body;
     }
 
-    let response: tauriResponse<string> = await tauriFetch(getUrl(), fetchOptions);
+    let url: string | null = getUrl();
+    if (!url) return;
+
+    let response: tauriResponse<string> = await tauriFetch(url, fetchOptions);
     let responseMillisecond: number = Date.now() - timeNow;
     let responseBody: string = response.data;
 
@@ -85,55 +92,4 @@ function writeHeaders(headers: Record<string, string>): void {
 
         headersDiv!.appendChild(header);
     }
-}
-
-function getHeaders(): Record<string, string> {
-    let records: Record<string, string> = {};
-    let headersDiv: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#headers");
-
-    if (headersDiv!.childElementCount < 1) return records;
-
-    headersDiv!.childNodes.forEach((element: any) => {
-        let inputs: any = element.childNodes[0].childNodes;
-        let key: HTMLInputElement = inputs[0];
-        let value: HTMLInputElement = inputs[1];
-
-        records[key.value] = value.value;
-    });
-
-    return records;
-}
-
-function getBody(): tauriBody {
-    const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
-
-    let bodyType: string = "";
-    let bodyTypeElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#body-type");
-    bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
-
-    let bodyContent: string = "";
-    let bodyContentElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
-    bodyContent = bodyContentElement!.value;
-
-    let bodyParsed: tauriBody = tauriBody.text(bodyContent);
-
-    if (bodyContent == "Json") {
-        bodyParsed = tauriBody.json(JSON.parse(bodyType));
-    } else if (bodyContent == "Text") {
-        bodyParsed = tauriBody.text(bodyContent);
-    } else if (bodyContent == "Bytes") {
-        bodyParsed = tauriBody.bytes((new TextEncoder()).encode(bodyContent));
-    }
-
-    return bodyParsed;
-}
-
-function getMethod(): HttpVerb {
-    const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"];
-    return requestMethods[requestMethodElement!.selectedIndex];
-}
-
-function getUrl(): string {
-    let requestUrlElement: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#url");
-    return requestUrlElement!.value;
 }

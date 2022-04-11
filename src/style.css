@@ -9,8 +9,11 @@
   --white-2: rgb(185, 189, 199);
   --white-3: rgb(109, 113, 124);
 
-  --red-1: rgb(255, 87, 87);
-  --red-2: rgb(204, 44, 44);
+  --red-1: rgb(255, 52, 52);
+  --red-1-1: rgba(255, 52, 52, 0.39);
+  --red-2: rgb(161, 31, 31);
+
+  --blue-1: #2951ff;
 }
 
 body,
@@ -34,7 +37,28 @@ html {
   margin: 0 auto;
   box-sizing: border-box;
 
+  display: flex;
+
   background: var(--black-1);
+}
+
+#right {
+  width: 80vw;
+  overflow: auto;
+}
+
+#left {
+  position: relative;
+  height: 100%;
+  width: 20vw;
+
+  background: var(--black-3);
+  border-right: 4px solid var(--black-4);
+
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: auto;
 }
 
 #section-1 {
@@ -57,10 +81,10 @@ html {
 #section-1 button,
 #nav button,
 #response-options button,
-#header-flex button {
+#header-flex button,
+#left #save {
   outline: none;
   padding: 5px 10px 5px 10px;
-  margin: 5px;
 
   background: var(--black-3);
   border: 4px solid var(--black-4);
@@ -75,11 +99,88 @@ html {
   transition: 250ms;
 }
 
+#left #save {
+  margin: 5px auto;
+  width: 100%;
+}
+
+.saved {
+  width: 100%;
+
+  background: var(--black-4);
+  border: 4px solid var(--black-5);
+
+  margin: 5px auto;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.saved h1 {
+  margin: 4px;
+  text-align: left;
+
+  color: var(--white-1);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.saved h2 {
+  width: max-content;
+  margin: 2px;
+  margin-bottom: 10px;
+
+  background: var(--black-3);
+  color: var(--blue-1);
+
+  font-size: 14px;
+  font-weight: 800;
+  padding: 2px 6px 2px 6px;
+  border-radius: 10px;
+}
+
+.saved .delete-save {
+  outline: none;
+  padding: 3px 6px 3px 6px;
+  margin: 5px;
+
+  background: var(--red-1);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--white-1);
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.saved .load-save {
+  outline: none;
+  padding: 3px 6px 3px 6px;
+  margin: 5px;
+
+  background: var(--blue-1);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--white-1);
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
 #section-1 select,
 #header-flex select,
 #section-1 button,
 #nav button,
-#response-options button {
+#response-options button,
+#left #save {
   cursor: pointer;
 }
 
@@ -99,7 +200,8 @@ html {
 .header input:focus,
 #section-1 button:hover,
 #response-options button:hover,
-#header-flex button:hover {
+#header-flex button:hover,
+#left #save:hover {
   background: var(--black-4);
   border: 4px solid var(--black-5);
 
@@ -124,7 +226,8 @@ html {
 
 #section-1 button:focus,
 #response-options button:focus,
-#header-flex button:focus {
+#header-flex button:focus,
+#left #save:focus {
   background: var(--black-5);
   border: 4px solid var(--black-5);
   transform: scale(1);
@@ -246,6 +349,10 @@ html {
   justify-content: space-between;
 }
 
+.header input {
+  margin: 5px;
+}
+
 .header p {
   width: 50%;
 
@@ -291,6 +398,40 @@ html {
   width: 50%;
 }
 
+#warn-stack {
+  position: absolute;
+  max-width: 320px;
+  height: auto;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.warn {
+  background-color: var(--red-1-1);
+  border: 4px solid var(--red-2);
+
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white-1);
+
+  backdrop-filter: blur(30px);
+
+  cursor: pointer;
+}
+
+.warn::after {
+  content: "(Click to destroy the warn)";
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+  color: var(--white-2);
+}
+
 ::placeholder {
   color: var(--white-2);
   opacity: 1;
@@ -326,16 +467,4 @@ html {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
-}
-
-@media only screen and (max-width: 350px) {
-  h1 {
-    font-size: 32px;
-  }
-
-  .buttons a,
-  #desc {
-    font-size: 16px;
-    font-weight: 500;
-  }
 }
