@@ -1,7 +1,7 @@
 [package]
 name = "request"
-version = "0.1.0"
-description = "HTTP Client"
+version = "0.2.0"
+description = "Minimal HTTP Client"
 authors = ["github.com/aiocat"]
 license = "MIT"
 repository = "github.com/aiocat/request"
