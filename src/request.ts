@@ -35,7 +35,10 @@ sendButton!.onclick = async (): Promise<void> => {
     };
 
     if (requestMethod == "POST" || requestMethod == "PUT" || requestMethod == "PATCH") {
-        fetchOptions.body = getBody();
+        let body = getBody();
+        if (!body) return;
+
+        fetchOptions.body = body;
     }
 
     let url: string | null = getUrl();

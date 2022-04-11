@@ -26,7 +26,7 @@ function getHeaders(): Record<string, string> {
     return records;
 }
 
-function getBody(): tauriBody {
+function getBody(): tauriBody | null {
     const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
 
     let bodyType: string = "";
@@ -39,11 +39,16 @@ function getBody(): tauriBody {
 
     let bodyParsed: tauriBody = tauriBody.text(bodyContent);
 
-    if (bodyContent == "Json") {
-        bodyParsed = tauriBody.json(JSON.parse(bodyType));
-    } else if (bodyContent == "Text") {
+    if (bodyType == "Json") {
+        try {
+            bodyParsed = tauriBody.json(JSON.parse(bodyContent));
+        } catch {
+            sendNotification("Invalid JSON Format");
+            return null;
+        }
+    } else if (bodyType == "Text") {
         bodyParsed = tauriBody.text(bodyContent);
-    } else if (bodyContent == "Bytes") {
+    } else if (bodyType == "Bytes") {
         bodyParsed = tauriBody.bytes((new TextEncoder()).encode(bodyContent));
     }
 
