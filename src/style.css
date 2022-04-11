@@ -10,7 +10,10 @@
   --white-3: rgb(109, 113, 124);
 
   --red-1: rgb(255, 52, 52);
+  --red-1-1: rgba(255, 52, 52, 0.39);
   --red-2: rgb(161, 31, 31);
+
+  --blue-1: #2951ff;
 }
 
 body,
@@ -40,13 +43,14 @@ html {
 }
 
 #right {
-  width: 100vw;
+  width: 80vw;
   overflow: auto;
 }
 
 #left {
   position: relative;
   height: 100%;
+  width: 20vw;
 
   background: var(--black-3);
   border-right: 4px solid var(--black-4);
@@ -124,9 +128,10 @@ html {
 .saved h2 {
   width: max-content;
   margin: 2px;
+  margin-bottom: 10px;
 
   background: var(--black-3);
-  color: #2951ff;
+  color: var(--blue-1);
 
   font-size: 14px;
   font-weight: 800;
@@ -134,19 +139,7 @@ html {
   border-radius: 10px;
 }
 
-.saved p {
-  text-align: left;
-  margin: 0px;
-
-  color: var(--white-2);
-
-  font-size: 14px;
-  font-weight: 600;
-  padding: 2px 6px 2px 6px;
-  border-radius: 10px;
-}
-
-.saved button {
+.saved .delete-save {
   outline: none;
   padding: 3px 6px 3px 6px;
   margin: 5px;
@@ -161,7 +154,25 @@ html {
   font-size: 14px;
   font-weight: 600;
 
-  transition: 250ms;
+  cursor: pointer;
+}
+
+.saved .load-save {
+  outline: none;
+  padding: 3px 6px 3px 6px;
+  margin: 5px;
+
+  background: var(--blue-1);
+  border: none;
+  border-radius: 10px;
+
+  color: var(--white-1);
+
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
 }
 
 #section-1 select,
@@ -338,6 +349,10 @@ html {
   justify-content: space-between;
 }
 
+.header input {
+  margin: 5px;
+}
+
 .header p {
   width: 50%;
 
@@ -383,6 +398,40 @@ html {
   width: 50%;
 }
 
+#warn-stack {
+  position: absolute;
+  max-width: 320px;
+  height: auto;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.warn {
+  background-color: var(--red-1-1);
+  border: 4px solid var(--red-2);
+
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--white-1);
+
+  backdrop-filter: blur(30px);
+
+  cursor: pointer;
+}
+
+.warn::after {
+  content: "(Click to destroy the warn)";
+  font-size: 12px;
+  font-weight: 400;
+  display: block;
+  color: var(--white-2);
+}
+
 ::placeholder {
   color: var(--white-2);
   opacity: 1;
@@ -418,16 +467,4 @@ html {
 
 ::-webkit-scrollbar-corner {
   background: transparent;
-}
-
-@media only screen and (max-width: 350px) {
-  h1 {
-    font-size: 32px;
-  }
-
-  .buttons a,
-  #desc {
-    font-size: 16px;
-    font-weight: 500;
-  }
 }

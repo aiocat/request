@@ -23,26 +23,21 @@
 
 <body>
   <div id="app">
+    <div id="warn-stack"></div>
     <div id="left">
       <button id="save">Save</button>
-      <div class="saved">
-        <h1>shell.cpp</h1>
-        <h2>POST</h2>
-        <p>2022-04-11 14:07:16 +0000 UTC</p>
-        <button>Delete</button>
-      </div>
+      <div id="saves"></div>
     </div>
     <div id="right">
-
       <div id="section-1">
         <div>
           <select id="http-type" data-selected>
-            <option value="0">GET</option>
-            <option value="1" selected>POST</option>
-            <option value="2">PUT</option>
-            <option value="3">PATCH</option>
-            <option value="4">DELETE</option>
-            <option value="5">OPTIONS</option>
+            <option value="GET">GET</option>
+            <option value="POST" selected>POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+            <option value="OPTIONS">OPTIONS</option>
           </select>
           <input type="text" name="url" id="url" placeholder="http://localhost:3000">
           <button id="send">Send</button>
