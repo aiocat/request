@@ -3,14 +3,31 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import type { FetchOptions, HttpVerb, Response as tauriResponse } from "@tauri-apps/api/http"
-import { fetch as tauriFetch } from "@tauri-apps/api/http"
+import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http"
+import { fetch as tauriFetch, Body as tauriBody, Response as tauriResponse } from "@tauri-apps/api/http"
 
-async function spawnRequest(): Promise<void> {
-    const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
+let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
+let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
+
+requestMethodElement!.onchange = () => {
+    let bodyDocument: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
+
+    if (requestMethodElement!.selectedIndex === 0 || requestMethodElement!.selectedIndex === 4 || requestMethodElement!.selectedIndex === 5) {
+        bodyDocument!.disabled = true;
+        bodyDocument!.style.cursor = "not-allowed";
+        bodyDocument!.value = "";
+    }
+    else {
+        bodyDocument!.disabled = false;
+        bodyDocument!.style.cursor = "text";
+    }
+}
+
+sendButton!.onclick = async (): Promise<void> => {
+    const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"];
+    const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
     let requestMethod: HttpVerb = "GET";
 
-    let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
     requestMethod = requestMethods[requestMethodElement!.selectedIndex];
 
     let requestUrl: string = "";
@@ -20,8 +37,30 @@ async function spawnRequest(): Promise<void> {
     let timeNow: number = Date.now();
     let fetchOptions: FetchOptions = {
         method: requestMethod,
-        responseType: 2
+        responseType: 2,
     };
+
+    if (requestMethod == "POST" || requestMethod == "PUT" || requestMethod == "PATCH") {
+        let bodyType: string = "";
+        let bodyTypeElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#body-type");
+        bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
+
+        let bodyContent: string = "";
+        let bodyContentElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
+        bodyContent = bodyContentElement!.value;
+
+        let bodyParsed: tauriBody = tauriBody.text(bodyContent);
+
+        if (bodyContent == "Json") {
+            bodyParsed = tauriBody.json(JSON.parse(bodyType));
+        } else if (bodyContent == "Text") {
+            bodyParsed = tauriBody.text(bodyContent);
+        } else if (bodyContent == "Bytes") {
+            bodyParsed = tauriBody.bytes((new TextEncoder()).encode(bodyContent))
+        }
+
+        fetchOptions.body = bodyParsed
+    }
 
     let response: tauriResponse<string> = await tauriFetch(requestUrl, fetchOptions);
     let responseMillisecond: number = Date.now() - timeNow;
@@ -45,5 +84,3 @@ function writeStats(response: tauriResponse<string>, content: string, speed: num
     responseByteElement!.innerText = `${(new TextEncoder().encode(content)).length}B`;
     responseSpeedElement!.innerText = `${speed}ms`;
 }
-
-export default spawnRequest;

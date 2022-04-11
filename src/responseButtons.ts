@@ -9,11 +9,11 @@ let clearButton: HTMLButtonElement | null = document.querySelector<HTMLButtonEle
 let copyButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#copy-response");
 let responseTextElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#response-text");
 
-clearButton!.onclick = () => {
+clearButton!.onclick = (): void => {
     responseTextElement!.value = "";
 };
 
-copyButton!.onclick = () => {
+copyButton!.onclick = (): void => {
     let content: string = responseTextElement!.value;
     writeText(content);
 };

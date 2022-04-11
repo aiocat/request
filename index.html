@@ -25,14 +25,13 @@
   <div id="app">
     <div id="section-1">
       <div>
-        <select id="http-type" data-selected="">
-          <option value="0" selected="selected">GET</option>
-          <option value="1">POST</option>
+        <select id="http-type" data-selected>
+          <option value="0">GET</option>
+          <option value="1" selected>POST</option>
           <option value="2">PUT</option>
           <option value="3">PATCH</option>
           <option value="4">DELETE</option>
-          <option value="5">HEAD</option>
-          <option value="6">OPTIONS</option>
+          <option value="5">OPTIONS</option>
         </select>
         <input type="text" name="url" id="url" placeholder="http://localhost:3000">
         <button id="send">Send</button>
@@ -44,7 +43,21 @@
         <button id="open-response">Response</button>
       </div>
       <div id="request">
-        demo
+        <div id="header-flex">
+          <h1>Body</h1>
+          <select id="body-type" data-selected>
+            <option value="Json" selected>JSON</option>
+            <option value="Text">Text</option>
+            <option value="Bytes">Bytes</option>
+          </select>
+        </div>
+        <textarea name="request-body" id="request-body" cols="30" rows="10" placeholder="{}"></textarea>
+        <div id="header-flex">
+          <h1>Headers</h1>
+          <button id="add-header">Add Header</button>
+        </div>
+        <div id="headers">
+        </div>
       </div>
       <div id="response">
         <div id="stats">

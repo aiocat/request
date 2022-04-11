@@ -11,12 +11,12 @@ let responseDivElement: HTMLDivElement | null = document.querySelector<HTMLDivEl
 
 responseDivElement!.style.display = "none";
 
-requestButton!.onclick = () => {
+requestButton!.onclick = (): void => {
     requestDivElement!.style.display = "block";
     responseDivElement!.style.display = "none";
 }
 
-responseButton!.onclick = () => {
+responseButton!.onclick = (): void => {
     requestDivElement!.style.display = "none";
     responseDivElement!.style.display = "block";
 }
