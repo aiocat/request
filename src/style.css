@@ -7,6 +7,7 @@
 
   --white-1: #fff;
   --white-2: rgb(185, 189, 199);
+  --white-3: rgb(109, 113, 124);
 
   --red-1: rgb(255, 87, 87);
   --red-2: rgb(204, 44, 44);
@@ -148,8 +149,6 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  
-  background-color: var(--black-2);
 
   margin: 5px auto;
   padding: 10px;
@@ -157,16 +156,34 @@ html {
 }
 
 #stats p {
-  font-size: 24px;
-  font-weight: 600;
+  display: inline-block;
 
-  color: var(--white-1);
-  background-color: var(--black-1);
+  font-size: 24px;
+  font-weight: 500;
+
+  color: var(--white-3);
+
+  margin: 0px;
+}
+
+#stats span {
+  word-wrap: break-word;
+  width: 100%;
+
+  text-align: center;
+  display: inline-block;
+
+  font-size: 24px;
+  font-weight: 500;
+
+  color: var(--white-2);
+  background-color: var(--black-2);
+  border: 4px solid var(--black-4);
 
   padding: 10px 20px 10px 20px;
   border-radius: 10px;
 
-  margin: 0px;
+  margin: 10px;
 }
 
 #response textarea,
@@ -257,6 +274,10 @@ html {
   transform: scale(1);
   background: var(--red-1);
   border: 4px solid var(--red-1);
+}
+
+#response-headers .header input {
+  width: 50%;
 }
 
 ::placeholder {

@@ -74,11 +74,13 @@ function writeHeaders(headers: Record<string, string>): void {
         let headerKey: HTMLInputElement = document.createElement("input");
         headerKey.type = "text";
         headerKey.name = "key";
+        headerKey.readOnly = true;
         headerKey.value = key;
 
         let headerValue: HTMLInputElement = document.createElement("input");
         headerValue.type = "text";
         headerValue.name = "value";
+        headerValue.readOnly = true;
         headerValue.value = value;
 
         header.appendChild(headerKey);
