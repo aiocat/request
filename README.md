@@ -35,5 +35,5 @@ Clone the repo and:
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
 - **Current Version**: `v0.1.0-alpha`
 ## License
-GcWin is distributed under MIT license. for more information:
+Request is distributed under MIT license. for more information:
 - https://raw.githubusercontent.com/aiocat/request/main/LICENSE
