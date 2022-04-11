@@ -158,7 +158,7 @@ html {
 #stats p {
   display: inline-block;
 
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
 
   color: var(--white-3);
@@ -173,7 +173,7 @@ html {
   text-align: center;
   display: inline-block;
 
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 500;
 
   color: var(--white-2);
