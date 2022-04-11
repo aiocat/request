@@ -6,9 +6,7 @@
 import "./style.css";
 import spawnRequest from "./request";
 import "./responseButtons";
+import "./navbarButtons";
 
 let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
-
-if (sendButton) {
-  sendButton.onclick = spawnRequest;
-}
+sendButton!.onclick = spawnRequest;
