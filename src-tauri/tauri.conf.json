@@ -48,7 +48,13 @@
     "updater": {
       "active": false
     },
-    "allowlist": {},
+    "allowlist": {
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": ["https://**", "http://**"]
+      }
+    },
     "windows": [
       {
         "title": "Request HTTP Client",

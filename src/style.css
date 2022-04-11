@@ -1,4 +1,3 @@
-
 :root {
   --black-1: rgb(6, 11, 22);
   --black-2: rgb(14, 22, 39);
@@ -10,7 +9,8 @@
   --white-2: rgb(185, 189, 199);
 }
 
-body, html {
+body,
+html {
   width: 100%;
   height: 100%;
   margin: 0 auto;
@@ -28,7 +28,7 @@ body, html {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 
   display: flex;
   flex-wrap: wrap;
@@ -48,7 +48,10 @@ body, html {
   background: var(--black-2);
 }
 
-#section-1 select, #section-1 input, #section-1 button, #section-2 #nav button {
+#section-1 select,
+#section-1 input,
+#section-1 button,
+#section-2 #nav button {
   outline: none;
   padding: 5px 10px 5px 10px;
   margin: 5px;
@@ -66,7 +69,9 @@ body, html {
   transition: 250ms;
 }
 
-#section-1 select, #section-1 button, #section-2 #nav button {
+#section-1 select,
+#section-1 button,
+#section-2 #nav button {
   cursor: pointer;
 }
 
@@ -76,7 +81,11 @@ body, html {
   border: 4px solid var(--black-3);
 }
 
-#section-1 select:hover, #section-1 select:focus, #section-1 input:hover, #section-1 input:focus, #section-1 button:hover {
+#section-1 select:hover,
+#section-1 select:focus,
+#section-1 input:hover,
+#section-1 input:focus,
+#section-1 button:hover {
   background: var(--black-4);
   border: 4px solid var(--black-5);
 }
@@ -93,7 +102,7 @@ body, html {
   border: 4px solid var(--black-4);
 }
 
-#section-1 button:focus{
+#section-1 button:focus {
   background: var(--black-5);
   border: 4px solid var(--black-5);
 }
@@ -130,7 +139,7 @@ body, html {
   margin: 5px auto;
   outline: none;
   padding: 5px;
-  
+
   background: var(--black-2);
   color: var(--white-2);
   border: 4px solid var(--black-4);
