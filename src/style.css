@@ -43,14 +43,17 @@ html {
 }
 
 #right {
-  width: 80vw;
+  width: 100vw;
   overflow: auto;
 }
 
 #left {
   position: relative;
   height: 100%;
-  width: 20vw;
+
+  resize: horizontal;
+  min-width: 20vw;
+  max-width: 30vw;
 
   background: var(--black-3);
   border-right: 4px solid var(--black-4);
@@ -69,7 +72,7 @@ html {
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   background: var(--black-2);
 }
@@ -97,6 +100,11 @@ html {
   font-weight: 600;
 
   transition: 250ms;
+}
+
+#section-1 input {
+  width: 100%;
+  margin: 5px;
 }
 
 #left #save {
@@ -139,7 +147,8 @@ html {
   border-radius: 10px;
 }
 
-.saved .delete-save {
+.saved .delete-save,
+.saved .load-save {
   outline: none;
   padding: 3px 6px 3px 6px;
   margin: 5px;
@@ -155,24 +164,15 @@ html {
   font-weight: 600;
 
   cursor: pointer;
+  transition: 250ms;
 }
 
 .saved .load-save {
-  outline: none;
-  padding: 3px 6px 3px 6px;
-  margin: 5px;
-
   background: var(--blue-1);
-  border: none;
-  border-radius: 10px;
+}
 
-  color: var(--white-1);
-
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
+.saved button:hover {
+  transform: scale(1.1);
 }
 
 #section-1 select,
@@ -254,7 +254,6 @@ html {
   justify-content: space-around;
 
   margin: 5px auto;
-  padding: 10px;
   border-radius: 10px;
 }
 
@@ -310,7 +309,8 @@ html {
   font-weight: 500;
 }
 
-#request h1, #response h1 {
+#request h1,
+#response h1 {
   font-size: 28px;
   font-weight: 600;
   color: var(--white-1);
@@ -323,7 +323,8 @@ html {
   justify-content: space-between;
 }
 
-#headers, #response-headers {
+#headers,
+#response-headers {
   margin: 5px auto;
   padding: 10px;
 
