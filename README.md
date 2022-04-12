@@ -33,7 +33,7 @@ Clone the repo and:
 
 ## Download
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
-- **Current Version**: `v0.2.0`
+- **Current Version**: `v0.2.1`
 ## License
 Request is distributed under MIT license. for more information:
 - https://raw.githubusercontent.com/aiocat/request/main/LICENSE
