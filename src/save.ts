@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { HttpVerb } from '@tauri-apps/api/http';
-import { getBodyContent, getBodyType, getHeaders, getUrl, getMethod, writeRequestHeaders } from "./requestDom";
+import { getBodyContent, getBodyType, getHeaders, getUrl, getMethod, writeRequestHeaders, checkHeader } from "./requestDom";
 
 let saveButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#save");
 loadStorage();
@@ -72,6 +72,8 @@ function loadStorage() {
             requestMethodElement!.value = objectized.method;
             bodyTypeElement!.value = objectized.bodyType;
             writeRequestHeaders(JSON.parse(objectized.headers));
+
+            checkHeader();
         }
 
         saveElement.appendChild(titleElement);

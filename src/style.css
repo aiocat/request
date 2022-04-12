@@ -50,10 +50,8 @@ html {
 #left {
   position: relative;
   height: 100%;
-
-  resize: horizontal;
+  
   min-width: 20vw;
-  max-width: 30vw;
 
   background: var(--black-3);
   border-right: 4px solid var(--black-4);
@@ -75,6 +73,7 @@ html {
   justify-content: space-between;
 
   background: var(--black-2);
+  border-bottom: 4px solid var(--black-3);
 }
 
 #section-1 select,
@@ -233,6 +232,10 @@ html {
   transform: scale(1);
 }
 
+#response-options {
+  padding: 5px;
+}
+
 #section-2 {
   width: 100%;
   box-sizing: border-box;
@@ -307,6 +310,16 @@ html {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   font-weight: 500;
+
+  transition: 250ms;
+}
+
+#response textarea:hover,
+#request textarea:hover
+#response textarea:focus,
+#request textarea:focus {
+  background: var(--black-3);
+  border: 4px solid var(--black-5);
 }
 
 #request h1,
@@ -339,7 +352,7 @@ html {
 
 .header {
   margin: 5px auto;
-  padding: 10px;
+  padding: 5px;
   background: var(--black-1);
   border-radius: 10px;
   width: 100%;
@@ -359,7 +372,7 @@ html {
 
   color: var(--white-2);
 
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   margin: 5px;
   text-transform: capitalize;
