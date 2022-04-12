@@ -116,4 +116,19 @@ function writeRequestHeaders(headers: Record<string, string>): void {
     }
 }
 
-export { getBody, getHeaders, getUrl, getMethod, getBodyContent, getBodyType, writeRequestHeaders }
+function checkHeader(): void {
+    let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
+    let bodyDocument: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
+
+    if (requestMethodElement!.selectedIndex === 0 || requestMethodElement!.selectedIndex === 4 || requestMethodElement!.selectedIndex === 5) {
+        bodyDocument!.disabled = true;
+        bodyDocument!.style.cursor = "not-allowed";
+        bodyDocument!.value = "";
+    }
+    else {
+        bodyDocument!.disabled = false;
+        bodyDocument!.style.cursor = "text";
+    }
+}
+
+export { getBody, getHeaders, getUrl, getMethod, getBodyContent, getBodyType, writeRequestHeaders, checkHeader }

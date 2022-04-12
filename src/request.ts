@@ -5,24 +5,12 @@
 
 import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http";
 import { fetch as tauriFetch, Response as tauriResponse } from "@tauri-apps/api/http";
-import { getBody, getHeaders, getUrl, getMethod } from "./requestDom";
+import { getBody, getHeaders, getUrl, getMethod, checkHeader } from "./requestDom";
 
 let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
 let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
 
-requestMethodElement!.onchange = () => {
-    let bodyDocument: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
-
-    if (requestMethodElement!.selectedIndex === 0 || requestMethodElement!.selectedIndex === 4 || requestMethodElement!.selectedIndex === 5) {
-        bodyDocument!.disabled = true;
-        bodyDocument!.style.cursor = "not-allowed";
-        bodyDocument!.value = "";
-    }
-    else {
-        bodyDocument!.disabled = false;
-        bodyDocument!.style.cursor = "text";
-    }
-}
+requestMethodElement!.onchange = checkHeader;
 
 sendButton!.onclick = async (): Promise<void> => {
     let requestMethod: HttpVerb = getMethod();

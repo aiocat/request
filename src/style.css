@@ -43,14 +43,15 @@ html {
 }
 
 #right {
-  width: 80vw;
+  width: 100vw;
   overflow: auto;
 }
 
 #left {
   position: relative;
   height: 100%;
-  width: 20vw;
+
+  min-width: 20vw;
 
   background: var(--black-3);
   border-right: 4px solid var(--black-4);
@@ -69,15 +70,17 @@ html {
 
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   background: var(--black-2);
+  border-bottom: 4px solid var(--black-3);
 }
 
 #section-1 select,
 #header-flex select,
 #section-1 input,
 .header input,
+#left input,
 #section-1 button,
 #nav button,
 #response-options button,
@@ -97,6 +100,23 @@ html {
   font-weight: 600;
 
   transition: 250ms;
+  box-sizing: border-box;
+}
+
+#left input {
+  width: 100%;
+}
+
+#left hr {
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  margin: 10px auto;
+  margin-bottom: 15px;
+}
+
+#section-1 input {
+  width: 100%;
+  margin: 5px;
 }
 
 #left #save {
@@ -139,7 +159,8 @@ html {
   border-radius: 10px;
 }
 
-.saved .delete-save {
+.saved .delete-save,
+.saved .load-save {
   outline: none;
   padding: 3px 6px 3px 6px;
   margin: 5px;
@@ -155,24 +176,15 @@ html {
   font-weight: 600;
 
   cursor: pointer;
+  transition: 250ms;
 }
 
 .saved .load-save {
-  outline: none;
-  padding: 3px 6px 3px 6px;
-  margin: 5px;
-
   background: var(--blue-1);
-  border: none;
-  border-radius: 10px;
+}
 
-  color: var(--white-1);
-
-  font-family: 'Poppins', sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-
-  cursor: pointer;
+.saved button:hover {
+  transform: scale(1.1);
 }
 
 #section-1 select,
@@ -194,6 +206,8 @@ html {
 #section-1 select:focus,
 #section-1 input:hover,
 #section-1 input:focus,
+#left input:hover,
+#left input:focus,
 #header-flex select:hover,
 #header-flex select:focus,
 .header input:hover,
@@ -233,6 +247,10 @@ html {
   transform: scale(1);
 }
 
+#response-options {
+  padding: 5px;
+}
+
 #section-2 {
   width: 100%;
   box-sizing: border-box;
@@ -254,7 +272,6 @@ html {
   justify-content: space-around;
 
   margin: 5px auto;
-  padding: 10px;
   border-radius: 10px;
 }
 
@@ -310,7 +327,8 @@ html {
   font-weight: 500;
 }
 
-#request h1, #response h1 {
+#request h1,
+#response h1 {
   font-size: 28px;
   font-weight: 600;
   color: var(--white-1);
@@ -323,7 +341,8 @@ html {
   justify-content: space-between;
 }
 
-#headers, #response-headers {
+#headers,
+#response-headers {
   margin: 5px auto;
   padding: 10px;
 
@@ -338,7 +357,7 @@ html {
 
 .header {
   margin: 5px auto;
-  padding: 10px;
+  padding: 5px;
   background: var(--black-1);
   border-radius: 10px;
   width: 100%;
@@ -358,7 +377,7 @@ html {
 
   color: var(--white-2);
 
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 600;
   margin: 5px;
   text-transform: capitalize;
