@@ -50,7 +50,7 @@ html {
 #left {
   position: relative;
   height: 100%;
-  
+
   min-width: 20vw;
 
   background: var(--black-3);
@@ -80,6 +80,7 @@ html {
 #header-flex select,
 #section-1 input,
 .header input,
+#left input,
 #section-1 button,
 #nav button,
 #response-options button,
@@ -99,6 +100,18 @@ html {
   font-weight: 600;
 
   transition: 250ms;
+  box-sizing: border-box;
+}
+
+#left input {
+  width: 100%;
+}
+
+#left hr {
+  border: 2px solid var(--black-5);
+  border-radius: 10px;
+  margin: 10px auto;
+  margin-bottom: 15px;
 }
 
 #section-1 input {
@@ -193,6 +206,8 @@ html {
 #section-1 select:focus,
 #section-1 input:hover,
 #section-1 input:focus,
+#left input:hover,
+#left input:focus,
 #header-flex select:hover,
 #header-flex select:focus,
 .header input:hover,
@@ -310,16 +325,6 @@ html {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   font-weight: 500;
-
-  transition: 250ms;
-}
-
-#response textarea:hover,
-#request textarea:hover
-#response textarea:focus,
-#request textarea:focus {
-  background: var(--black-3);
-  border: 4px solid var(--black-5);
 }
 
 #request h1,

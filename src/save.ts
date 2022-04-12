@@ -7,7 +7,12 @@ import { HttpVerb } from '@tauri-apps/api/http';
 import { getBodyContent, getBodyType, getHeaders, getUrl, getMethod, writeRequestHeaders, checkHeader } from "./requestDom";
 
 let saveButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#save");
-loadStorage();
+let filterSaves: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#filter-saves");
+loadStorage(null);
+
+filterSaves!.oninput = () => {
+    loadStorage(filterSaves!.value);
+}
 
 saveButton!.onclick = () => {
     let url: string | null = getUrl();
@@ -19,26 +24,28 @@ saveButton!.onclick = () => {
     let headers: Record<string, string> = getHeaders();
 
     let titleSplitted: Array<string> = url.split("/");
-    let title: string = titleSplitted[titleSplitted.length-1];
+    let title: string = titleSplitted[titleSplitted.length - 1];
 
     if (title.length > 9) {
         title = `${title.substring(7)}...`;
     }
 
-    localStorage.setItem(title + method, JSON.stringify({ 
-        title, url, method, body, bodyType, headers: JSON.stringify(headers) 
+    localStorage.setItem(title + method, JSON.stringify({
+        title, url, method, body, bodyType, headers: JSON.stringify(headers)
     }));
 
-    loadStorage();
+    loadStorage(null);
 }
 
-function loadStorage() {
+function loadStorage(filter: string | null) {
     let saves: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#saves");
     saves!.innerHTML = "";
 
     for (let [key, value] of Object.entries(localStorage)) {
-        let objectized = JSON.parse(value); 
-        
+        if (filter && key.indexOf(filter) === -1) continue;
+
+        let objectized = JSON.parse(value);
+
         let saveElement: HTMLDivElement = document.createElement("div");
         saveElement.className = "saved";
 
