@@ -77,15 +77,16 @@ html {
 }
 
 #section-1 select,
-#header-flex select,
+.header-flex select,
 #section-1 input,
 .header input,
 #left input,
 #section-1 button,
 #nav button,
 #response-options button,
-#header-flex button,
-#left #save {
+.header-flex button,
+#left #save,
+#copy-code {
   outline: none;
   padding: 5px 10px 5px 10px;
 
@@ -189,11 +190,12 @@ html {
 }
 
 #section-1 select,
-#header-flex select,
+.header-flex select,
 #section-1 button,
 #nav button,
 #response-options button,
-#left #save {
+#left #save,
+#copy-code {
   cursor: pointer;
 }
 
@@ -209,14 +211,15 @@ html {
 #section-1 input:focus,
 #left input:hover,
 #left input:focus,
-#header-flex select:hover,
-#header-flex select:focus,
+.header-flex select:hover,
+.header-flex select:focus,
 .header input:hover,
 .header input:focus,
 #section-1 button:hover,
 #response-options button:hover,
-#header-flex button:hover,
-#left #save:hover {
+.header-flex button:hover,
+#left #save:hover,
+#copy-code:hover {
   background: var(--black-4);
   border: 2px solid var(--black-5);
 
@@ -241,8 +244,9 @@ html {
 
 #section-1 button:focus,
 #response-options button:focus,
-#header-flex button:focus,
-#left #save:focus {
+.header-flex button:focus,
+#left #save:focus,
+#copy-code:focus {
   background: var(--black-5);
   border: 2px solid var(--black-5);
   transform: scale(1);
@@ -340,7 +344,7 @@ html {
   margin: 10px;
 }
 
-#header-flex {
+.header-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -462,6 +466,14 @@ html {
 
 .notification::after {
   content: "(Click to destroy the notification)";
+}
+
+#code p {
+  color: var(--white-2);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0px;
 }
 
 ::placeholder {

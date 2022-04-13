@@ -51,7 +51,7 @@
           <button id="open-code">Code</button>
         </div>
         <div id="request">
-          <div id="header-flex">
+          <div class="header-flex">
             <h1>Body</h1>
             <select id="body-type" data-selected>
               <option value="Json" selected>JSON</option>
@@ -61,7 +61,7 @@
           </div>
           <textarea spellcheck="false" name="request-body" id="request-body" cols="30" rows="10"
             placeholder="{}"></textarea>
-          <div id="header-flex">
+          <div class="header-flex">
             <h1>Headers</h1>
             <button id="add-header">Add Header</button>
           </div>
@@ -84,7 +84,7 @@
           <div id="response-headers"></div>
         </div>
         <div id="code">
-          <div id="header-flex">
+          <div class="header-flex">
             <h1>Code</h1>
             <span>
               <select id="code-lang" data-selected>
@@ -95,6 +95,8 @@
             </span>
           </div>
           <textarea readonly spellcheck="false" name="code-body" id="code-body" cols="30" rows="10"></textarea>
+          <button id="copy-code">Copy</button>
+          <p>Generated code may be broken.</p>
         </div>
       </div>
     </div>
