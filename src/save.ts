@@ -13,6 +13,7 @@ import {
   writeRequestHeaders,
   checkMethod,
 } from "./requestDom";
+import { aceRequest } from "./aceEditor";
 
 let saveButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#save");
@@ -101,8 +102,6 @@ function loadStorage(filter: string | null) {
 
     // load save when clicked
     loadSave.onclick = (): void => {
-      let bodyDocument: HTMLTextAreaElement | null =
-        document.querySelector<HTMLTextAreaElement>("#request-body");
       let requestUrlElement: HTMLInputElement | null =
         document.querySelector<HTMLInputElement>("#url");
       let requestMethodElement: HTMLSelectElement | null =
@@ -110,7 +109,7 @@ function loadStorage(filter: string | null) {
       let bodyTypeElement: HTMLSelectElement | null =
         document.querySelector<HTMLSelectElement>("#body-type");
 
-      bodyDocument!.value = objectized.body;
+      aceRequest.setValue(objectized.body);
       requestUrlElement!.value = objectized.url;
       requestMethodElement!.value = objectized.method;
       bodyTypeElement!.value = objectized.bodyType;

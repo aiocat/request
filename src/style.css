@@ -470,6 +470,11 @@ html {
   margin: 0px;
 }
 
+.ace_editor {
+  position: relative;
+  height: 50vh;
+}
+
 ::placeholder {
   color: var(--white-2);
   opacity: 1;

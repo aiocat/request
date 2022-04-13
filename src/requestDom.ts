@@ -6,6 +6,7 @@
 import type { HttpVerb } from "@tauri-apps/api/http";
 import { Body as tauriBody } from "@tauri-apps/api/http";
 import { sendWarn } from "./notification";
+import { aceRequest } from "./aceEditor";
 
 // convert headers to typescript records (hashmap)
 function getHeaders(): Record<string, string> {
@@ -35,10 +36,7 @@ function getBody(): tauriBody | null {
     document.querySelector<HTMLSelectElement>("#body-type");
   bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
 
-  let bodyContent: string = "";
-  let bodyContentElement: HTMLTextAreaElement | null =
-    document.querySelector<HTMLTextAreaElement>("#request-body");
-  bodyContent = bodyContentElement!.value;
+  let bodyContent: string = getBodyContent();
 
   // default value
   let bodyParsed: tauriBody = tauriBody.text(bodyContent);
@@ -62,9 +60,7 @@ function getBody(): tauriBody | null {
 
 // get body content
 function getBodyContent(): string {
-  let bodyContentElement: HTMLTextAreaElement | null =
-    document.querySelector<HTMLTextAreaElement>("#request-body");
-  return bodyContentElement!.value;
+  return aceRequest.getValue();
 }
 
 // get body type (Json, Bytes, Text)
@@ -142,21 +138,24 @@ function writeRequestHeaders(headers: Record<string, string>): void {
 function checkMethod(): void {
   let requestMethodElement: HTMLSelectElement | null =
     document.querySelector<HTMLSelectElement>("#http-type");
-  let bodyDocument: HTMLTextAreaElement | null =
-    document.querySelector<HTMLTextAreaElement>("#request-body");
 
   if (
     requestMethodElement!.selectedIndex === 0 ||
     requestMethodElement!.selectedIndex === 4 ||
     requestMethodElement!.selectedIndex === 5
   ) {
-    bodyDocument!.disabled = true;
-    bodyDocument!.style.cursor = "not-allowed";
-    bodyDocument!.value = "";
+    aceRequest.setReadOnly(true);
   } else {
-    bodyDocument!.disabled = false;
-    bodyDocument!.style.cursor = "text";
+    aceRequest.setReadOnly(false);
   }
+}
+
+// edit body mode
+function editBodyMode(): void {
+  let bodyType: string = getBodyType();
+
+  if (bodyType === "Json") aceRequest.getSession().setMode("ace/mode/json");
+  else aceRequest.getSession().setMode("ace/mode/plain_text");
 }
 
 export {
@@ -168,4 +167,5 @@ export {
   getBodyType,
   writeRequestHeaders,
   checkMethod,
+  editBodyMode,
 };

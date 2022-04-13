@@ -14,18 +14,25 @@ import {
   getUrl,
   getMethod,
   checkMethod,
+  editBodyMode
 } from "./requestDom";
 import { sendNotification } from "./notification";
 import { codeGenerator } from "./codeGenerator";
 import { writeText } from "@tauri-apps/api/clipboard";
+import { aceResponse } from "./aceEditor";
 
 let requestMethodElement: HTMLSelectElement | null =
   document.querySelector<HTMLSelectElement>("#http-type");
 let sendButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#send");
+let bodyTypeElement: HTMLSelectElement | null =
+    document.querySelector<HTMLSelectElement>("#body-type");
 
 // check method to see if uses body when request method changes
 requestMethodElement!.onchange = checkMethod;
+
+// re-load theme for body type
+bodyTypeElement!.onchange = editBodyMode;
 
 // send request
 sendButton!.onclick = async (): Promise<void> => {
@@ -71,9 +78,7 @@ sendButton!.onclick = async (): Promise<void> => {
 
 // write response content
 function writeResponse(content: string): void {
-  let responseTextElement: HTMLTextAreaElement | null =
-    document.querySelector<HTMLTextAreaElement>("#response-text");
-  responseTextElement!.value = content;
+  aceResponse.setValue(content);
 }
 
 // write statuses

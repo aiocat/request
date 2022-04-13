@@ -12,9 +12,8 @@ import {
 } from "./requestDom";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { sendNotification, sendWarn } from "./notification";
+import { aceCode } from "./aceEditor";
 
-let codeBody: HTMLTextAreaElement | null =
-  document.querySelector<HTMLTextAreaElement>("#code-body");
 let codeGenerateButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#run-code-generator");
 let copyCode: HTMLButtonElement | null =
@@ -34,7 +33,7 @@ codeGenerateButton!.onclick = (): void => {
 
 // copy code
 copyCode!.onclick = (): void => {
-  writeText(codeBody!.value);
+  writeText(aceCode.getValue());
   sendNotification("Code copied to clipboard");
 };
 
@@ -47,10 +46,12 @@ function codeGenerator(): void {
   // add your language here
   switch (language) {
     case "JavaScript (fetch)":
-      codeBody!.value = generateJavaScriptFetch(url);
+      aceCode.getSession().setMode("ace/mode/javascript");
+      aceCode.setValue(generateJavaScriptFetch(url));
       break;
     case "Python (requests)":
-      codeBody!.value = generatePythonRequests(url);
+      aceCode.getSession().setMode("ace/mode/python");
+      aceCode.setValue(generatePythonRequests(url));
       break;
   }
 }
