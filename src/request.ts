@@ -6,6 +6,8 @@
 import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http";
 import { fetch as tauriFetch, Response as tauriResponse } from "@tauri-apps/api/http";
 import { getBody, getHeaders, getUrl, getMethod, checkHeader } from "./requestDom";
+import { sendNotification } from "./notification";
+import { writeText } from "@tauri-apps/api/clipboard";
 
 let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
 let sendButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#send");
@@ -65,6 +67,10 @@ function writeHeaders(headers: Record<string, string>): void {
 
         let header: HTMLDivElement = document.createElement("div");
         header.className = "header";
+        header.onclick = () => {
+            writeText(`${key}: ${value}`);
+            sendNotification("Header copied to clipboard");
+        }
 
         let headerKey: HTMLParagraphElement = document.createElement("p");
         headerKey.innerText = key;

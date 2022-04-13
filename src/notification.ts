@@ -3,14 +3,24 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-function sendNotification(message: string): void {
+function sendWarn(message: string): void {
     let warn: HTMLDivElement = document.createElement("div");
     warn.className = "warn";
     warn.innerText = message;
     warn.onclick = () => warn.remove();
 
-    let warnStack: HTMLDivElement | null = document.querySelector("#warn-stack");
-    warnStack!.appendChild(warn);
+    let notificationStack: HTMLDivElement | null = document.querySelector("#notification-stack");
+    notificationStack!.appendChild(warn);
 }
 
-export { sendNotification };
+function sendNotification(message: string): void {
+    let notification: HTMLDivElement = document.createElement("div");
+    notification.className = "notification";
+    notification.innerText = message;
+    notification.onclick = () => notification.remove();
+
+    let notificationStack: HTMLDivElement | null = document.querySelector("#notification-stack");
+    notificationStack!.appendChild(notification);
+}
+
+export { sendWarn, sendNotification };

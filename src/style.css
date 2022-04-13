@@ -13,7 +13,9 @@
   --red-1-1: rgba(255, 34, 34, 0.39);
   --red-2: rgb(158, 18, 18);
 
-  --blue-1: #1d3fd8;
+  --blue-1: rgba(29, 63, 216);
+  --blue-1-1: rgba(29, 63, 216, 0.39);
+  --blue-2: rgb(24, 52, 175);
 }
 
 body,
@@ -50,8 +52,6 @@ html {
 #left {
   position: relative;
   height: 100%;
-
-  min-width: 20vw;
 
   background: var(--black-3);
   border-right: 2px solid var(--black-4);
@@ -350,8 +350,7 @@ html {
 
   background: var(--black-2);
   border: 2px solid var(--black-4);
-
-
+  cursor: pointer;
 
   width: 100%;
   box-sizing: border-box;
@@ -419,7 +418,7 @@ html {
   width: 50%;
 }
 
-#warn-stack {
+#notification-stack {
   position: absolute;
   max-width: 320px;
   height: auto;
@@ -428,16 +427,16 @@ html {
   z-index: 10;
 }
 
-.warn {
+.warn, .notification {
   background-color: var(--red-1-1);
   border: 2px solid var(--red-2);
 
   padding: 10px;
   margin-top: 10px;
-
+  border-radius: 10px;
 
   font-size: 18px;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--white-1);
 
   backdrop-filter: blur(30px);
@@ -445,12 +444,21 @@ html {
   cursor: pointer;
 }
 
-.warn::after {
+.warn::after, .notification::after {
   content: "(Click to destroy the warn)";
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
   display: block;
   color: var(--white-2);
+}
+
+.notification {
+  background-color: var(--blue-1-1);
+  border: 2px solid var(--blue-2);
+}
+
+.notification::after {
+  content: "(Click to destroy the notification)";
 }
 
 ::placeholder {

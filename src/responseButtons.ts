@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { writeText } from "@tauri-apps/api/clipboard";
+import { sendNotification } from "./notification";
 
 let clearButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#clear-response");
 let copyButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#copy-response");
@@ -16,4 +17,5 @@ clearButton!.onclick = (): void => {
 copyButton!.onclick = (): void => {
     let content: string = responseTextElement!.value;
     writeText(content);
+    sendNotification("Body copied to clipboard");
 };

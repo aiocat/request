@@ -5,7 +5,7 @@
 
 import type { HttpVerb } from "@tauri-apps/api/http"
 import { Body as tauriBody } from "@tauri-apps/api/http"
-import { sendNotification } from "./notification"
+import { sendWarn } from "./notification"
 
 let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
 
@@ -43,7 +43,7 @@ function getBody(): tauriBody | null {
         try {
             bodyParsed = tauriBody.json(JSON.parse(bodyContent));
         } catch {
-            sendNotification("Invalid JSON Format");
+            sendWarn("Invalid JSON Format");
             return null;
         }
     } else if (bodyType == "Text") {
@@ -79,7 +79,7 @@ function getUrl(): string | null {
 
     if (/https?:\/\/.*?\..*/g.test(url)) return requestUrlElement!.value;
     else {
-        sendNotification("Invalid URL")
+        sendWarn("Invalid URL")
         return null;
     };
 }
