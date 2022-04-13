@@ -260,7 +260,8 @@ html {
 }
 
 #response,
-#request {
+#request,
+#code {
   margin: 10px auto;
 
   padding: 10px;
@@ -309,7 +310,8 @@ html {
 }
 
 #response textarea,
-#request textarea {
+#request textarea,
+#code textarea {
   margin: 5px auto;
   outline: none;
   padding: 5px;
@@ -330,7 +332,8 @@ html {
 }
 
 #request h1,
-#response h1 {
+#response h1,
+#code h1 {
   font-size: 28px;
   font-weight: 800;
   color: var(--white-1);

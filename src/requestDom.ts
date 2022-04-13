@@ -7,8 +7,6 @@ import type { HttpVerb } from "@tauri-apps/api/http"
 import { Body as tauriBody } from "@tauri-apps/api/http"
 import { sendWarn } from "./notification"
 
-let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
-
 function getHeaders(): Record<string, string> {
     let records: Record<string, string> = {};
     let headersDiv: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#headers");
@@ -57,20 +55,24 @@ function getBody(): tauriBody | null {
 
 function getBodyContent(): string {
     let bodyContentElement: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#request-body");
-    let bodyContent: string = bodyContentElement!.value;
-
-    return bodyContent;
+    return bodyContentElement!.value;
 }
 
 function getBodyType(): string {
-    const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
     let bodyTypeElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#body-type");
-    return bodyContentTypes[bodyTypeElement!.selectedIndex];
+    return bodyTypeElement!.value;
 }
 
 function getMethod(): HttpVerb {
+    let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
+
     const requestMethods: Array<HttpVerb> = ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"];
     return requestMethods[requestMethodElement!.selectedIndex];
+}
+
+function getCodingLanguage(): string {
+    let codeSelectElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#code-lang");
+    return codeSelectElement!.value;
 }
 
 function getUrl(): string | null {
@@ -131,4 +133,4 @@ function checkHeader(): void {
     }
 }
 
-export { getBody, getHeaders, getUrl, getMethod, getBodyContent, getBodyType, writeRequestHeaders, checkHeader }
+export { getBody, getHeaders, getUrl, getMethod, getBodyContent, getBodyType, writeRequestHeaders, checkHeader, getCodingLanguage }

@@ -5,18 +5,29 @@
 
 let requestButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#open-request");
 let responseButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#open-response");
+let codeButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#open-code");
 
 let requestDivElement: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#request");
 let responseDivElement: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#response");
+let codeDivElement: HTMLDivElement | null = document.querySelector<HTMLDivElement>("#code");
 
 responseDivElement!.style.display = "none";
+codeDivElement!.style.display = "none";
 
 requestButton!.onclick = (): void => {
     requestDivElement!.style.display = "block";
     responseDivElement!.style.display = "none";
+    codeDivElement!.style.display = "none";
 }
 
 responseButton!.onclick = (): void => {
     requestDivElement!.style.display = "none";
     responseDivElement!.style.display = "block";
+    codeDivElement!.style.display = "none";
+}
+
+codeButton!.onclick = (): void => {
+    requestDivElement!.style.display = "none";
+    responseDivElement!.style.display = "none";
+    codeDivElement!.style.display = "block";
 }

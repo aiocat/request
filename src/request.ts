@@ -7,6 +7,7 @@ import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http";
 import { fetch as tauriFetch, Response as tauriResponse } from "@tauri-apps/api/http";
 import { getBody, getHeaders, getUrl, getMethod, checkHeader } from "./requestDom";
 import { sendNotification } from "./notification";
+import { codeGenerator } from "./codeGenerator";
 import { writeText } from "@tauri-apps/api/clipboard";
 
 let requestMethodElement: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#http-type");
@@ -41,6 +42,7 @@ sendButton!.onclick = async (): Promise<void> => {
     writeResponse(responseBody);
     writeStats(response, responseBody, responseMillisecond);
     writeHeaders(response.headers);
+    codeGenerator();
 }
 
 function writeResponse(content: string): void {

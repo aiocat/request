@@ -48,6 +48,7 @@
         <div id="nav">
           <button id="open-request">Request</button>
           <button id="open-response">Response</button>
+          <button id="open-code">Code</button>
         </div>
         <div id="request">
           <div id="header-flex">
@@ -81,6 +82,19 @@
           </div>
           <h1>Headers</h1>
           <div id="response-headers"></div>
+        </div>
+        <div id="code">
+          <div id="header-flex">
+            <h1>Code</h1>
+            <span>
+              <select id="code-lang" data-selected>
+                <option value="JavaScript" selected>JavaScript</option>
+                <option value="Python">Python</option>
+              </select>
+              <button id="run-code-generator">Generate</button>
+            </span>
+          </div>
+          <textarea readonly spellcheck="false" name="code-body" id="code-body" cols="30" rows="10"></textarea>
         </div>
       </div>
     </div>
