@@ -5,7 +5,7 @@
 
 import { getCodingLanguage, getHeaders, getBodyContent, getMethod, getUrl, getBodyType } from "./requestDom";
 import { writeText } from "@tauri-apps/api/clipboard";
-import { sendNotification } from "./notification";
+import { sendNotification, sendWarn } from "./notification";
 
 let codeBody: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#code-body");
 let codeGenerateButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#run-code-generator");
@@ -40,12 +40,23 @@ function generateJavaScript(url: string): string {
     let headers: Record<string, string> = getHeaders();
     let bodyContent: string = getBodyContent();
     let method: string = getMethod();
+    let bodyType: string = getBodyType();
 
     let code: string = `let response = await fetch("${url}", {\n  method: "${method}",\n`;
 
     if (method === "POST" || method === "PUT" || method === "PATCH") {
-        bodyContent = bodyContent.replaceAll("\"", "\\\"");
-        code += `  body: "${bodyContent}",\n`;
+        if (bodyType === "Json") {
+            try {
+                JSON.parse(bodyContent)
+            } catch {
+                sendWarn("Invalid JSON Format");
+                return "";
+            }
+
+            code += `  body: JSON.stringify(${bodyContent}),\n`;
+        } else {
+            code += `  body: \`${bodyContent.replaceAll("`", "\\`")}\`,\n`;
+        }
     }
 
     if (Object.keys(headers).length > 0) {
@@ -66,12 +77,21 @@ function generatePython(url: string): string {
     let code: string = `import requests, json\n\nresponse = requests.${method.toLowerCase()}(\n  "${url}",\n`;
 
     if (method === "POST" || method === "PUT" || method === "PATCH") {
+        if (bodyType === "Json") {
+            try {
+                JSON.parse(bodyContent)
+            } catch {
+                sendWarn("Invalid JSON Format");
+                return "";
+            }
+        }
+
         bodyContent = bodyContent.replaceAll("\"", "\\\"");
 
         if (bodyType === "Json") {
-            code += `  json = json.loads("${bodyContent}"),\n`;
+            code += `  json = json.loads("""${bodyContent}"""),\n`;
         } else {
-            code += `  data = "${bodyContent}",\n`;
+            code += `  data = """${bodyContent}""",\n`;
         }
     }
 
@@ -79,7 +99,7 @@ function generatePython(url: string): string {
         let headerStr: string = JSON.stringify(headers);
         headerStr = headerStr.replaceAll("\"", "\\\"");
 
-        code += `  headers = json.loads("${headerStr}")\n`;
+        code += `  headers = json.loads("""${headerStr}""")\n`;
     }
 
     code += ")"
