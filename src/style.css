@@ -453,6 +453,11 @@ html {
 .ace_editor {
   position: relative;
   height: 50vh;
+  margin: 5px;
+}
+
+#copy-code {
+  margin: 5px;
 }
 
 ::placeholder {
