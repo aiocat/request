@@ -46,17 +46,17 @@ function codeGenerator(): void {
 
   // add your language here
   switch (language) {
-    case "JavaScript":
-      codeBody!.value = generateJavaScript(url);
+    case "JavaScript (fetch)":
+      codeBody!.value = generateJavaScriptFetch(url);
       break;
-    case "Python":
-      codeBody!.value = generatePython(url);
+    case "Python (requests)":
+      codeBody!.value = generatePythonRequests(url);
       break;
   }
 }
 
-// javascript code generator
-function generateJavaScript(url: string): string {
+// javascript (fetch api) code generator
+function generateJavaScriptFetch(url: string): string {
   let headers: Record<string, string> = getHeaders();
   let bodyContent: string = getBodyContent();
   let method: string = getMethod();
@@ -91,8 +91,8 @@ function generateJavaScript(url: string): string {
   return code;
 }
 
-// python code generator
-function generatePython(url: string): string {
+// python (requests) code generator
+function generatePythonRequests(url: string): string {
   let headers: Record<string, string> = getHeaders();
   let bodyContent: string = getBodyContent();
   let method: string = getMethod();
