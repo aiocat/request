@@ -1,110 +1,136 @@
 // Copyright (c) 2022 aiocat
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { getCodingLanguage, getHeaders, getBodyContent, getMethod, getUrl, getBodyType } from "./requestDom";
+import {
+  getHeaders,
+  getBodyContent,
+  getMethod,
+  getUrl,
+  getBodyType,
+} from "./requestDom";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { sendNotification, sendWarn } from "./notification";
 
-let codeBody: HTMLTextAreaElement | null = document.querySelector<HTMLTextAreaElement>("#code-body");
-let codeGenerateButton: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#run-code-generator");
-let copyCode: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#copy-code");
+let codeBody: HTMLTextAreaElement | null =
+  document.querySelector<HTMLTextAreaElement>("#code-body");
+let codeGenerateButton: HTMLButtonElement | null =
+  document.querySelector<HTMLButtonElement>("#run-code-generator");
+let copyCode: HTMLButtonElement | null =
+  document.querySelector<HTMLButtonElement>("#copy-code");
 
+// get selected coding language for
+function getCodingLanguage(): string {
+  let codeSelectElement: HTMLSelectElement | null =
+    document.querySelector<HTMLSelectElement>("#code-lang");
+  return codeSelectElement!.value;
+}
+
+// generate code when clicked
 codeGenerateButton!.onclick = (): void => {
-    codeGenerator();
-}
+  codeGenerator();
+};
 
+// copy code
 copyCode!.onclick = (): void => {
-    writeText(codeBody!.value);
-    sendNotification("Code copied to clipboard");
-}
+  writeText(codeBody!.value);
+  sendNotification("Code copied to clipboard");
+};
 
 function codeGenerator(): void {
-    let language: string = getCodingLanguage();
-    let url: string | null = getUrl();
+  let language: string = getCodingLanguage();
+  let url: string | null = getUrl();
 
-    if (!url) return;
+  if (!url) return;
 
-    switch (language) {
-        case "JavaScript":
-            codeBody!.value = generateJavaScript(url);
-            break;
-        case "Python":
-            codeBody!.value = generatePython(url);
-            break;
-    }
+  // add your language here
+  switch (language) {
+    case "JavaScript":
+      codeBody!.value = generateJavaScript(url);
+      break;
+    case "Python":
+      codeBody!.value = generatePython(url);
+      break;
+  }
 }
 
+// javascript code generator
 function generateJavaScript(url: string): string {
-    let headers: Record<string, string> = getHeaders();
-    let bodyContent: string = getBodyContent();
-    let method: string = getMethod();
-    let bodyType: string = getBodyType();
+  let headers: Record<string, string> = getHeaders();
+  let bodyContent: string = getBodyContent();
+  let method: string = getMethod();
+  let bodyType: string = getBodyType();
 
-    let code: string = `let response = await fetch("${url}", {\n  method: "${method}",\n`;
+  let code: string = `let response = await fetch("${url}", {\n  method: "${method}",\n`;
 
-    if (method === "POST" || method === "PUT" || method === "PATCH") {
-        if (bodyType === "Json") {
-            try {
-                JSON.parse(bodyContent)
-            } catch {
-                sendWarn("Invalid JSON Format");
-                return "";
-            }
+  // check method
+  if (method === "POST" || method === "PUT" || method === "PATCH") {
+    if (bodyType === "Json") {
+      try {
+        JSON.parse(bodyContent);
+      } catch {
+        sendWarn("Invalid JSON Format");
+        return "";
+      }
 
-            code += `  body: JSON.stringify(${bodyContent}),\n`;
-        } else {
-            code += `  body: \`${bodyContent.replaceAll("`", "\\`")}\`,\n`;
-        }
+      code += `  body: JSON.stringify(${bodyContent}),\n`;
+    } else {
+      // escape `
+      code += `  body: \`${bodyContent.replaceAll("`", "\\`")}\`,\n`;
     }
+  }
 
-    if (Object.keys(headers).length > 0) {
-        code += `  headers: ${JSON.stringify(headers, null, 4).slice(0, -1)}  }\n`;
-    }
+  // check header exists
+  if (Object.keys(headers).length > 0) {
+    code += `  headers: ${JSON.stringify(headers, null, 4).slice(0, -1)}  }\n`;
+  }
 
-    code += "});"
+  code += "});";
 
-    return code;
+  return code;
 }
 
+// python code generator
 function generatePython(url: string): string {
-    let headers: Record<string, string> = getHeaders();
-    let bodyContent: string = getBodyContent();
-    let method: string = getMethod();
-    let bodyType: string = getBodyType();
+  let headers: Record<string, string> = getHeaders();
+  let bodyContent: string = getBodyContent();
+  let method: string = getMethod();
+  let bodyType: string = getBodyType();
 
-    let code: string = `import requests, json\n\nresponse = requests.${method.toLowerCase()}(\n  "${url}",\n`;
+  let code: string = `import requests, json\n\nresponse = requests.${method.toLowerCase()}(\n  "${url}",\n`;
 
-    if (method === "POST" || method === "PUT" || method === "PATCH") {
-        if (bodyType === "Json") {
-            try {
-                JSON.parse(bodyContent)
-            } catch {
-                sendWarn("Invalid JSON Format");
-                return "";
-            }
-        }
+  // check methods
+  if (method === "POST" || method === "PUT" || method === "PATCH") {
+    if (bodyType === "Json") {
+      try {
+        JSON.parse(bodyContent);
+      } catch {
+        sendWarn("Invalid JSON Format");
+        return "";
+      }
 
-        bodyContent = bodyContent.replaceAll("\"", "\\\"");
-
-        if (bodyType === "Json") {
-            code += `  json = json.loads("""${bodyContent}"""),\n`;
-        } else {
-            code += `  data = """${bodyContent}""",\n`;
-        }
+      // escape quote
+      bodyContent = bodyContent.replaceAll('"', '\\"');
+      code += `  json = json.loads("""${bodyContent}"""),\n`;
+    } else {
+      // escape quote
+      bodyContent = bodyContent.replaceAll('"', '\\"');
+      code += `  data = """${bodyContent}""",\n`;
     }
+  }
 
-    if (Object.keys(headers).length > 0) {
-        let headerStr: string = JSON.stringify(headers);
-        headerStr = headerStr.replaceAll("\"", "\\\"");
+  // check header exists
+  if (Object.keys(headers).length > 0) {
+    let headerStr: string = JSON.stringify(headers);
+    headerStr = headerStr.replaceAll('"', '\\"');
 
-        code += `  headers = json.loads("""${headerStr}""")\n`;
-    }
+    code += `  headers = json.loads("""${headerStr}""")\n`;
+  }
 
-    code += ")"
+  code += ")";
 
-    return code;
+  return code;
 }
 
-export { codeGenerator }
+export { codeGenerator };

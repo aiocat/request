@@ -7,101 +7,137 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-    rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <title>Request HTTP Client</title>
+  </head>
 
-  <title>Request HTTP Client</title>
-</head>
-
-<body>
-  <div id="app">
-    <div id="notification-stack"></div>
-    <div id="left">
-      <button id="save">Save</button>
-      <hr>
-      <input type="text" id="filter-saves" placeholder="Filter">
-      <div id="saves"></div>
-    </div>
-    <div id="right">
-      <div id="section-1">
-        <select id="http-type" data-selected>
-          <option value="GET">GET</option>
-          <option value="POST" selected>POST</option>
-          <option value="PUT">PUT</option>
-          <option value="PATCH">PATCH</option>
-          <option value="DELETE">DELETE</option>
-          <option value="OPTIONS">OPTIONS</option>
-        </select>
-        <input type="text" name="url" id="url" placeholder="http://localhost:3000">
-        <button id="send">Send</button>
+  <body>
+    <div id="app">
+      <div id="notification-stack"></div>
+      <div id="left">
+        <button id="save">Save</button>
+        <hr />
+        <input type="text" id="filter-saves" placeholder="Filter" />
+        <div id="saves"></div>
       </div>
-      <div id="section-2">
-        <div id="nav">
-          <button id="open-request">Request</button>
-          <button id="open-response">Response</button>
-          <button id="open-code">Code</button>
+      <div id="right">
+        <div id="section-1">
+          <select id="http-type" data-selected>
+            <option value="GET">GET</option>
+            <option value="POST" selected>POST</option>
+            <option value="PUT">PUT</option>
+            <option value="PATCH">PATCH</option>
+            <option value="DELETE">DELETE</option>
+            <option value="OPTIONS">OPTIONS</option>
+          </select>
+          <input
+            type="text"
+            name="url"
+            id="url"
+            placeholder="http://localhost:3000"
+          />
+          <button id="send">Send</button>
         </div>
-        <div id="request">
-          <div class="header-flex">
-            <h1>Body</h1>
-            <select id="body-type" data-selected>
-              <option value="Json" selected>JSON</option>
-              <option value="Text">Text</option>
-              <option value="Bytes">Bytes</option>
-            </select>
+        <div id="section-2">
+          <div id="nav">
+            <button id="open-request">Request</button>
+            <button id="open-response">Response</button>
+            <button id="open-code">Code</button>
           </div>
-          <textarea spellcheck="false" name="request-body" id="request-body" cols="30" rows="10"
-            placeholder="{}"></textarea>
-          <div class="header-flex">
-            <h1>Headers</h1>
-            <button id="add-header">Add Header</button>
-          </div>
-          <div id="headers"></div>
-        </div>
-        <div id="response">
-          <h1>Stats</h1>
-          <div id="stats">
-            <span>Status: <p id="r-status">000</p></span>
-            <span>Size: <p id="r-byte">0B</p></span>
-            <span>Time: <p id="r-ms">0ms</p></span>
-          </div>
-          <h1>Body</h1>
-          <textarea readonly spellcheck="false" name="response-text" id="response-text" cols="30" rows="10"></textarea>
-          <div id="response-options">
-            <button id="clear-response">Clear</button>
-            <button id="copy-response">Copy</button>
-          </div>
-          <h1>Headers</h1>
-          <div id="response-headers"></div>
-        </div>
-        <div id="code">
-          <div class="header-flex">
-            <h1>Code</h1>
-            <span>
-              <select id="code-lang" data-selected>
-                <option value="JavaScript" selected>JavaScript</option>
-                <option value="Python">Python</option>
+          <div id="request">
+            <div class="header-flex">
+              <h1>Body</h1>
+              <select id="body-type" data-selected>
+                <option value="Json" selected>JSON</option>
+                <option value="Text">Text</option>
+                <option value="Bytes">Bytes</option>
               </select>
-              <button id="run-code-generator">Generate</button>
-            </span>
+            </div>
+            <textarea
+              spellcheck="false"
+              name="request-body"
+              id="request-body"
+              cols="30"
+              rows="10"
+              placeholder="{}"
+            ></textarea>
+            <div class="header-flex">
+              <h1>Headers</h1>
+              <button id="add-header">Add Header</button>
+            </div>
+            <div id="headers"></div>
           </div>
-          <textarea readonly spellcheck="false" name="code-body" id="code-body" cols="30" rows="10"></textarea>
-          <button id="copy-code">Copy</button>
-          <p>Generated code may be broken.</p>
+          <div id="response">
+            <h1>Stats</h1>
+            <div id="stats">
+              <span
+                >Status:
+                <p id="r-status">000</p></span
+              >
+              <span
+                >Size:
+                <p id="r-byte">0B</p></span
+              >
+              <span
+                >Time:
+                <p id="r-ms">0ms</p></span
+              >
+            </div>
+            <h1>Body</h1>
+            <textarea
+              readonly
+              spellcheck="false"
+              name="response-text"
+              id="response-text"
+              cols="30"
+              rows="10"
+            ></textarea>
+            <div id="response-options">
+              <button id="clear-response">Clear</button>
+              <button id="copy-response">Copy</button>
+            </div>
+            <h1>Headers</h1>
+            <div id="response-headers"></div>
+          </div>
+          <div id="code">
+            <div class="header-flex">
+              <h1>Code</h1>
+              <span>
+                <select id="code-lang" data-selected>
+                  <option value="JavaScript" selected>JavaScript</option>
+                  <option value="Python">Python</option>
+                </select>
+                <button id="run-code-generator">Generate</button>
+              </span>
+            </div>
+            <textarea
+              readonly
+              spellcheck="false"
+              name="code-body"
+              id="code-body"
+              cols="30"
+              rows="10"
+            ></textarea>
+            <button id="copy-code">Copy</button>
+            <p>Generated code may be broken.</p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <script type="module" src="/src/main.ts"></script>
-</body>
-
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
