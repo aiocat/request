@@ -53,6 +53,10 @@ function codeGenerator(): void {
       aceCode.getSession().setMode("ace/mode/python");
       aceCode.setValue(generatePythonRequests(url));
       break;
+    case "Go (net/http)":
+      aceCode.getSession().setMode("ace/mode/golang");
+      aceCode.setValue(generateGoNetHttp(url));
+      break;
   }
 }
 
@@ -130,6 +134,50 @@ function generatePythonRequests(url: string): string {
   }
 
   code += ")";
+
+  return code;
+}
+
+// go (net/http) code generator
+function generateGoNetHttp(url: string): string {
+  let headers: Record<string, string> = getHeaders();
+  let bodyContent: string = getBodyContent();
+  let method: string = getMethod();
+  let bodyType: string = getBodyType();
+
+  
+  let code: string = "package main\n\nimport (\n  \"net/http\"\n  \"bytes\"\n)\n\nfunc main() {\n";
+
+  // check method
+  if (method === "POST" || method === "PUT" || method === "PATCH") {
+    code += `  var requestData = []byte(\`${bodyContent.replaceAll("`", "` + \"`\" + `")}\`)\n`;
+    code += `  request, _ := http.NewRequest("${method}", "${url}", bytes.NewBuffer(requestData))\n`;
+
+    // check json is right
+    if (bodyType === "Json") {
+      try {
+        JSON.parse(bodyContent);
+      } catch {
+        sendWarn("Invalid JSON Format");
+        return "";
+      }
+
+      code += `  request.Header.Set("Content-Type", "application/json")\n`;
+    }
+  } else {
+    code += `  request, _ := http.NewRequest("${method}", "${url}", nil)\n`;
+  }
+
+  // check header exists
+  if (Object.keys(headers).length > 0) {
+    for (let key in headers) {
+      let value: string = headers[key];
+
+      code += `  request.Header.Set("${key}", "${value}")\n`;
+    }
+  }
+
+  code += "\n  client := &http.Client{}\n  response, _ := client.Do(request)\n  // ...\n}";
 
   return code;
 }
