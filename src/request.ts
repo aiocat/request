@@ -78,8 +78,6 @@ sendButton!.onclick = async (): Promise<void> => {
 
 // write response content
 function writeResponse(type: string | null, content: string): void {
-  console.log(type, content);
-
   if (!type) {
     aceResponse.getSession().setMode("ace/mode/plain_text");
   } else if (type.includes("json")) {
@@ -113,6 +111,13 @@ function writeStats(
     document.querySelector<HTMLParagraphElement>("#r-ms");
 
   responseStatusElement!.innerText = response.status.toString();
+
+  if (response.ok) {
+    responseStatusElement!.style.color = "#33d833";
+  } else {
+    responseStatusElement!.style.color = "#d83333";
+  }
+
   responseByteElement!.innerText = `${
     new TextEncoder().encode(content).length
   }B`;
