@@ -8,9 +8,14 @@
   windows_subsystem = "windows"
 )]
 
+// taken from: https://github.com/FabianLars/mw-toolbox/
+#[cfg(target_os = "macos")]
+mod menu;
+
 fn main() {
   let builder = tauri::Builder::default();
   
+  // taken from: https://github.com/FabianLars/mw-toolbox/
   #[cfg(target_os = "macos")]
   let builder = builder.menu(menu::menu());
 
