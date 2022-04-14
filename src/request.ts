@@ -14,18 +14,25 @@ import {
   getUrl,
   getMethod,
   checkMethod,
+  editBodyMode,
 } from "./requestDom";
 import { sendNotification } from "./notification";
 import { codeGenerator } from "./codeGenerator";
 import { writeText } from "@tauri-apps/api/clipboard";
+import { aceResponse } from "./aceEditor";
 
 let requestMethodElement: HTMLSelectElement | null =
   document.querySelector<HTMLSelectElement>("#http-type");
 let sendButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#send");
+let bodyTypeElement: HTMLSelectElement | null =
+  document.querySelector<HTMLSelectElement>("#body-type");
 
 // check method to see if uses body when request method changes
 requestMethodElement!.onchange = checkMethod;
+
+// re-load theme for body type
+bodyTypeElement!.onchange = editBodyMode;
 
 // send request
 sendButton!.onclick = async (): Promise<void> => {
@@ -63,17 +70,33 @@ sendButton!.onclick = async (): Promise<void> => {
   let responseBody: string = response.data;
 
   // write response
-  writeResponse(responseBody);
+  writeResponse(response.headers["content-type"], responseBody);
   writeStats(response, responseBody, responseMillisecond);
   writeHeaders(response.headers);
   codeGenerator();
 };
 
 // write response content
-function writeResponse(content: string): void {
-  let responseTextElement: HTMLTextAreaElement | null =
-    document.querySelector<HTMLTextAreaElement>("#response-text");
-  responseTextElement!.value = content;
+function writeResponse(type: string | null, content: string): void {
+  console.log(type, content);
+
+  if (!type) {
+    aceResponse.getSession().setMode("ace/mode/plain_text");
+  } else if (type.includes("json")) {
+    aceResponse.getSession().setMode("ace/mode/json");
+    aceResponse.setValue(JSON.stringify(JSON.parse(content), null, 2));
+    return;
+  } else if (type.includes("html")) {
+    aceResponse.getSession().setMode("ace/mode/html");
+  } else if (type.includes("css")) {
+    aceResponse.getSession().setMode("ace/mode/css");
+  } else if (type.includes("javascript")) {
+    aceResponse.getSession().setMode("ace/mode/javascript");
+  } else if (type.includes("xml") || type.includes("svg")) {
+    aceResponse.getSession().setMode("ace/mode/xml");
+  }
+
+  aceResponse.setValue(content);
 }
 
 // write statuses

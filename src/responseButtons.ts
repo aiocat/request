@@ -5,22 +5,20 @@
 
 import { writeText } from "@tauri-apps/api/clipboard";
 import { sendNotification } from "./notification";
+import { aceResponse } from "./aceEditor";
 
 let clearButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#clear-response");
 let copyButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#copy-response");
-let responseTextElement: HTMLTextAreaElement | null =
-  document.querySelector<HTMLTextAreaElement>("#response-text");
 
 // clear body content
 clearButton!.onclick = (): void => {
-  responseTextElement!.value = "";
+  aceResponse.setValue("");
 };
 
 // copy body content
 copyButton!.onclick = (): void => {
-  let content: string = responseTextElement!.value;
-  writeText(content);
+  writeText(aceResponse.getValue());
   sendNotification("Body copied to clipboard");
 };

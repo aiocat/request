@@ -2,7 +2,7 @@
 
 ![Logo](/assets/logo.png)
 # Request
-Minimal HTTP Client for your next toy project
+Open-source api development application for minimalists
 ## Screenshots
 ![s1](/assets/ss1.png)
 ![s2](/assets/ss2.png)
@@ -14,7 +14,7 @@ Minimal HTTP Client for your next toy project
 ## Why?
 Lots of postman (like) program already exists. But they are really confusing and they have lots of feature we don't need. 
 
-Since CLI is not for everyone, I made request, minimal http client for your toy projects.
+Since CLI is not for everyone, I made request, http client for minimalists.
 
 
 ## Technologies
@@ -34,7 +34,7 @@ Clone the repo and:
 
 ## Download
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
-- **Current Version**: `v0.3.0`
+- **Current Version**: `v0.3.1`
 ## License
 Request is distributed under MIT license. for more information:
 - https://raw.githubusercontent.com/aiocat/request/main/LICENSE

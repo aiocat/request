@@ -67,14 +67,7 @@
                 <option value="Bytes">Bytes</option>
               </select>
             </div>
-            <textarea
-              spellcheck="false"
-              name="request-body"
-              id="request-body"
-              cols="30"
-              rows="10"
-              placeholder="{}"
-            ></textarea>
+            <div id="request-body"></div>
             <div class="header-flex">
               <h1>Headers</h1>
               <button id="add-header">Add Header</button>
@@ -98,14 +91,7 @@
               >
             </div>
             <h1>Body</h1>
-            <textarea
-              readonly
-              spellcheck="false"
-              name="response-text"
-              id="response-text"
-              cols="30"
-              rows="10"
-            ></textarea>
+            <div id="response-text"></div>
             <div id="response-options">
               <button id="clear-response">Clear</button>
               <button id="copy-response">Copy</button>
@@ -118,20 +104,16 @@
               <h1>Code</h1>
               <span>
                 <select id="code-lang" data-selected>
-                  <option value="JavaScript (fetch)" selected>JavaScript (fetch)</option>
+                  <option value="JavaScript (fetch)" selected>
+                    JavaScript (fetch)
+                  </option>
                   <option value="Python (requests)">Python (requests)</option>
+                  <option value="Go (net/http)">Go (net/http)</option>
                 </select>
                 <button id="run-code-generator">Generate</button>
               </span>
             </div>
-            <textarea
-              readonly
-              spellcheck="false"
-              name="code-body"
-              id="code-body"
-              cols="30"
-              rows="10"
-            ></textarea>
+            <div id="code-body"></div>
             <button id="copy-code">Copy</button>
             <p>Generated code may be broken.</p>
           </div>

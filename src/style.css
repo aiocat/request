@@ -308,26 +308,6 @@ html {
   margin: 10px;
 }
 
-#response textarea,
-#request textarea,
-#code textarea {
-  margin: 5px auto;
-  outline: none;
-  padding: 5px;
-
-  background: var(--black-2);
-  color: var(--white-2);
-  border: 2px solid var(--black-4);
-
-  width: 100%;
-  box-sizing: border-box;
-  resize: vertical;
-
-  font-family: "Roboto Mono", monospace;
-  font-size: 16px;
-  font-weight: 500;
-}
-
 #request h1,
 #response h1,
 #code h1 {
@@ -468,6 +448,16 @@ html {
   font-weight: 700;
   text-align: center;
   margin: 0px;
+}
+
+.ace_editor {
+  position: relative;
+  height: 50vh;
+  margin: 5px;
+}
+
+#copy-code {
+  margin: 5px;
 }
 
 ::placeholder {
