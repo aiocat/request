@@ -113,6 +113,13 @@ function writeStats(
     document.querySelector<HTMLParagraphElement>("#r-ms");
 
   responseStatusElement!.innerText = response.status.toString();
+
+  if (response.ok) {
+    responseStatusElement!.style.color = "#33d833";
+  } else {
+    responseStatusElement!.style.color = "#d83333";
+  }
+
   responseByteElement!.innerText = `${
     new TextEncoder().encode(content).length
   }B`;
