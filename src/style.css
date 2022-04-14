@@ -105,13 +105,14 @@ html {
 
 #left input {
   width: 100%;
+  margin-bottom: 5px;
 }
 
 #left hr {
   border: 1px solid var(--black-5);
 
   margin: 10px auto;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 #section-1 input {
