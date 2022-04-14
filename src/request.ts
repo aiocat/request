@@ -78,8 +78,6 @@ sendButton!.onclick = async (): Promise<void> => {
 
 // write response content
 function writeResponse(type: string | null, content: string): void {
-  console.log(type, content);
-
   if (!type) {
     aceResponse.getSession().setMode("ace/mode/plain_text");
   } else if (type.includes("json")) {
