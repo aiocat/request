@@ -182,8 +182,12 @@ html {
   background: var(--blue-1);
 }
 
-.saved button:hover {
-  transform: scale(1.1);
+.delete-save:hover {
+  background: var(--red-2);
+}
+
+.load-save:hover {
+  background: var(--blue-2);
 }
 
 #section-1 select,
@@ -192,7 +196,9 @@ html {
 #nav button,
 #response-options button,
 #left #save,
-#copy-code {
+#copy-code,
+#add-header,
+#run-code-generator {
   cursor: pointer;
 }
 
@@ -219,24 +225,18 @@ html {
 #copy-code:hover {
   background: var(--black-4);
   border: 2px solid var(--black-5);
-
-  transform: scale(1.05);
 }
 
 #nav button:hover {
   color: var(--white-1);
   background: var(--black-3);
   border: 2px solid var(--black-4);
-
-  transform: scale(1.05);
 }
 
 #nav button:focus {
   color: var(--white-1);
   background: var(--black-4);
   border: 2px solid var(--black-4);
-
-  transform: scale(1);
 }
 
 #section-1 button:focus,
@@ -246,7 +246,6 @@ html {
 #copy-code:focus {
   background: var(--black-5);
   border: 2px solid var(--black-5);
-  transform: scale(1);
 }
 
 #response-options {
@@ -377,18 +376,17 @@ html {
   font-family: "Nunito", sans-serif;
   font-size: 18px;
   font-weight: 700;
+  cursor: pointer;
 
   transition: 250ms;
 }
 
 .header button:hover {
-  transform: scale(1.1);
   background: var(--red-2);
   border: 2px solid var(--red-2);
 }
 
 .header button:focus {
-  transform: scale(1);
   background: var(--red-1);
   border: 2px solid var(--red-1);
 }

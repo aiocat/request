@@ -9,7 +9,12 @@
 )]
 
 fn main() {
-  tauri::Builder::default()
+  let builder = tauri::Builder::default();
+  
+  #[cfg(target_os = "macos")]
+  let builder = builder.menu(menu::menu());
+
+  builder
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
