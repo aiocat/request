@@ -1,0 +1,507 @@
+// Copyright (c) 2022 aiocat
+// 
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
+$black-1: #000;
+$black-2: #0a0a0a;
+$black-3: #111;
+$black-4: #1a1a1a;
+$black-5: #222;
+$white-1: #fff;
+$white-2: #ddd;
+$white-3: #ccc;
+$red-1: rgb(228, 34, 34);
+$red-1-1: rgba(255, 34, 34, 0.39);
+$red-2: rgb(158, 18, 18);
+$blue-1: rgba(29, 63, 216);
+$blue-1-1: rgba(29, 63, 216, 0.39);
+$blue-2: rgb(24, 52, 175);
+
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+  background: $black-1;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  background: $black-1;
+}
+
+#right {
+  width: 100vw;
+  overflow: auto;
+}
+
+#left {
+  position: relative;
+  height: 100%;
+  background: $black-3;
+  border-right: 2px solid $black-4;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  overflow: auto;
+}
+
+#section-1 {
+  width: 100%;
+  padding: 10px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $black-2;
+  border-bottom: 2px solid $black-3;
+
+  select {
+    outline: none;
+    padding: 5px 10px 5px 10px;
+    background: $black-3;
+    border: 2px solid $black-4;
+    color: $white-1;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    transition: 250ms;
+    box-sizing: border-box;
+  }
+}
+
+.header-flex select,
+#section-1 input,
+.header input,
+#left input,
+#section-1 button,
+#nav button,
+#response-options button,
+.header-flex button,
+#left #save,
+#copy-code {
+  outline: none;
+  padding: 5px 10px 5px 10px;
+  background: $black-3;
+  border: 2px solid $black-4;
+  color: $white-1;
+  font-family: "Nunito", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  transition: 250ms;
+  box-sizing: border-box;
+}
+
+#left {
+  input {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  hr {
+    border: 1px solid $black-5;
+    margin: 10px auto;
+    margin-bottom: 20px;
+  }
+}
+
+#section-1 input {
+  width: 100%;
+  margin: 5px;
+}
+
+#left #save {
+  margin: 5px auto;
+  width: 100%;
+}
+
+.saved {
+  width: 100%;
+  background: $black-4;
+  border: 2px solid $black-5;
+  margin: 5px auto;
+  box-sizing: border-box;
+  padding: 5px;
+
+  h1 {
+    margin: 4px;
+    text-align: left;
+    color: $white-1;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  h2 {
+    width: max-content;
+    margin: 2px;
+    margin-bottom: 10px;
+    background: $black-3;
+    color: $blue-1;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 2px 6px 2px 6px;
+  }
+
+  .delete-save {
+    outline: none;
+    padding: 3px 6px 3px 6px;
+    margin: 5px;
+    background: $red-1;
+    border: none;
+    color: $white-1;
+    font-family: "Nunito", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 250ms;
+  }
+
+  .load-save {
+    outline: none;
+    padding: 3px 6px 3px 6px;
+    margin: 5px;
+    background: $red-1;
+    border: none;
+    color: $white-1;
+    font-family: "Nunito", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 250ms;
+    background: $blue-1;
+  }
+}
+
+.delete-save:hover {
+  background: $red-2;
+}
+
+.load-save:hover {
+  background: $blue-2;
+}
+
+#section-1 select,
+.header-flex select,
+#section-1 button,
+#nav button,
+#response-options button,
+#left #save,
+#copy-code,
+#add-header,
+#run-code-generator {
+  cursor: pointer;
+}
+
+#nav button {
+  color: $white-2;
+  background: $black-2;
+  border: 2px solid $black-3;
+}
+
+#section-1 {
+  select {
+    &:hover,
+    &:focus {
+      background: $black-4;
+      border: 2px solid $black-5;
+    }
+  }
+
+  input {
+    &:hover,
+    &:focus {
+      background: $black-4;
+      border: 2px solid $black-5;
+    }
+  }
+}
+
+#left input {
+  &:hover,
+  &:focus {
+    background: $black-4;
+    border: 2px solid $black-5;
+  }
+}
+
+.header-flex select {
+  &:hover,
+  &:focus {
+    background: $black-4;
+    border: 2px solid $black-5;
+  }
+}
+
+.header input {
+  &:hover,
+  &:focus {
+    background: $black-4;
+    border: 2px solid $black-5;
+  }
+}
+
+#section-1 button:hover,
+#response-options button:hover,
+.header-flex button:hover,
+#left #save:hover,
+#copy-code:hover {
+  background: $black-4;
+  border: 2px solid $black-5;
+}
+
+#nav button {
+  &:hover {
+    color: $white-1;
+    background: $black-3;
+    border: 2px solid $black-4;
+  }
+
+  &:focus {
+    color: $white-1;
+    background: $black-4;
+    border: 2px solid $black-4;
+  }
+}
+
+#section-1 button:focus,
+#response-options button:focus,
+.header-flex button:focus,
+#left #save:focus,
+#copy-code:focus {
+  background: $black-5;
+  border: 2px solid $black-5;
+}
+
+#response-options {
+  padding: 5px;
+}
+
+#section-2 {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#response,
+#request,
+#code {
+  margin: 10px auto;
+  padding: 10px;
+  background: $black-3;
+  border: 2px solid $black-4;
+}
+
+#stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 5px auto;
+
+  p {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    color: $white-3;
+    margin: 0px;
+  }
+
+  span {
+    word-wrap: break-word;
+    width: 100%;
+    text-align: center;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 800;
+    color: $white-2;
+    background-color: $black-2;
+    border: 2px solid $black-4;
+    padding: 10px 20px 10px 20px;
+    margin: 10px;
+  }
+}
+
+#request h1,
+#response h1,
+#code h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: $white-1;
+  margin: 10px;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#headers,
+#response-headers {
+  margin: 5px auto;
+  padding: 10px;
+  background: $black-2;
+  border: 2px solid $black-4;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.header {
+  margin: 5px auto;
+  padding: 5px;
+  background: $black-1;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  input {
+    margin: 5px;
+  }
+
+  p {
+    width: 50%;
+    color: $white-2;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 5px;
+    text-transform: capitalize;
+  }
+
+  button {
+    outline: none;
+    padding: 5px 10px 5px 10px;
+    margin: 5px;
+    background: $red-1;
+    border: 2px solid $red-2;
+    color: $white-1;
+    font-family: "Nunito", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 250ms;
+
+    &:hover {
+      background: $red-2;
+      border: 2px solid $red-2;
+    }
+
+    &:focus {
+      background: $red-1;
+      border: 2px solid $red-1;
+    }
+  }
+}
+
+#response-headers .header input {
+  width: 50%;
+}
+
+#notification-stack {
+  position: absolute;
+  max-width: 320px;
+  height: auto;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.warn,
+.notification {
+  background-color: $red-1-1;
+  border: 2px solid $red-2;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: $white-1;
+  backdrop-filter: blur(30px);
+  cursor: pointer;
+}
+
+.warn::after {
+  content: "(Click to destroy the warn)";
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+  color: $white-2;
+}
+
+.notification {
+  &::after {
+    content: "(Click to destroy the warn)";
+    font-size: 12px;
+    font-weight: 600;
+    display: block;
+    color: $white-2;
+    content: "(Click to destroy the notification)";
+  }
+
+  background-color: $blue-1-1;
+  border: 2px solid $blue-2;
+}
+
+#code p {
+  color: $white-2;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0px;
+}
+
+.ace_editor {
+  position: relative;
+  height: 50vh;
+  margin: 5px;
+}
+
+#copy-code {
+  margin: 5px;
+}
+
+::placeholder {
+  color: $white-2;
+  opacity: 1;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $black-5;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+
+  &:hover,
+  &:active {
+    background: transparent;
+  }
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

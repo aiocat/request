@@ -3,11 +3,10 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+use dirs;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
-use std::env;
 use std::fs;
-use std::io;
 use std::path::{Path, PathBuf};
 
 // Struct for request saves
@@ -23,19 +22,12 @@ pub struct Request {
     headers: HashMap<String, String>,
 }
 
-// get main dir
-pub fn main_dir() -> io::Result<PathBuf> {
-    let mut dir = env::current_exe()?;
-    dir.pop();
-    Ok(dir)
-}
-
 // get save file
 fn get_save_path() -> PathBuf {
-    let mut main_executable = main_dir().unwrap();
-    main_executable.push(Path::new("saves.json"));
+    let mut config_path = dirs::config_dir().unwrap();
+    config_path.push(Path::new("request_saves.json"));
 
-    main_executable
+    config_path
 }
 
 // initialize save file

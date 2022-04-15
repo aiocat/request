@@ -3,7 +3,8 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import "./style.css";
+import "./style.scss";
+
 import "./request";
 import "./responseButtons";
 import "./navbarButtons";
