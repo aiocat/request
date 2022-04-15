@@ -92,6 +92,8 @@ pub fn remove_from_json_file(save: Request) {
         serde_json::from_str(&json_content).expect("can't decode json file");
 
     let filter_content = save.name;
+
+    // remove save
     datas.retain(|obj| &obj.name != &filter_content);
 
     let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
