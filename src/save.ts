@@ -4,6 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 import { HttpVerb } from "@tauri-apps/api/http";
+import { invoke } from "@tauri-apps/api";
 import {
   getBodyContent,
   getBodyType,
@@ -39,60 +40,61 @@ saveButton!.onclick = () => {
   let bodyType: string = getBodyType();
   let headers: Record<string, string> = getHeaders();
 
-  let titleSplitted: Array<string> = url.split("/");
+  let titleSplitted: Array<string> = url.split("/").filter((v: string) => v != "");
   let title: string = titleSplitted[titleSplitted.length - 1];
 
   if (title.length > 9) {
     title = `${title.substring(7)}...`;
   }
 
-  // save to localstorage
-  localStorage.setItem(
-    title + method,
-    JSON.stringify({
-      title,
+  // save to file
+  invoke("write_json_file", {
+    save: {
+      name: title,
+      key: url + method,
       url,
       method,
       body,
       bodyType,
-      headers: JSON.stringify(headers),
-    })
-  );
+      headers,
+    },
+  });
 
   // reload storage
   loadStorage(null);
 };
 
 // get local storage data and write to DOM
-function loadStorage(filter: string | null) {
+async function loadStorage(filter: string | null) {
   let saves: HTMLDivElement | null =
     document.querySelector<HTMLDivElement>("#saves");
 
   // reset saves DOM
   saves!.innerHTML = "";
 
-  // iterate over local storage
-  for (let [key, value] of Object.entries(localStorage)) {
-    if (filter && key.indexOf(filter) === -1) continue;
+  // load file
+  let jsonFile: Array<Record<string, any>> = await invoke("read_json_file");
 
-    let objectized = JSON.parse(value);
+  // iterate over file
+  for (const object of jsonFile) {
+    if (filter && object.key.indexOf(filter) === -1) continue;
 
     let saveElement: HTMLDivElement = document.createElement("div");
     saveElement.className = "saved";
 
     let titleElement: HTMLHeadingElement = document.createElement("h1");
-    titleElement.innerText = objectized.title;
+    titleElement.innerText = object.name;
 
     let typeElement: HTMLHeadingElement = document.createElement("h2");
-    typeElement.innerText = objectized.method;
+    typeElement.innerText = object.method;
 
     let deleteSave: HTMLButtonElement = document.createElement("button");
     deleteSave.innerText = "Delete";
     deleteSave.className = "delete-save";
 
     // delete save when clicked
-    deleteSave.onclick = (): void => {
-      localStorage.removeItem(key);
+    deleteSave.onclick = async (): Promise<void> => {
+      await invoke("remove_from_json_file", { save: object });
       saveElement.remove();
     };
 
@@ -109,11 +111,11 @@ function loadStorage(filter: string | null) {
       let bodyTypeElement: HTMLSelectElement | null =
         document.querySelector<HTMLSelectElement>("#body-type");
 
-      aceRequest.setValue(objectized.body);
-      requestUrlElement!.value = objectized.url;
-      requestMethodElement!.value = objectized.method;
-      bodyTypeElement!.value = objectized.bodyType;
-      writeRequestHeaders(JSON.parse(objectized.headers));
+      aceRequest.setValue(object.body);
+      requestUrlElement!.value = object.url;
+      requestMethodElement!.value = object.method;
+      bodyTypeElement!.value = object.bodyType;
+      writeRequestHeaders(object.headers);
 
       checkMethod();
     };
