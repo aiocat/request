@@ -12,7 +12,6 @@ import {
   getUrl,
   getMethod,
   writeRequestHeaders,
-  checkMethod,
 } from "./requestDom";
 import { aceRequest } from "./aceEditor";
 
@@ -40,7 +39,9 @@ saveButton!.onclick = () => {
   let bodyType: string = getBodyType();
   let headers: Record<string, string> = getHeaders();
 
-  let titleSplitted: Array<string> = url.split("/").filter((v: string) => v != "");
+  let titleSplitted: Array<string> = url
+    .split("/")
+    .filter((v: string) => v != "");
   let title: string = titleSplitted[titleSplitted.length - 1];
 
   if (title.length > 9) {
@@ -116,8 +117,6 @@ async function loadStorage(filter: string | null) {
       requestMethodElement!.value = object.method;
       bodyTypeElement!.value = object.bodyType;
       writeRequestHeaders(object.headers);
-
-      checkMethod();
     };
 
     saveElement.appendChild(titleElement);
