@@ -60,11 +60,38 @@ function getUrl(): string | null {
   let url: string = requestUrlElement!.value;
 
   // check if url valid
-  if (/https?:\/\/.*?\..*/g.test(url)) return requestUrlElement!.value;
-  else {
+  if (!/https?:\/\/.*?\..*/g.test(url)) {
     sendWarn("Invalid URL");
     return null;
   }
+
+  // check method
+  let bodyType: string = getBodyType();
+  let method: string = getMethod();
+
+  if ((method === "GET" || method === "DELETE") && bodyType === "Json") {
+    let bodyContent: string = getBodyContent();
+
+    if (bodyContent === "") return url;
+    else {
+      // try parsing json
+      try {
+        url += "?";
+        let parsed: Record<string, any> = JSON.parse(bodyContent);
+
+        // iterate keys
+        for (let key in parsed) {
+          url += `${key}=${parsed[key]}&`;
+        }
+        
+        // remove last char
+        url = url.slice(0, -1);
+        return url;
+      } catch {
+        return url;
+      }
+    }
+  } else return url;
 }
 
 // write request headers (for save loading)

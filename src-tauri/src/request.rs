@@ -60,28 +60,8 @@ pub async fn send_request(request: Request) -> Response {
 
 // send get request to url
 async fn send_get_request(request: &Request) -> reqwest::Response {
-    let mut url = String::from(&request.url);
-
-    // check has json body
-    if &request.body_type == "Json" {
-        let map: Result<HashMap<String, String>, _> = serde_json::from_str(&request.body);
-
-        match map {
-            Ok(hashmap) => {
-                url.push_str("?");
-
-                for (key, value) in hashmap {
-                    url = format!("{}{}={}&", url, key, value);
-                }
-
-                url.pop();
-            }
-            Err(_) => {}
-        }
-    }
-
     // prepare get request
-    let mut client = reqwest::Client::new().get(&url);
+    let mut client = reqwest::Client::new().get(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
@@ -94,28 +74,8 @@ async fn send_get_request(request: &Request) -> reqwest::Response {
 
 // send delete request to url
 async fn send_delete_request(request: &Request) -> reqwest::Response {
-    let mut url = String::from(&request.url);
-
-    // check has json body
-    if &request.body_type == "Json" {
-        let map: Result<HashMap<String, String>, _> = serde_json::from_str(&request.body);
-
-        match map {
-            Ok(hashmap) => {
-                url.push_str("?");
-
-                for (key, value) in hashmap {
-                    url = format!("{}{}={}&", url, key, value);
-                }
-
-                url.pop();
-            }
-            Err(_) => {}
-        }
-    }
-
     // prepare delete request
-    let mut client = reqwest::Client::new().delete(&url);
+    let mut client = reqwest::Client::new().delete(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
