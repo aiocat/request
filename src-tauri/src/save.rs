@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 // Struct for request saves
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
-pub struct Request {
+pub struct SaveRequest {
     name: String,
     key: String,
     url: String,
@@ -56,18 +56,19 @@ fn write_save_file(content: String) {
 
 // load json file
 #[tauri::command]
-pub fn read_json_file() -> Vec<Request> {
+pub fn read_json_file() -> Vec<SaveRequest> {
     let json_content = read_save_file();
-    let datas: Vec<Request> = serde_json::from_str(&json_content).expect("can't decode json file");
+    let datas: Vec<SaveRequest> =
+        serde_json::from_str(&json_content).expect("can't decode json file");
 
     datas
 }
 
 // write to json file
 #[tauri::command]
-pub fn write_json_file(save: Request) {
+pub fn write_json_file(save: SaveRequest) {
     let json_content = read_save_file();
-    let mut datas: Vec<Request> =
+    let mut datas: Vec<SaveRequest> =
         serde_json::from_str(&json_content).expect("can't decode json file");
 
     datas.push(save);
@@ -78,9 +79,9 @@ pub fn write_json_file(save: Request) {
 
 // remove from json file
 #[tauri::command]
-pub fn remove_from_json_file(save: Request) {
+pub fn remove_from_json_file(save: SaveRequest) {
     let json_content = read_save_file();
-    let mut datas: Vec<Request> =
+    let mut datas: Vec<SaveRequest> =
         serde_json::from_str(&json_content).expect("can't decode json file");
 
     let filter_content = save.name;

@@ -4,7 +4,6 @@
 // https://opensource.org/licenses/MIT
 
 import type { HttpVerb } from "@tauri-apps/api/http";
-import { Body as tauriBody } from "@tauri-apps/api/http";
 import { sendWarn } from "./notification";
 import { aceRequest } from "./aceEditor";
 
@@ -27,43 +26,12 @@ function getHeaders(): Record<string, string> {
   return records;
 }
 
-// get request body as tauri's body
-function getBody(): tauriBody | null {
-  const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
-
-  let bodyType: string = "";
-  let bodyTypeElement: HTMLSelectElement | null =
-    document.querySelector<HTMLSelectElement>("#body-type");
-  bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
-
-  let bodyContent: string = getBodyContent();
-
-  // default value
-  let bodyParsed: tauriBody = tauriBody.text(bodyContent);
-
-  // check content type
-  if (bodyType == "Json") {
-    try {
-      bodyParsed = tauriBody.json(JSON.parse(bodyContent));
-    } catch {
-      sendWarn("Invalid JSON Format");
-      return null;
-    }
-  } else if (bodyType == "Text") {
-    bodyParsed = tauriBody.text(bodyContent);
-  } else if (bodyType == "Bytes") {
-    bodyParsed = tauriBody.bytes(new TextEncoder().encode(bodyContent));
-  }
-
-  return bodyParsed;
-}
-
 // get body content
 function getBodyContent(): string {
   return aceRequest.getValue();
 }
 
-// get body type (Json, Bytes, Text)
+// get body type (None, Json, Bytes, Text)
 function getBodyType(): string {
   let bodyTypeElement: HTMLSelectElement | null =
     document.querySelector<HTMLSelectElement>("#body-type");
@@ -81,7 +49,6 @@ function getMethod(): HttpVerb {
     "PUT",
     "PATCH",
     "DELETE",
-    "OPTIONS",
   ];
   return requestMethods[requestMethodElement!.selectedIndex];
 }
@@ -141,10 +108,10 @@ function checkMethod(): void {
 
   if (
     requestMethodElement!.selectedIndex === 0 ||
-    requestMethodElement!.selectedIndex === 4 ||
-    requestMethodElement!.selectedIndex === 5
+    requestMethodElement!.selectedIndex === 4
   ) {
     aceRequest.setReadOnly(true);
+    aceRequest.setValue("");
   } else {
     aceRequest.setReadOnly(false);
   }
@@ -159,7 +126,6 @@ function editBodyMode(): void {
 }
 
 export {
-  getBody,
   getHeaders,
   getUrl,
   getMethod,

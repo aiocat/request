@@ -42,7 +42,6 @@
             <option value="PUT">PUT</option>
             <option value="PATCH">PATCH</option>
             <option value="DELETE">DELETE</option>
-            <option value="OPTIONS">OPTIONS</option>
           </select>
           <input
             type="text"
@@ -62,6 +61,7 @@
             <div class="header-flex">
               <h1>Body</h1>
               <select id="body-type" data-selected>
+                <option value="None">None</option>
                 <option value="Json" selected>JSON</option>
                 <option value="Text">Text</option>
                 <option value="Bytes">Bytes</option>
@@ -109,6 +109,7 @@
                   </option>
                   <option value="Python (requests)">Python (requests)</option>
                   <option value="Go (net/http)">Go (net/http)</option>
+                  <option value="Rust (reqwest)">Rust (reqwest)</option>
                 </select>
                 <button id="run-code-generator">Generate</button>
               </span>

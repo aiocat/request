@@ -3,18 +3,16 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import type { FetchOptions, HttpVerb } from "@tauri-apps/api/http";
+import type { HttpVerb } from "@tauri-apps/api/http";
+import { invoke } from "@tauri-apps/api";
 import {
-  fetch as tauriFetch,
-  Response as tauriResponse,
-} from "@tauri-apps/api/http";
-import {
-  getBody,
   getHeaders,
   getUrl,
   getMethod,
   checkMethod,
   editBodyMode,
+  getBodyType,
+  getBodyContent,
 } from "./requestDom";
 import { sendNotification } from "./notification";
 import { codeGenerator } from "./codeGenerator";
@@ -36,43 +34,50 @@ bodyTypeElement!.onchange = editBodyMode;
 
 // send request
 sendButton!.onclick = async (): Promise<void> => {
-  let requestMethod: HttpVerb = getMethod();
+  // get request method
+  let method: HttpVerb = getMethod();
 
   // calculate time
   let timeNow: number = Date.now();
 
-  // fetch options
-  let fetchOptions: FetchOptions = {
-    method: requestMethod,
-    responseType: 2,
-    headers: getHeaders(),
-  };
+  // get body
+  let body: string = getBodyContent();
 
-  // check method
-  if (
-    requestMethod == "POST" ||
-    requestMethod == "PUT" ||
-    requestMethod == "PATCH"
-  ) {
-    let body = getBody();
-    if (!body) return;
+  // get body type
+  let bodyType: string = getBodyType();
 
-    fetchOptions.body = body;
-  }
+  // get headers
+  let headers: Record<string, string> = getHeaders();
 
   // check url format
   let url: string | null = getUrl();
   if (!url) return;
 
+  let responseBody: string;
+  let responseStatus: number;
+  let responseHeaders: Record<string, string>;
+
   // get response
-  let response: tauriResponse<string> = await tauriFetch(url, fetchOptions);
+  let response: Record<string, any> = await invoke("send_request", {
+    request: {
+      url,
+      method,
+      body,
+      bodyType,
+      headers,
+    },
+  });
+
+  responseBody = response.body;
+  responseStatus = response.status;
+  responseHeaders = response.headers;
+
   let responseMillisecond: number = Date.now() - timeNow;
-  let responseBody: string = response.data;
 
   // write response
-  writeResponse(response.headers["content-type"], responseBody);
-  writeStats(response, responseBody, responseMillisecond);
-  writeHeaders(response.headers);
+  writeResponse(responseHeaders["content-type"], responseBody);
+  writeStats(responseStatus, responseBody, responseMillisecond);
+  writeHeaders(responseHeaders);
   codeGenerator();
 };
 
@@ -98,11 +103,7 @@ function writeResponse(type: string | null, content: string): void {
 }
 
 // write statuses
-function writeStats(
-  response: tauriResponse<string>,
-  content: string,
-  speed: number
-): void {
+function writeStats(status: number, content: string, speed: number): void {
   let responseStatusElement: HTMLParagraphElement | null =
     document.querySelector<HTMLParagraphElement>("#r-status");
   let responseByteElement: HTMLParagraphElement | null =
@@ -110,9 +111,9 @@ function writeStats(
   let responseSpeedElement: HTMLParagraphElement | null =
     document.querySelector<HTMLParagraphElement>("#r-ms");
 
-  responseStatusElement!.innerText = response.status.toString();
+  responseStatusElement!.innerText = status.toString();
 
-  if (response.ok) {
+  if (status < 300 && status > 199) {
     responseStatusElement!.style.color = "#33d833";
   } else {
     responseStatusElement!.style.color = "#d83333";
