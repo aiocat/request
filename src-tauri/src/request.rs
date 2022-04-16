@@ -29,40 +29,60 @@ pub struct Response {
 
 #[tauri::command]
 pub async fn send_request(request: Request) -> Response {
-    let mut response: Option<reqwest::Response> = None;
-
-    match request.method.as_str() {
-        "GET" => response = Some(send_get_request(&request).await),
-        "DELETE" => response = Some(send_delete_request(&request).await),
-        "POST" => response = Some(send_post_request(&request).await),
-        "PUT" => response = Some(send_put_request(&request).await),
-        "PATCH" => response = Some(send_patch_request(&request).await),
+    // get response from request
+    let response = match request.method.as_str() {
+        "GET" => send_get_request(&request).await,
+        "DELETE" => send_delete_request(&request).await,
+        "POST" => send_post_request(&request).await,
+        "PUT" => send_put_request(&request).await,
+        "PATCH" => send_patch_request(&request).await,
         _ => panic!("unexcepted method"),
+    };
+
+    // get response headers and status
+    let response_status = response.status().as_u16();
+    let mut response_headers: HashMap<String, String> = HashMap::new();
+
+    // add headers
+    for (key, value) in response.headers() {
+        response_headers.insert(key.to_string(), value.to_str().unwrap().to_owned());
     }
 
-    match response {
-        Some(usable_response) => {
-            let response_status = usable_response.status().as_u16();
-            let mut response_headers: HashMap<String, String> = HashMap::new();
-            for (key, value) in usable_response.headers() {
-                response_headers.insert(key.to_string(), value.to_str().unwrap().to_owned());
-            }
-            let response_text = usable_response.text().await.unwrap_or(String::new());
+    // get response body
+    let response_text = response.text().await.unwrap_or(String::new());
 
-            Response {
-                body: response_text.to_string(),
-                status: response_status,
-                headers: response_headers,
-            }
-        }
-        None => panic!("unaccessable code"),
+    Response {
+        body: response_text.to_string(),
+        status: response_status,
+        headers: response_headers,
     }
 }
 
 // send get request to url
 async fn send_get_request(request: &Request) -> reqwest::Response {
+    let mut url = String::from(&request.url);
+
+    // check has json body
+    if &request.body_type == "Json" {
+        let map: Result<HashMap<String, String>, _> = serde_json::from_str(&request.body);
+
+        match map {
+            Ok(hashmap) => {
+                url.push_str("?");
+
+                for (key, value) in hashmap {
+                    url = format!("{}{}={}&", url, key, value);
+                }
+
+                url.pop();
+            }
+            Err(_) => {}
+        }
+    }
+
     // prepare get request
-    let mut client = reqwest::Client::new().get(&request.url);
+    let mut client = reqwest::Client::new().get(&url);
+
     // add headers
     for (key, value) in &request.headers {
         client = client.header(key, value);
@@ -74,8 +94,29 @@ async fn send_get_request(request: &Request) -> reqwest::Response {
 
 // send delete request to url
 async fn send_delete_request(request: &Request) -> reqwest::Response {
+    let mut url = String::from(&request.url);
+
+    // check has json body
+    if &request.body_type == "Json" {
+        let map: Result<HashMap<String, String>, _> = serde_json::from_str(&request.body);
+
+        match map {
+            Ok(hashmap) => {
+                url.push_str("?");
+
+                for (key, value) in hashmap {
+                    url = format!("{}{}={}&", url, key, value);
+                }
+
+                url.pop();
+            }
+            Err(_) => {}
+        }
+    }
+
     // prepare delete request
-    let mut client = reqwest::Client::new().delete(&request.url);
+    let mut client = reqwest::Client::new().delete(&url);
+
     // add headers
     for (key, value) in &request.headers {
         client = client.header(key, value);
@@ -89,6 +130,7 @@ async fn send_delete_request(request: &Request) -> reqwest::Response {
 async fn send_post_request(request: &Request) -> reqwest::Response {
     // prepare post request
     let mut client = reqwest::Client::new().post(&request.url);
+
     // add headers
     for (key, value) in &request.headers {
         client = client.header(key, value);
@@ -118,6 +160,7 @@ async fn send_post_request(request: &Request) -> reqwest::Response {
 async fn send_put_request(request: &Request) -> reqwest::Response {
     // prepare put request
     let mut client = reqwest::Client::new().put(&request.url);
+
     // add headers
     for (key, value) in &request.headers {
         client = client.header(key, value);

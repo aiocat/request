@@ -12,7 +12,6 @@ import {
   getUrl,
   getMethod,
   writeRequestHeaders,
-  checkMethod,
 } from "./requestDom";
 import { aceRequest } from "./aceEditor";
 
@@ -116,8 +115,6 @@ async function loadStorage(filter: string | null) {
       requestMethodElement!.value = object.method;
       bodyTypeElement!.value = object.bodyType;
       writeRequestHeaders(object.headers);
-
-      checkMethod();
     };
 
     saveElement.appendChild(titleElement);

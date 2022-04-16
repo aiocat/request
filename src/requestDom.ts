@@ -101,22 +101,6 @@ function writeRequestHeaders(headers: Record<string, string>): void {
   }
 }
 
-// check selected method
-function checkMethod(): void {
-  let requestMethodElement: HTMLSelectElement | null =
-    document.querySelector<HTMLSelectElement>("#http-type");
-
-  if (
-    requestMethodElement!.selectedIndex === 0 ||
-    requestMethodElement!.selectedIndex === 4
-  ) {
-    aceRequest.setReadOnly(true);
-    aceRequest.setValue("");
-  } else {
-    aceRequest.setReadOnly(false);
-  }
-}
-
 // edit body mode
 function editBodyMode(): void {
   let bodyType: string = getBodyType();
@@ -132,6 +116,5 @@ export {
   getBodyContent,
   getBodyType,
   writeRequestHeaders,
-  checkMethod,
   editBodyMode,
 };

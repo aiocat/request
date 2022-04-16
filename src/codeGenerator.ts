@@ -27,9 +27,7 @@ function getCodingLanguage(): string {
 }
 
 // generate code when clicked
-codeGenerateButton!.onclick = (): void => {
-  codeGenerator();
-};
+codeGenerateButton!.onclick = codeGenerator;
 
 // copy code
 copyCode!.onclick = (): void => {
