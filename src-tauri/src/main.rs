@@ -8,6 +8,7 @@
   windows_subsystem = "windows"
 )]
 
+mod request;
 mod save;
 
 // taken from: https://github.com/FabianLars/mw-toolbox/
@@ -26,7 +27,8 @@ fn main() {
     .invoke_handler(tauri::generate_handler![
       save::read_json_file,
       save::write_json_file,
-      save::remove_from_json_file
+      save::remove_from_json_file,
+      request::send_request
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
