@@ -29,13 +29,7 @@ function getHeaders(): Record<string, string> {
 
 // get request body as tauri's body
 function getBody(): tauriBody | null {
-  const bodyContentTypes: Array<string> = ["Json", "Text", "Bytes"];
-
-  let bodyType: string = "";
-  let bodyTypeElement: HTMLSelectElement | null =
-    document.querySelector<HTMLSelectElement>("#body-type");
-  bodyType = bodyContentTypes[bodyTypeElement!.selectedIndex];
-
+  let bodyType: string = getBodyType();
   let bodyContent: string = getBodyContent();
 
   // default value
