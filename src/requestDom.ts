@@ -83,7 +83,7 @@ function getUrl(): string | null {
         for (let key in parsed) {
           url += `${key}=${parsed[key]}&`;
         }
-        
+
         // remove last char
         url = url.slice(0, -1);
         return url;

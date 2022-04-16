@@ -208,8 +208,7 @@ function generateRustReqwest(url: string): string {
   let bodyType: string = getBodyType();
 
   let bodyTypeIsNone: boolean = getBodyType() === "None";
-  let code: string =
-    `// reqwest = "0.11.10"\n// tokio = { version = "1.17.0", features = ["rt-multi-thread", "macros"] }\n\nuse reqwest;\nuse tokio;\n\n#[tokio::main]\nasync fn main() -> Result<(), reqwest::Error> {\n  let client = reqwest::Client::new();\n  let response = client\n    .${method.toLowerCase()}("${url}")\n`;
+  let code: string = `// reqwest = "0.11.10"\n// tokio = { version = "1.17.0", features = ["rt-multi-thread", "macros"] }\n\nuse reqwest;\nuse tokio;\n\n#[tokio::main]\nasync fn main() -> Result<(), reqwest::Error> {\n  let client = reqwest::Client::new();\n  let response = client\n    .${method.toLowerCase()}("${url}")\n`;
 
   // check method
   if (
@@ -224,10 +223,10 @@ function generateRustReqwest(url: string): string {
         sendWarn("Invalid JSON Format");
         return "";
       }
-      code += `    .body(r#"${bodyContent}"#)\n`
+      code += `    .body(r#"${bodyContent}"#)\n`;
       code += `    .header("Content-Type", "application/json")\n`;
     } else {
-      code += `    .body(r#"${bodyContent}"#)\n`
+      code += `    .body(r#"${bodyContent}"#)\n`;
     }
   }
 
@@ -241,7 +240,7 @@ function generateRustReqwest(url: string): string {
   }
 
   code +=
-    "    .send().await?;\n\n  println!(\"{}\", response.status());\n\n  Ok(())\n}";
+    '    .send().await?;\n\n  println!("{}", response.status());\n\n  Ok(())\n}';
 
   return code;
 }

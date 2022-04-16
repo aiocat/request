@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-import { aceCode, aceRequest, aceResponse } from "./aceEditor"
+import { aceCode, aceRequest, aceResponse } from "./aceEditor";
 
 let requestButton: HTMLButtonElement | null =
   document.querySelector<HTMLButtonElement>("#open-request");
@@ -36,7 +36,7 @@ responseButton!.onclick = (): void => {
   requestDivElement!.style.display = "none";
   responseDivElement!.style.display = "block";
   codeDivElement!.style.display = "none";
-  
+
   aceResponse.selectPageUp();
 };
 

@@ -39,7 +39,9 @@ saveButton!.onclick = () => {
   let bodyType: string = getBodyType();
   let headers: Record<string, string> = getHeaders();
 
-  let titleSplitted: Array<string> = url.split("/").filter((v: string) => v != "");
+  let titleSplitted: Array<string> = url
+    .split("/")
+    .filter((v: string) => v != "");
   let title: string = titleSplitted[titleSplitted.length - 1];
 
   if (title.length > 9) {

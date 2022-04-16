@@ -1,5 +1,5 @@
 // Copyright (c) 2022 aiocat
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
@@ -11,10 +11,10 @@ use tauri::{AboutMetadata, Menu, MenuItem, Submenu};
 pub(crate) fn menu() -> Menu {
     Menu::new()
         .add_submenu(Submenu::new(
-            "mw-toolbox",
+            "Request",
             Menu::new()
                 .add_native_item(MenuItem::About(
-                    "mw-toolbox".to_string(),
+                    "Request".to_string(),
                     AboutMetadata::new(),
                 ))
                 .add_native_item(MenuItem::Separator)
