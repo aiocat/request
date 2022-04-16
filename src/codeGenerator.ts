@@ -67,10 +67,14 @@ function generateJavaScriptFetch(url: string): string {
   let method: string = getMethod();
   let bodyType: string = getBodyType();
 
+  let bodyTypeIsNone: boolean = getBodyType() === "None";
   let code: string = `let response = await fetch("${url}", {\n  method: "${method}",\n`;
 
   // check method
-  if (method === "POST" || method === "PUT" || method === "PATCH") {
+  if (
+    (method === "POST" || method === "PUT" || method === "PATCH") &&
+    !bodyTypeIsNone
+  ) {
     if (bodyType === "Json") {
       try {
         JSON.parse(bodyContent);
@@ -103,10 +107,14 @@ function generatePythonRequests(url: string): string {
   let method: string = getMethod();
   let bodyType: string = getBodyType();
 
+  let bodyTypeIsNone: boolean = getBodyType() === "None";
   let code: string = `import requests, json\n\nresponse = requests.${method.toLowerCase()}(\n  "${url}",\n`;
 
   // check methods
-  if (method === "POST" || method === "PUT" || method === "PATCH") {
+  if (
+    (method === "POST" || method === "PUT" || method === "PATCH") &&
+    !bodyTypeIsNone
+  ) {
     if (bodyType === "Json") {
       try {
         JSON.parse(bodyContent);
@@ -145,12 +153,19 @@ function generateGoNetHttp(url: string): string {
   let method: string = getMethod();
   let bodyType: string = getBodyType();
 
-  
-  let code: string = "package main\n\nimport (\n  \"net/http\"\n  \"bytes\"\n)\n\nfunc main() {\n";
+  let bodyTypeIsNone: boolean = getBodyType() === "None";
+  let code: string =
+    'package main\n\nimport (\n  "net/http"\n  "bytes"\n)\n\nfunc main() {\n';
 
   // check method
-  if (method === "POST" || method === "PUT" || method === "PATCH") {
-    code += `  var requestData = []byte(\`${bodyContent.replaceAll("`", "` + \"`\" + `")}\`)\n`;
+  if (
+    (method === "POST" || method === "PUT" || method === "PATCH") &&
+    !bodyTypeIsNone
+  ) {
+    code += `  var requestData = []byte(\`${bodyContent.replaceAll(
+      "`",
+      '` + "`" + `'
+    )}\`)\n`;
     code += `  request, _ := http.NewRequest("${method}", "${url}", bytes.NewBuffer(requestData))\n`;
 
     // check json is right
@@ -177,7 +192,8 @@ function generateGoNetHttp(url: string): string {
     }
   }
 
-  code += "\n  client := &http.Client{}\n  response, _ := client.Do(request)\n  // ...\n}";
+  code +=
+    "\n  client := &http.Client{}\n  response, _ := client.Do(request)\n  // ...\n}";
 
   return code;
 }

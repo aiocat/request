@@ -15,6 +15,7 @@ import {
   getMethod,
   checkMethod,
   editBodyMode,
+  getBodyType,
 } from "./requestDom";
 import { sendNotification } from "./notification";
 import { codeGenerator } from "./codeGenerator";
@@ -48,11 +49,14 @@ sendButton!.onclick = async (): Promise<void> => {
     headers: getHeaders(),
   };
 
-  // check method
+  let bodyTypeIsNone: boolean = getBodyType() === "None";
+
+  // check method and body type
   if (
-    requestMethod == "POST" ||
-    requestMethod == "PUT" ||
-    requestMethod == "PATCH"
+    (requestMethod == "POST" ||
+      requestMethod == "PUT" ||
+      requestMethod == "PATCH") &&
+    !bodyTypeIsNone
   ) {
     let body = getBody();
     if (!body) return;

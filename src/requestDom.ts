@@ -63,7 +63,7 @@ function getBodyContent(): string {
   return aceRequest.getValue();
 }
 
-// get body type (Json, Bytes, Text)
+// get body type (None, Json, Bytes, Text)
 function getBodyType(): string {
   let bodyTypeElement: HTMLSelectElement | null =
     document.querySelector<HTMLSelectElement>("#body-type");
@@ -138,6 +138,8 @@ function writeRequestHeaders(headers: Record<string, string>): void {
 function checkMethod(): void {
   let requestMethodElement: HTMLSelectElement | null =
     document.querySelector<HTMLSelectElement>("#http-type");
+
+  aceRequest.setValue("");
 
   if (
     requestMethodElement!.selectedIndex === 0 ||
