@@ -13,6 +13,7 @@ import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-xml";
 import "ace-builds/src-noconflict/mode-golang";
+import "ace-builds/src-noconflict/mode-rust";
 
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
