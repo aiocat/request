@@ -73,7 +73,13 @@ pub fn write_json_file(save: SaveRequest) {
     let mut datas: Vec<SaveRequest> =
         serde_json::from_str(&json_content).expect("can't decode json file");
 
-    datas.push(save);
+    // check if same name
+    if datas.iter().any(|val| &val.name == &save.name) {
+        let index = datas.iter().position(|val| &val.name == &save.name).unwrap();
+        datas[index] = save;
+    } else {
+        datas.push(save);
+    }
 
     let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
     write_save_file(new_content);
