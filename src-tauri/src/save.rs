@@ -75,7 +75,10 @@ pub fn write_json_file(save: SaveRequest) {
 
     // check if same name
     if datas.iter().any(|val| &val.name == &save.name) {
-        let index = datas.iter().position(|val| &val.name == &save.name).unwrap();
+        let index = datas
+            .iter()
+            .position(|val| &val.name == &save.name)
+            .unwrap();
         datas[index] = save;
     } else {
         datas.push(save);
