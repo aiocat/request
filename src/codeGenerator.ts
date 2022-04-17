@@ -9,6 +9,7 @@ import {
   getMethod,
   getUrl,
   getBodyType,
+  generateQueryParameterTail,
 } from "./requestDom";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { sendNotification, sendWarn } from "./notification";
@@ -70,6 +71,10 @@ function generateJavaScriptFetch(url: string): string {
   let bodyType: string = getBodyType();
 
   let bodyTypeIsNone: boolean = getBodyType() === "None";
+  
+  // add query parameter (if exists)
+  url += generateQueryParameterTail();
+
   let code: string = `let response = await fetch("${url}", {\n  method: "${method}",\n`;
 
   // check method
@@ -110,6 +115,10 @@ function generatePythonRequests(url: string): string {
   let bodyType: string = getBodyType();
 
   let bodyTypeIsNone: boolean = getBodyType() === "None";
+  
+  // add query parameter (if exists)
+  url += generateQueryParameterTail();
+
   let code: string = `import requests, json\n\nresponse = requests.${method.toLowerCase()}(\n  "${url}",\n`;
 
   // check methods
@@ -158,6 +167,9 @@ function generateGoNetHttp(url: string): string {
   let bodyTypeIsNone: boolean = getBodyType() === "None";
   let code: string =
     'package main\n\nimport (\n  "net/http"\n  "bytes"\n)\n\nfunc main() {\n';
+
+  // add query parameter (if exists)
+  url += generateQueryParameterTail();
 
   // check method
   if (
@@ -208,6 +220,10 @@ function generateRustReqwest(url: string): string {
   let bodyType: string = getBodyType();
 
   let bodyTypeIsNone: boolean = getBodyType() === "None";
+  
+  // add query parameter (if exists)
+  url += generateQueryParameterTail();
+
   let code: string = `// reqwest = "0.11.10"\n// tokio = { version = "1.17.0", features = ["rt-multi-thread", "macros"] }\n\nuse reqwest;\nuse tokio;\n\n#[tokio::main]\nasync fn main() -> Result<(), reqwest::Error> {\n  let client = reqwest::Client::new();\n  let response = client\n    .${method.toLowerCase()}("${url}")\n`;
 
   // check method
