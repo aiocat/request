@@ -3,7 +3,6 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-use dirs;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
@@ -20,11 +19,14 @@ pub struct SaveRequest {
     body: String,
     body_type: String,
     headers: HashMap<String, String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
+    query_parameters: Option<HashMap<String, String>>,
 }
 
 // get save file
 fn get_save_path() -> PathBuf {
-    let mut config_path = dirs::config_dir().unwrap();
+    let mut config_path = tauri::api::path::config_dir().unwrap();
     config_path.push(Path::new("request_saves.json"));
 
     config_path

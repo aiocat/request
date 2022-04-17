@@ -12,6 +12,8 @@ import {
   getUrl,
   getMethod,
   writeRequestHeaders,
+  writeRequestQueryParameters,
+  getQueryParameters,
 } from "./requestDom";
 import { aceRequest } from "./aceEditor";
 
@@ -38,6 +40,7 @@ saveButton!.onclick = () => {
   let body: string = getBodyContent();
   let bodyType: string = getBodyType();
   let headers: Record<string, string> = getHeaders();
+  let queryParameters: Record<string, string> = getQueryParameters();
 
   let titleSplitted: Array<string> = url
     .split("/")
@@ -58,6 +61,7 @@ saveButton!.onclick = () => {
       body,
       bodyType,
       headers,
+      queryParameters
     },
   });
 
@@ -117,6 +121,9 @@ async function loadStorage(filter: string | null) {
       requestMethodElement!.value = object.method;
       bodyTypeElement!.value = object.bodyType;
       writeRequestHeaders(object.headers);
+
+      if (!object.queryParameters) object.queryParameters = <Record<string, string>>{};
+      writeRequestQueryParameters(object.queryParameters);
     };
 
     saveElement.appendChild(titleElement);

@@ -26,6 +26,40 @@ function getHeaders(): Record<string, string> {
   return records;
 }
 
+// convert query parameters to typescript records (hashmap)
+function getQueryParameters(): Record<string, string> {
+  let records: Record<string, string> = {};
+  let queryParametersDiv: HTMLDivElement | null =
+    document.querySelector<HTMLDivElement>("#query-parameters");
+
+  if (queryParametersDiv!.childElementCount < 1) return records;
+
+  queryParametersDiv!.childNodes.forEach((element: any) => {
+    let inputs: any = element.childNodes[0].childNodes;
+    let key: HTMLInputElement = inputs[0];
+    let value: HTMLInputElement = inputs[1];
+
+    records[key.value] = value.value;
+  });
+
+  return records;
+}
+
+// generate query parameter tail for url
+function generateQueryParameterTail(): string {
+  let tail: string = "?";
+  let parameters: Record<string, string> = getQueryParameters();
+
+  // add parameters
+  for (let key in parameters) {
+    tail += `${key}=${parameters[key]}&`
+  }
+
+  // remove last char
+  tail = tail.slice(0, -1);
+  return tail;
+}
+
 // get body content
 function getBodyContent(): string {
   return aceRequest.getValue();
@@ -60,38 +94,11 @@ function getUrl(): string | null {
   let url: string = requestUrlElement!.value;
 
   // check if url valid
-  if (!/https?:\/\/.*?\..*/g.test(url)) {
+  if (/https?:\/\/.*?\..*/g.test(url)) return requestUrlElement!.value;
+  else {
     sendWarn("Invalid URL");
     return null;
   }
-
-  // check method
-  let bodyType: string = getBodyType();
-  let method: string = getMethod();
-
-  if ((method === "GET" || method === "DELETE") && bodyType === "Json") {
-    let bodyContent: string = getBodyContent();
-
-    if (bodyContent === "") return url;
-    else {
-      // try parsing json
-      try {
-        url += "?";
-        let parsed: Record<string, any> = JSON.parse(bodyContent);
-
-        // iterate keys
-        for (let key in parsed) {
-          url += `${key}=${parsed[key]}&`;
-        }
-
-        // remove last char
-        url = url.slice(0, -1);
-        return url;
-      } catch {
-        return url;
-      }
-    }
-  } else return url;
 }
 
 // write request headers (for save loading)
@@ -128,6 +135,56 @@ function writeRequestHeaders(headers: Record<string, string>): void {
   }
 }
 
+// write request query parameters (for save loading)
+function writeRequestQueryParameters(parameters: Record<string, string>): void {
+  let queryParametersDiv: HTMLDivElement | null =
+    document.querySelector<HTMLDivElement>("#query-parameters");
+    queryParametersDiv!.innerHTML = "";
+
+  for (let key in parameters) {
+    let queryParameter: HTMLDivElement = document.createElement("div");
+    queryParameter.className = "header";
+
+    let container: HTMLSpanElement = document.createElement("span");
+
+    let queryParameterKey: HTMLInputElement = document.createElement("input");
+    queryParameterKey.type = "text";
+    queryParameterKey.value = key;
+
+    let queryParameterValue: HTMLInputElement = document.createElement("input");
+    queryParameterValue.type = "text";
+    queryParameterValue.value = parameters[key];
+
+    let queryParameterDeleter: HTMLButtonElement = document.createElement("button");
+    queryParameterDeleter.onclick = () => queryParameter.remove();
+    queryParameterDeleter.innerText = "Delete";
+
+    container.appendChild(queryParameterKey);
+    container.appendChild(queryParameterValue);
+
+    queryParameter.appendChild(container);
+    queryParameter.appendChild(queryParameterDeleter);
+
+    queryParametersDiv!.appendChild(queryParameter);
+  }
+}
+
+// check selected method
+function checkMethod(): void {
+  let requestMethodElement: HTMLSelectElement | null =
+    document.querySelector<HTMLSelectElement>("#http-type");
+
+  if (
+    requestMethodElement!.selectedIndex === 0 ||
+    requestMethodElement!.selectedIndex === 4
+  ) {
+    aceRequest.setReadOnly(true);
+    aceRequest.setValue("");
+  } else {
+    aceRequest.setReadOnly(false);
+  }
+}
+
 // edit body mode
 function editBodyMode(): void {
   let bodyType: string = getBodyType();
@@ -143,5 +200,9 @@ export {
   getBodyContent,
   getBodyType,
   writeRequestHeaders,
+  checkMethod,
   editBodyMode,
+  getQueryParameters,
+  writeRequestQueryParameters,
+  generateQueryParameterTail
 };
