@@ -28,7 +28,8 @@ body,
 }
 
 input,
-button {
+button, 
+select {
   font-family: "Nunito", sans-serif;
 }
 </style>

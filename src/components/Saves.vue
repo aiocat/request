@@ -27,7 +27,6 @@ function updateFilter(): void {
 
 <template>
   <div class="saves">
-    <h1>Organize Your Saved Works</h1>
     <span>
       <input type="text" placeholder="Filter Name or Method" v-model="filter" @keyup.enter="updateFilter" />
       <button @click="updateFilter">Filter</button>
@@ -46,13 +45,6 @@ function updateFilter(): void {
   text-align: center;
 }
 
-.saves h1 {
-  color: #bbb;
-  font-size: 32px;
-  font-weight: 700;
-  margin: 5px auto;
-}
-
 span {
   margin: 10px auto;
   display: flex;
@@ -65,6 +57,7 @@ span {
 span input {
   outline: none;
   border: 2px solid #1a1a1a;
+  border-right: none;
   background-color: #111;
   font-size: 18px;
   font-weight: 800;

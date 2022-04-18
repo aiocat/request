@@ -39,6 +39,13 @@ defineProps<{
   transition: 200ms;
 }
 
+.save:hover {
+  background: #1a1a1a;
+}
+.save:hover > .flex h2 {
+  background: #111;
+}
+
 .save .flex {
   display: flex;
   align-items: center;
@@ -68,6 +75,7 @@ defineProps<{
   font-size: 14px;
   font-weight: 800;
   margin: 0px;
+  transition: 200ms;
 }
 
 .save .flex-center button {
@@ -80,6 +88,7 @@ defineProps<{
   margin: 0px;
   background-color: #222;
   cursor: pointer;
+  transition: 200ms;
 }
 
 .save .flex-center button:first-child {
@@ -91,5 +100,9 @@ defineProps<{
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   background-color: #dd1b1b;
+}
+
+.save .flex-center button:hover {
+  filter: brightness(70%);
 }
 </style>

@@ -5,26 +5,21 @@
  https://opensource.org/licenses/MIT
 -->
 
-<script setup lang="ts">
-import Saves from "./Saves.vue";
-import RequestNavbar from "./RequestNavbar.vue";
 
+<script setup lang="ts">
+import Request from "./Request.vue";
 import { ref } from "vue";
 
-const selected = ref(1);
+const selected = ref(0);
 </script>
 
 <template>
   <div class="navbar">
-    <img src="/floppy-disk-solid.svg" alt="save" @click="selected = 0" />
-    <img
-      src="/arrow-right-arrow-left-solid.svg"
-      alt="request"
-      @click="selected = 1"
-    />
+    <img src="/arrow-right-solid.svg" alt="send-request" @click="selected = 0" />
+    <img src="/arrow-left-solid.svg" alt="response" @click="selected = 1" />
+    <img src="/code-solid.svg" alt="code" @click="selected = 2" />
   </div>
-  <Saves v-if="selected == 0" />
-  <RequestNavbar v-else />
+  <Request v-show="selected == 0" />
 </template>
 
 <style scoped>
