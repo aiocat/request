@@ -7,43 +7,41 @@
 
 
 <script setup lang="ts">
-import Request from "./Request.vue";
-import { ref } from "vue";
-
-const selected = ref(0);
 </script>
 
 <template>
   <div class="navbar">
-    <img src="/arrow-right-solid.svg" alt="send-request" @click="selected = 0" />
-    <img src="/arrow-left-solid.svg" alt="response" @click="selected = 1" />
-    <img src="/code-solid.svg" alt="code" @click="selected = 2" />
+    <p>Body</p>
+    <p>Query Parameters</p>
+    <p>Headers</p>
   </div>
-  <Request v-show="selected == 0" />
 </template>
 
 <style scoped>
 .navbar {
   width: auto;
-  height: 100%;
-  background: #0a0a0a;
-  border-right: 2px solid #111;
+  width: 90%;
+  border-bottom: 2px solid #1a1a1a;
   text-align: center;
   box-sizing: border-box;
+  display: flex;
+  margin: 0px auto;
 }
 
-img {
-  margin: 10px;
-  display: block;
-  width: 24px;
+p {
+  padding: 5px 10px 5px 10px;
+  margin: 0px;
+  display: inline;
   cursor: pointer;
-  filter: invert(9%) sepia(43%) saturate(0%) hue-rotate(227deg) brightness(98%)
-    contrast(91%);
+  color: #222;
+  font-size: 18px;
+  font-weight: 700;
   transition: 200ms;
+  border-bottom: 2px solid transparent;
 }
 
-img:hover {
-  filter: invert(26%) sepia(99%) saturate(4565%) hue-rotate(230deg)
-    brightness(103%) contrast(103%);
+p:hover {
+  color: #2951ff;
+  border-bottom: 2px solid #2951ff;
 }
 </style>

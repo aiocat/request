@@ -6,11 +6,11 @@
 -->
 
 <script setup lang="ts">
-import MainNavbar from "./components/MainNavbar.vue";
+import MainSidebar from "./components/MainSidebar.vue";
 </script>
 
 <template>
-  <MainNavbar />
+  <MainSidebar />
 </template>
 
 <style>

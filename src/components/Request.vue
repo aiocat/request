@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { computed } from "vue";
+import RequestNavbar from "./RequestNavbar.vue"
 
 const store = useStore();
 let url = computed(function () {
@@ -40,6 +41,7 @@ function changeMethod(event: any): void {
       <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
       <button>Send</button>
     </span>
+    <RequestNavbar />
   </div>
 </template>
 
@@ -56,7 +58,7 @@ span {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 80%;
+  width: 90%;
   box-shadow: rgb(0, 0, 0) 0px 3px 8px;
 }
 
