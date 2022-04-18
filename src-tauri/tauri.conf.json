@@ -1,0 +1,78 @@
+{
+  "package": {
+    "productName": "Request",
+    "version": "1.0.0"
+  },
+  "build": {
+    "distDir": "../dist",
+    "devPath": "http://localhost:3000",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build"
+  },
+  "tauri": {
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.aiocat.request",
+      "icon": [
+        "icons/icon.ico",
+        "icons/icon.png",
+        "icons/16x16.png",
+        "icons/32x32.png",
+        "icons/64x64.png",
+        "icons/128x128.png",
+        "icons/256x256.png"
+      ],
+      "resources": [],
+      "externalBin": [],
+      "copyright": "",
+      "category": "Developer Tool",
+      "shortDescription": "Request is a minimal http client for api development and testing.",
+      "longDescription": "Request is a minimal http client for api development and testing.\nRequest provides features like custom headers, performance look-up, code generation, request save and much more.\nRequest is an open-source app and you can access the source code from github.com/aiocat/requests.",
+      "deb": {
+        "depends": [],
+        "useBootstrapper": false
+      },
+      "macOS": {
+        "frameworks": [],
+        "useBootstrapper": false,
+        "exceptionDomain": "",
+        "signingIdentity": null,
+        "providerShortName": null,
+        "entitlements": null
+      },
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "updater": {
+      "active": false
+    },
+    "allowlist": {
+      "http": {
+        "all": true,
+        "request": true,
+        "scope": ["https://**", "http://**"]
+      },
+      "clipboard": {
+        "writeText": true
+      }
+    },
+    "windows": [
+      {
+        "title": "Request HTTP Client",
+        "width": 1000,
+        "height": 700,
+        "minWidth": 1000,
+        "minHeight": 700,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  }
+}
