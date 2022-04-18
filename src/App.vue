@@ -6,7 +6,7 @@
 -->
 
 <script setup lang="ts">
-import MainNavbar from './components/MainNavbar.vue'
+import MainNavbar from "./components/MainNavbar.vue";
 </script>
 
 <template>
@@ -25,5 +25,10 @@ body,
   width: 100%;
   height: 100%;
   display: flex;
+}
+
+input,
+button {
+  font-family: "Nunito", sans-serif;
 }
 </style>

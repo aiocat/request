@@ -6,18 +6,26 @@
 -->
 
 <script setup lang="ts">
+import Saves from "./Saves.vue";
+import { ref } from "vue";
 
+const selected = ref(1);
 </script>
 
 <template>
-  <div>
-    <img src="/floppy-disk-solid.svg" alt="save">
-    <img src="/arrow-right-arrow-left-solid.svg" alt="request">
+  <div class="navbar">
+    <img src="/floppy-disk-solid.svg" alt="save" @click="selected = 0" />
+    <img
+      src="/arrow-right-arrow-left-solid.svg"
+      alt="request"
+      @click="selected = 1"
+    />
   </div>
+  <Saves v-if="selected == 0" />
 </template>
 
 <style scoped>
-div{
+.navbar {
   width: auto;
   height: 100%;
   background: #0a0a0a;
@@ -31,10 +39,13 @@ img {
   display: block;
   width: 24px;
   cursor: pointer;
-  filter: invert(9%) sepia(43%) saturate(0%) hue-rotate(227deg) brightness(98%) contrast(91%);
+  filter: invert(9%) sepia(43%) saturate(0%) hue-rotate(227deg) brightness(98%)
+    contrast(91%);
+  transition: 200ms;
 }
 
 img:hover {
-  filter: invert(26%) sepia(99%) saturate(4565%) hue-rotate(230deg) brightness(103%) contrast(103%);
+  filter: invert(26%) sepia(99%) saturate(4565%) hue-rotate(230deg)
+    brightness(103%) contrast(103%);
 }
 </style>
