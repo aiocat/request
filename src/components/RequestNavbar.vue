@@ -5,17 +5,21 @@
  https://opensource.org/licenses/MIT
 -->
 
-
-<script setup lang="ts">
-</script>
-
 <template>
   <div class="navbar">
-    <p>Body</p>
-    <p>Query Parameters</p>
-    <p>Headers</p>
+    <p @click="selected = 0">Body</p>
+    <p @click="selected = 1">Query Parameters</p>
+    <p @click="selected = 2">Headers</p>
   </div>
+  <RequestBody v-if="selected === 0" />
 </template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import RequestBody from "./RequestBody.vue";
+
+const selected = ref(0);
+</script>
 
 <style scoped>
 .navbar {

@@ -5,6 +5,23 @@
  https://opensource.org/licenses/MIT
 -->
 
+<template>
+  <div class="saves">
+    <span>
+      <input
+        type="text"
+        placeholder="Filter Name or Method"
+        v-model="filter"
+        @keyup.enter="updateFilter"
+      />
+      <button @click="updateFilter">Filter</button>
+    </span>
+    <div class="flex">
+      <Save v-for="data in filtered" :data="data" />
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api";
@@ -20,22 +37,12 @@ invoke("read_json_file").then((response: any) => {
 });
 
 function updateFilter(): void {
-    filtered.value = saves.value.filter(v => (v.method+v.url).indexOf(filter.value) != -1)
-    filter.value = ""
+  filtered.value = saves.value.filter(
+    (v) => (v.method + v.url).indexOf(filter.value) != -1
+  );
+  filter.value = "";
 }
 </script>
-
-<template>
-  <div class="saves">
-    <span>
-      <input type="text" placeholder="Filter Name or Method" v-model="filter" @keyup.enter="updateFilter" />
-      <button @click="updateFilter">Filter</button>
-    </span>
-    <div class="flex">
-      <Save v-for="data in filtered" :data="data" />
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .saves {

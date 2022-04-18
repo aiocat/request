@@ -5,13 +5,13 @@
  https://opensource.org/licenses/MIT
 -->
 
-<script setup lang="ts">
-import MainSidebar from "./components/MainSidebar.vue";
-</script>
-
 <template>
   <MainSidebar />
 </template>
+
+<script setup lang="ts">
+import MainSidebar from "./components/MainSidebar.vue";
+</script>
 
 <style>
 html,
@@ -28,7 +28,7 @@ body,
 }
 
 input,
-button, 
+button,
 select {
   font-family: "Nunito", sans-serif;
 }

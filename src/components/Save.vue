@@ -5,14 +5,6 @@
  https://opensource.org/licenses/MIT
 -->
 
-<script setup lang="ts">
-import { writeText } from "@tauri-apps/api/clipboard"
-
-defineProps<{
-  data: Record<string, any>;
-}>();
-</script>
-
 <template>
   <div class="save">
     <div class="flex">
@@ -26,6 +18,14 @@ defineProps<{
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { writeText } from "@tauri-apps/api/clipboard";
+
+defineProps<{
+  data: Record<string, any>;
+}>();
+</script>
 
 <style scoped>
 .save {

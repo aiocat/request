@@ -6,16 +6,16 @@ const store = createStore({
     state() {
         return {
             url: "",
-            method: "POST"
+            method: "POST",
+            bodyType: "None",
+            body: ""
         }
     },
     mutations: {
-        setUrl(state: any, url: string) {
-            state.url = url
-        },
-        setMethod(state: any, method: string) {
-            state.method = method
-        }
+        setUrl: (state: any, param: string) => state.url = param,
+        setMethod: (state: any, param: string) => state.method = param,
+        setBodyType: (state: any, param: string) => state.bodyType = param,
+        setBody: (state: any, param: string) => state.body = param
     }
 })
 

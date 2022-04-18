@@ -5,15 +5,6 @@
  https://opensource.org/licenses/MIT
 -->
 
-<script setup lang="ts">
-import Saves from "./Saves.vue";
-import RequestSidebar from "./RequestSidebar.vue";
-
-import { ref } from "vue";
-
-const selected = ref(1);
-</script>
-
 <template>
   <div class="navbar">
     <img src="/floppy-disk-solid.svg" alt="save" @click="selected = 0" />
@@ -23,9 +14,18 @@ const selected = ref(1);
       @click="selected = 1"
     />
   </div>
-  <Saves v-if="selected == 0" />
+  <Saves v-if="selected === 0" />
   <RequestSidebar v-else />
 </template>
+
+<script setup lang="ts">
+import Saves from "./Saves.vue";
+import RequestSidebar from "./RequestSidebar.vue";
+
+import { ref } from "vue";
+
+const selected = ref(1);
+</script>
 
 <style scoped>
 .navbar {

@@ -5,10 +5,27 @@
  https://opensource.org/licenses/MIT
 -->
 
+<template>
+  <div class="request">
+    <span>
+      <select data-selected @change="changeMethod" :value="method">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="PATCH">PATCH</option>
+        <option value="DELETE">DELETE</option>
+      </select>
+      <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
+      <button>Send</button>
+    </span>
+    <RequestNavbar />
+  </div>
+</template>
+
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { computed } from "vue";
-import RequestNavbar from "./RequestNavbar.vue"
+import RequestNavbar from "./RequestNavbar.vue";
 
 const store = useStore();
 let url = computed(function () {
@@ -27,23 +44,6 @@ function changeMethod(event: any): void {
   store.commit("setMethod", event.target.value);
 }
 </script>
-
-<template>
-  <div class="request">
-    <span>
-      <select id="http-type" data-selected @change="changeMethod" :value="method">
-        <option value="GET">GET</option>
-        <option value="POST">POST</option>
-        <option value="PUT">PUT</option>
-        <option value="PATCH">PATCH</option>
-        <option value="DELETE">DELETE</option>
-      </select>
-      <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
-      <button>Send</button>
-    </span>
-    <RequestNavbar />
-  </div>
-</template>
 
 <style scoped>
 .request {
