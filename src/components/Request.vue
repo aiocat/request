@@ -151,10 +151,15 @@ async function sendRequest(): Promise<void> {
   setResponseStatus(response.status);
   setResponsePerformance(responseTime);
   setResponseHeaders(response.headers);
+
+  store.commit("setMainState", 1);
+  store.commit("setRequestState", 1);
 }
 
 function saveRequest(): void {
   invoke("write_json_file", generateSaveFormat());
+  store.commit("setMainState", 0);
+  store.commit("setRequestState", 0);
 }
 </script>
 

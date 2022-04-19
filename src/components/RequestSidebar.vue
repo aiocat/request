@@ -7,24 +7,29 @@
 
 <template>
   <div class="navbar">
-    <img
-      src="/arrow-right-solid.svg"
-      alt="send-request"
-      @click="selected = 0"
-    />
-    <img src="/arrow-left-solid.svg" alt="response" @click="selected = 1" />
-    <img src="/code-solid.svg" alt="code" @click="selected = 2" />
+    <img src="/arrow-right-solid.svg" alt="send-request" @click="setState(0)" />
+    <img src="/arrow-left-solid.svg" alt="response" @click="setState(1)" />
+    <img src="/code-solid.svg" alt="code" @click="setState(2)" />
   </div>
-  <Request v-if="selected === 0" />
-  <Response v-else-if="selected === 1" />
+  <Request v-if="state === 0" />
+  <Response v-else-if="state === 1" />
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
 import Request from "./Request.vue";
 import Response from "./Response.vue";
 
-const selected = ref(0);
+import { useStore } from "vuex";
+import { computed } from "vue";
+
+const store = useStore();
+let state = computed(function () {
+  return store.state.requestState;
+});
+
+function setState(val: number) {
+  store.commit("setRequestState", val);
+}
 </script>
 
 <style scoped>

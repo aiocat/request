@@ -15,10 +15,15 @@ const store = createStore({
       responseBody: "",
       responseStatus: 0,
       responsePerformance: 0,
-      responseHeaders: []
+      responseHeaders: [],
+
+      requestState: 0,
+      mainState: 0,
     };
   },
   mutations: {
+    setRequestState: (state: any, param: number) => (state.requestState = param),
+    setMainState: (state: any, param: number) => (state.mainState = param),
     setResponseBody: (state: any, param: string) => (state.responseBody = param),
     setResponseStatus: (state: any, param: number) => (state.responseStatus = param),
     setResponsePerformance: (state: any, param: number) => (state.responsePerformance = param),

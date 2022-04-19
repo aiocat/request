@@ -41,6 +41,8 @@ function loadSave(data: Record<string, any>): void {
 
   if (!data.queryParameters) data.queryParameters = {};
   store.commit("setQueryParameters", data.queryParameters);
+  store.commit("setMainState", 1);
+  store.commit("setRequestState", 0);
 }
 
 function removeSave(data: Record<string, any>): void {

@@ -7,14 +7,14 @@
 
 <template>
   <div class="navbar">
-    <img src="/floppy-disk-solid.svg" alt="save" @click="selected = 0" />
+    <img src="/floppy-disk-solid.svg" alt="save" @click="setState(0)" />
     <img
       src="/arrow-right-arrow-left-solid.svg"
       alt="request"
-      @click="selected = 1"
+      @click="setState(1)"
     />
   </div>
-  <Saves v-if="selected === 0" />
+  <Saves v-if="state === 0" />
   <RequestSidebar v-else />
 </template>
 
@@ -22,9 +22,17 @@
 import Saves from "./Saves.vue";
 import RequestSidebar from "./RequestSidebar.vue";
 
-import { ref } from "vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
-const selected = ref(1);
+const store = useStore();
+let state = computed(function () {
+  return store.state.mainState;
+});
+
+function setState(val: number) {
+  store.commit("setMainState", val);
+}
 </script>
 
 <style scoped>
