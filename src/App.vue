@@ -32,4 +32,30 @@ button,
 select {
   font-family: "Nunito", sans-serif;
 }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #111;
+  border-radius: 100px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 100px;
+}
+::-webkit-scrollbar-track:hover {
+  background: transparent;
+}
+::-webkit-scrollbar-track:active {
+  background: transparent;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
 </style>
