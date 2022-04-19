@@ -15,6 +15,7 @@ const store = createStore({
       responseBody: "",
       responseStatus: 0,
       responsePerformance: 0,
+      responseHeaders: []
     };
   },
   mutations: {
@@ -53,6 +54,12 @@ const store = createStore({
       state.queryParameters = [];
       for (let key in queryParameters) {
         state.queryParameters.push([key, queryParameters[key]]);
+      }
+    },
+    setResponseHeaders(state: any, headers: Record<string, any>) {
+      state.responseHeaders = [];
+      for (let key in headers) {
+        state.responseHeaders.push([key, headers[key]]);
       }
     },
   },

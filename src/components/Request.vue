@@ -73,27 +73,31 @@ function setResponsePerformance(value: number): void {
   store.commit("setResponsePerformance", value);
 }
 
+function setResponseHeaders(headers: Record<string, string>): void {
+  store.commit("setResponseHeaders", headers);
+}
+
 function generateRequestFormat(): Record<string, Record<string, any>> {
   let newHeaders: Record<string, string> = {};
-  let newQuery: Record<string, string> = {};
 
   for (let data of headers.value) {
     newHeaders[data[0]] = data[1];
   }
 
+  let queryTail: string = "?"
+  
   for (let data of queryParameters.value) {
-    newQuery[data[0]] = data[1];
+    queryTail += `${data[0]}=${data[1]}&`
   }
 
-  console.log(newHeaders);
+  queryTail = queryTail.slice(0, -1);
 
   return {
     request: {
       body: body.value,
       bodyType: bodyType.value,
       headers: newHeaders,
-      queryParameters: newQuery,
-      url: url.value,
+      url: url.value + queryTail,
       method: method.value,
     },
   };
@@ -110,6 +114,7 @@ async function sendRequest(): Promise<void> {
   setResponseBody(response.body);
   setResponseStatus(response.status);
   setResponsePerformance(responseTime);
+  setResponseHeaders(response.headers);
 }
 </script>
 

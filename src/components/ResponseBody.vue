@@ -18,8 +18,8 @@
     </p>
   </span>
   <span>
-    <button>Copy</button>
-    <button>Clear</button>
+    <button @click="copyContent">Copy</button>
+    <button @click="clearContent">Clear</button>
   </span>
   <div id="response"></div>
 </template>
@@ -27,20 +27,21 @@
 <script setup lang="ts">
 import { useStore } from "vuex";
 import { computed, onMounted } from "vue";
+import { writeText } from "@tauri-apps/api/clipboard";
 
 import ace from "ace-builds";
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/mode-plain_text";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/mode-css";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-xml";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
 const store = useStore();
 let responseBody = computed(function () {
   return store.state.responseBody;
-});
-
-let responseType = computed(function () {
-  return store.state.responseType;
 });
 
 let responseStatus = computed(function () {
@@ -51,12 +52,30 @@ let responsePerformance = computed(function () {
   return store.state.responsePerformance;
 });
 
-function changeBodyType(event: any): void {
-  store.commit("setBodyType", event.target.value);
+let responseHeaders = computed(function () {
+  return store.state.responseHeaders;
+});
+
+function toRecord(response: Array<Array<string>>): Record<string, string> {
+  let newRecord: Record<string, string> = {};
+
+  for (let data of response) {
+    newRecord[data[0]] = data[1];
+  }
+
+  return newRecord;
 }
 
 let aceBody: ace.Ace.Editor;
 let responseSize = new TextEncoder().encode(responseBody.value).length;
+
+function clearContent(): void {
+  aceBody.setValue("");
+}
+
+function copyContent(): void {
+  writeText(aceBody.getValue());
+}
 
 onMounted(() => {
   aceBody = ace.edit("response");
@@ -65,13 +84,22 @@ onMounted(() => {
   aceBody.setFontSize("12pt");
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
 
-  switch (responseType.value) {
-    case 0:
-      aceBody.getSession().setMode("ace/mode/plain_text");
-      break;
-    case 1:
-      aceBody.getSession().setMode("ace/mode/json");
-      break;
+  let contentType: string = toRecord(responseHeaders.value)["content-type"];
+
+  if (contentType.includes("json")) {
+    aceBody.getSession().setMode("ace/mode/json");
+    aceBody.setValue(JSON.stringify(JSON.parse(responseBody.value), null, 2));
+    return;
+  } else if (contentType.includes("html")) {
+    aceBody.getSession().setMode("ace/mode/html");
+  } else if (contentType.includes("css")) {
+    aceBody.getSession().setMode("ace/mode/css");
+  } else if (contentType.includes("javascript")) {
+    aceBody.getSession().setMode("ace/mode/javascript");
+  } else if (contentType.includes("xml") || contentType.includes("svg")) {
+    aceBody.getSession().setMode("ace/mode/xml");
+  } else {
+    aceBody.getSession().setMode("ace/mode/plain_text");
   }
 
   aceBody.setValue(responseBody.value);

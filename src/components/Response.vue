@@ -12,12 +12,14 @@
       <p @click="selected = 1">Headers</p>
     </div>
     <ResponseBody v-if="selected === 0" />
+    <ResponseHeaders v-else />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import ResponseBody from "./ResponseBody.vue";
+import ResponseHeaders from "./ResponseHeaders.vue";
 
 const selected = ref(0);
 </script>
