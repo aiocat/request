@@ -51,6 +51,7 @@ function changeMethod(event: any): void {
   padding: 20px;
   box-sizing: border-box;
   text-align: center;
+  overflow: auto;
 }
 
 span {
@@ -59,7 +60,7 @@ span {
   align-items: center;
   justify-content: center;
   width: 90%;
-  box-shadow: rgb(0, 0, 0) 0px 3px 8px;
+  box-shadow: rgb(0, 0, 0) 0px 3px 8px
 }
 
 span input {
@@ -92,8 +93,8 @@ span button {
   transition: 200ms;
   cursor: pointer;
   padding: 2px 5px 2px 5px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   transition: 200ms;
 }
 
@@ -114,8 +115,8 @@ span select {
   transition: 200ms;
   cursor: pointer;
   padding: 1px;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   transition: 200ms;
 }
 

@@ -85,6 +85,7 @@ select {
   font-size: 18px;
   font-weight: 700;
   transition: 200ms;
+  border-radius: 5px;
 }
 
 select:hover,
