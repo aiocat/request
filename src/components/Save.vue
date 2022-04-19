@@ -12,7 +12,7 @@
       <h2>{{ data.method }}</h2>
     </div>
     <div class="flex-center">
-      <button>Load</button>
+      <button @click="loadSave(data)">Load</button>
       <button @click="writeText(data.url)">Copy Url</button>
       <button>Remove</button>
     </div>
@@ -21,10 +21,24 @@
 
 <script setup lang="ts">
 import { writeText } from "@tauri-apps/api/clipboard";
+import { useStore } from "vuex";
 
 defineProps<{
   data: Record<string, any>;
 }>();
+
+const store = useStore();
+
+function loadSave(data: Record<string, any>): void {
+  store.commit("setUrl", data.url);
+  store.commit("setMethod", data.method);
+  store.commit("setBody", data.body);
+  store.commit("setBodyType", data.bodyType);
+  store.commit("setHeaders", data.headers);
+
+  if (!data.queryParameters) data.queryParameters = {};
+  store.commit("setQueryParameters", data.queryParameters);
+}
 </script>
 
 <style scoped>

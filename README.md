@@ -6,9 +6,6 @@ Open-source api development application for minimalists, with new front-end.
 ## Screenshots
 ![s1](/public/ss1.png)
 ![s2](/public/ss2.png)
-![s3](/public/ss3.png)
-![s4](/public/ss4.png)
-![s5](/public/ss5.png)
 
 </div>
 

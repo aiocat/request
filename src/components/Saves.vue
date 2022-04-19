@@ -18,11 +18,6 @@
     </span>
     <div class="flex">
       <Save v-for="data in filtered" :data="data" />
-      <Save v-for="data in filtered" :data="data" />
-      <Save v-for="data in filtered" :data="data" />
-      <Save v-for="data in filtered" :data="data" />
-      <Save v-for="data in filtered" :data="data" />
-      <Save v-for="data in filtered" :data="data" />
     </div>
   </div>
 </template>
