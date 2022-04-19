@@ -84,7 +84,7 @@ onMounted(() => {
   aceBody.setFontSize("12pt");
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
 
-  let contentType: string = toRecord(responseHeaders.value)["content-type"];
+  let contentType: string = toRecord(responseHeaders.value)["content-type"] || "";
 
   if (contentType.includes("json")) {
     aceBody.getSession().setMode("ace/mode/json");

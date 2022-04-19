@@ -17,6 +17,7 @@
       </select>
       <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
       <button @click="sendRequest">Send</button>
+      <button @click="saveRequest">Save</button>
     </span>
     <RequestNavbar />
   </div>
@@ -84,10 +85,10 @@ function generateRequestFormat(): Record<string, Record<string, any>> {
     newHeaders[data[0]] = data[1];
   }
 
-  let queryTail: string = "?"
-  
+  let queryTail: string = "?";
+
   for (let data of queryParameters.value) {
-    queryTail += `${data[0]}=${data[1]}&`
+    queryTail += `${data[0]}=${data[1]}&`;
   }
 
   queryTail = queryTail.slice(0, -1);
@@ -99,6 +100,41 @@ function generateRequestFormat(): Record<string, Record<string, any>> {
       headers: newHeaders,
       url: url.value + queryTail,
       method: method.value,
+    },
+  };
+}
+
+function generateSaveFormat(): Record<string, any> {
+  let newHeaders: Record<string, string> = {};
+  let newQuery: Record<string, string> = {};
+
+  let titleSplitted: Array<string> = url.value
+    .split("/")
+    .filter((v: string) => v != "");
+  let title: string = titleSplitted[titleSplitted.length - 1];
+
+  if (title.length > 9) {
+    title = `${title.substring(7)}...`;
+  }
+
+  for (let data of headers.value) {
+    newHeaders[data[0]] = data[1];
+  }
+
+  for (let data of queryParameters.value) {
+    newQuery[data[0]] = data[1];
+  }
+
+  return {
+    save: {
+      name: title,
+      key: url.value + method.value,
+      url: url.value,
+      method: method.value,
+      body: body.value,
+      bodyType: bodyType.value,
+      headers: newHeaders,
+      queryParameters: newQuery,
     },
   };
 }
@@ -115,6 +151,10 @@ async function sendRequest(): Promise<void> {
   setResponseStatus(response.status);
   setResponsePerformance(responseTime);
   setResponseHeaders(response.headers);
+}
+
+function saveRequest(): void {
+  invoke("write_json_file", generateSaveFormat());
 }
 </script>
 
@@ -146,7 +186,7 @@ span input {
   font-weight: 800;
   padding: 2px 5px 2px 5px;
   color: #ddd;
-  width: 70%;
+  width: 75%;
   transition: 200ms;
 }
 
@@ -166,14 +206,24 @@ span button {
   transition: 200ms;
   cursor: pointer;
   padding: 2px 5px 2px 5px;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
   transition: 200ms;
 }
 
 span button:hover {
   background-color: #2951ff;
   border: 2px solid #2951ff;
+}
+
+span button:last-of-type {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 2px solid #12a354;
+  background-color: #12a354;
+}
+
+span button:last-of-type:hover {
+  border: 2px solid #1cc467;
+  background-color: #1cc467;
 }
 
 span select {
@@ -184,7 +234,7 @@ span select {
   font-size: 18px;
   font-weight: 800;
   color: #fff;
-  width: 20%;
+  width: 15%;
   transition: 200ms;
   cursor: pointer;
   padding: 1px;

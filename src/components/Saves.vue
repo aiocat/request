@@ -38,7 +38,7 @@ invoke("read_json_file").then((response: any) => {
 
 function updateFilter(): void {
   filtered.value = saves.value.filter(
-    (v) => (v.method + v.url).indexOf(filter.value) != -1
+    (v) => v.key.indexOf(filter.value) != -1
   );
   filter.value = "";
 }
