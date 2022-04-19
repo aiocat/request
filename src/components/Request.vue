@@ -28,6 +28,7 @@ import { useStore } from "vuex";
 import { computed } from "vue";
 import RequestNavbar from "./RequestNavbar.vue";
 import { invoke } from "@tauri-apps/api";
+import { Totify } from "../notify/index";
 
 const store = useStore();
 let url = computed(function () {
@@ -140,6 +141,11 @@ function generateSaveFormat(): Record<string, any> {
 }
 
 async function sendRequest(): Promise<void> {
+  if (!/https?:\/\/.*?\..*/g.test(url.value)) {
+    Totify.error("Invalid URL");
+    return;
+  }
+
   let beforeResponse: number = Date.now();
   let response: Record<string, any> = await invoke(
     "send_request",
@@ -157,6 +163,11 @@ async function sendRequest(): Promise<void> {
 }
 
 function saveRequest(): void {
+  if (!/https?:\/\/.*?\..*/g.test(url.value)) {
+    Totify.error("Invalid URL");
+    return;
+  }
+
   invoke("write_json_file", generateSaveFormat());
   store.commit("setMainState", 0);
   store.commit("setRequestState", 0);

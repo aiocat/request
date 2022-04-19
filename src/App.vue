@@ -58,4 +58,32 @@ select {
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+#TOTIFY_NOTIFICATIONS div {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: "Nunito", sans-serif;
+  color: #fff;
+   animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+#TOTIFY_NOTIFICATIONS div::after {
+  display: block;
+  content: "(click to destroy)";
+  font-size: 12px;
+  font-weight: 600;
+  font-family: "Nunito", sans-serif;
+  color: #ddd;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
 </style>
