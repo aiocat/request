@@ -6,7 +6,7 @@
 -->
 
 <template>
-  <div class="save">
+  <div class="save" v-if="valid">
     <div class="flex">
       <h1>{{ data.name }}</h1>
       <h2>{{ data.method }}</h2>
@@ -14,19 +14,22 @@
     <div class="flex-center">
       <button @click="loadSave(data)">Load</button>
       <button @click="writeText(data.url)">Copy Url</button>
-      <button>Remove</button>
+      <button @click="removeSave(data)">Remove</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { writeText } from "@tauri-apps/api/clipboard";
+import { invoke } from "@tauri-apps/api";
 import { useStore } from "vuex";
+import { ref } from "vue";
 
 defineProps<{
   data: Record<string, any>;
 }>();
 
+let valid = ref<boolean>(true);
 const store = useStore();
 
 function loadSave(data: Record<string, any>): void {
@@ -38,6 +41,11 @@ function loadSave(data: Record<string, any>): void {
 
   if (!data.queryParameters) data.queryParameters = {};
   store.commit("setQueryParameters", data.queryParameters);
+}
+
+function removeSave(data: Record<string, any>): void {
+  invoke("remove_from_json_file", { save: data });
+  valid.value = false;
 }
 </script>
 
