@@ -16,7 +16,7 @@
         <option value="DELETE">DELETE</option>
       </select>
       <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
-      <button>Send</button>
+      <button @click="sendRequest">Send</button>
     </span>
     <RequestNavbar />
   </div>
@@ -26,6 +26,7 @@
 import { useStore } from "vuex";
 import { computed } from "vue";
 import RequestNavbar from "./RequestNavbar.vue";
+import { invoke } from "@tauri-apps/api";
 
 const store = useStore();
 let url = computed(function () {
@@ -36,12 +37,79 @@ let method = computed(function () {
   return store.state.method;
 });
 
+let body = computed(function () {
+  return store.state.body;
+});
+
+let bodyType = computed(function () {
+  return store.state.bodyType;
+});
+
+let headers = computed(function () {
+  return store.state.headers;
+});
+
+let queryParameters = computed(function () {
+  return store.state.queryParameters;
+});
+
 function changeUrl(event: any): void {
   store.commit("setUrl", event.target.value);
 }
 
 function changeMethod(event: any): void {
   store.commit("setMethod", event.target.value);
+}
+
+function setResponseBody(value: string): void {
+  store.commit("setResponseBody", value);
+}
+
+function setResponseStatus(value: number): void {
+  store.commit("setResponseStatus", value);
+}
+
+function setResponsePerformance(value: number): void {
+  store.commit("setResponsePerformance", value);
+}
+
+function generateRequestFormat(): Record<string, Record<string, any>> {
+  let newHeaders: Record<string, string> = {};
+  let newQuery: Record<string, string> = {};
+
+  for (let data of headers.value) {
+    newHeaders[data[0]] = data[1];
+  }
+
+  for (let data of queryParameters.value) {
+    newQuery[data[0]] = data[1];
+  }
+
+  console.log(newHeaders);
+
+  return {
+    request: {
+      body: body.value,
+      bodyType: bodyType.value,
+      headers: newHeaders,
+      queryParameters: newQuery,
+      url: url.value,
+      method: method.value,
+    },
+  };
+}
+
+async function sendRequest(): Promise<void> {
+  let beforeResponse: number = Date.now();
+  let response: Record<string, any> = await invoke(
+    "send_request",
+    generateRequestFormat()
+  );
+  let responseTime: number = Date.now() - beforeResponse;
+
+  setResponseBody(response.body);
+  setResponseStatus(response.status);
+  setResponsePerformance(responseTime);
 }
 </script>
 
@@ -60,7 +128,7 @@ span {
   align-items: center;
   justify-content: center;
   width: 90%;
-  box-shadow: rgb(0, 0, 0) 0px 3px 8px
+  box-shadow: rgb(0, 0, 0) 0px 3px 8px;
 }
 
 span input {

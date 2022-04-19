@@ -11,9 +11,16 @@ const store = createStore({
       body: "",
       queryParameters: [],
       headers: [],
+
+      responseBody: "",
+      responseStatus: 0,
+      responsePerformance: 0,
     };
   },
   mutations: {
+    setResponseBody: (state: any, param: string) => (state.responseBody = param),
+    setResponseStatus: (state: any, param: number) => (state.responseStatus = param),
+    setResponsePerformance: (state: any, param: number) => (state.responsePerformance = param),
     setUrl: (state: any, param: string) => (state.url = param),
     setMethod: (state: any, param: string) => (state.method = param),
     setBodyType: (state: any, param: string) => (state.bodyType = param),
@@ -36,13 +43,13 @@ const store = createStore({
       (state.headers = state.headers.filter(
         (_: Array<string>, i: number) => i !== index
       )),
-    setHeaders: (state: any, header: Record<string, any>) => {
+    setHeaders(state: any, header: Record<string, any>) {
       state.headers = [];
       for (let key in header) {
         state.headers.push([key, header[key]]);
       }
     },
-    setQueryParameters: (state: any, queryParameters: Record<string, any>) => {
+    setQueryParameters(state: any, queryParameters: Record<string, any>) {
       state.queryParameters = [];
       for (let key in queryParameters) {
         state.queryParameters.push([key, queryParameters[key]]);

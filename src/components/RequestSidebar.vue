@@ -16,11 +16,13 @@
     <img src="/code-solid.svg" alt="code" @click="selected = 2" />
   </div>
   <Request v-if="selected === 0" />
+  <Response v-else-if="selected === 1" />
 </template>
 
 <script setup lang="ts">
-import Request from "./Request.vue";
 import { ref } from "vue";
+import Request from "./Request.vue";
+import Response from "./Response.vue";
 
 const selected = ref(0);
 </script>
