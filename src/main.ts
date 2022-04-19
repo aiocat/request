@@ -9,7 +9,8 @@ const store = createStore({
             method: "POST",
             bodyType: "None",
             body: "",
-            queryParameters: []
+            queryParameters: [],
+            headers: []
         }
     },
     mutations: {
@@ -20,7 +21,11 @@ const store = createStore({
         newQueryParameter: (state: any) => state.queryParameters.push(["", ""]),
         editQueryParameterKey: (state: any, { index, key }) => state.queryParameters[index][0] = key,
         editQueryParameterValue: (state: any, { index, value }) => state.queryParameters[index][1] = value,
-        deleteQueryParameter: (state: any, index: number) => state.queryParameters = state.queryParameters.filter((_, i) => i !== index)
+        deleteQueryParameter: (state: any, index: number) => state.queryParameters = state.queryParameters.filter((_: Array<string>, i: number) => i !== index),
+        newHeader: (state: any) => state.headers.push(["", ""]),
+        editHeaderKey: (state: any, { index, key }) => state.headers[index][0] = key,
+        editHeaderValue: (state: any, { index, value }) => state.headers[index][1] = value,
+        deleteHeader: (state: any, index: number) => state.headers = state.headers.filter((_: Array<string>, i: number) => i !== index)
     }
 })
 

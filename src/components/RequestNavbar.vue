@@ -13,12 +13,14 @@
   </div>
   <RequestBody v-if="selected === 0" />
   <RequestQueryParameters v-else-if="selected === 1" />
+  <RequestHeaders v-else />
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
 import RequestBody from "./RequestBody.vue";
 import RequestQueryParameters from "./RequestQueryParameters.vue";
+import RequestHeaders from "./RequestHeaders.vue";
 
 const selected = ref(0);
 </script>
