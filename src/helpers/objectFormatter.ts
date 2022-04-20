@@ -18,7 +18,7 @@ export function generateQueryParameterTail(
   return queryTail;
 }
 
-export function generateRustHeaderOrParameter(
+export function nestedToRecord(
   headers: Array<Array<string>>
 ): Record<string, string> {
   let newHeaders: Record<string, string> = {};
@@ -33,7 +33,7 @@ export function generateRequestFormat(request: Request): RustRequest {
   return {
     body: request.body,
     bodyType: request.bodyType,
-    headers: generateRustHeaderOrParameter(request.headers),
+    headers: nestedToRecord(request.headers),
     url: request.url + generateQueryParameterTail(request.queryParameters),
     method: request.method,
   };
@@ -56,7 +56,7 @@ export function generateSaveFormat(request: Request): SaveRequest {
     method: request.method,
     body: request.body,
     bodyType: request.bodyType,
-    headers: generateRustHeaderOrParameter(request.headers),
-    queryParameters: generateRustHeaderOrParameter(request.queryParameters),
+    headers: nestedToRecord(request.headers),
+    queryParameters: nestedToRecord(request.queryParameters),
   };
 }

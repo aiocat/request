@@ -12,6 +12,8 @@
       <select data-selected @change="generateCode" v-model="selectedLang">
         <option value="JavaScript (fetch)">JavaScript (fetch)</option>
         <option value="Python (requests)">Python (requests)</option>
+        <option value="Go (net/http)">Go (net/http)</option>
+        <option value="Rust (reqwest)">Rust (reqwest)</option>
       </select>
     </span>
     <div id="generated-code"></div>
@@ -23,6 +25,8 @@ import { onMounted, ref } from "vue";
 import {
   generateJavaScriptFetch,
   generatePythonRequests,
+  generateGoNetHttp,
+  generateRustReqwest,
 } from "../helpers/codeGenerators";
 import { StoreManager } from "../helpers/storeManager";
 
@@ -30,6 +34,8 @@ import ace from "ace-builds";
 
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-rust";
+import "ace-builds/src-noconflict/mode-golang";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
 let selectedLang = ref<string>("JavaScript (fetch)");
@@ -61,6 +67,14 @@ function generateCode() {
     case "Python (requests)":
       aceBody.setValue(generatePythonRequests(allInOne));
       aceBody.getSession().setMode("ace/mode/python");
+      break;
+    case "Go (net/http)":
+      aceBody.setValue(generateGoNetHttp(allInOne));
+      aceBody.getSession().setMode("ace/mode/golang");
+      break;
+    case "Rust (reqwest)":
+      aceBody.setValue(generateRustReqwest(allInOne));
+      aceBody.getSession().setMode("ace/mode/rust");
       break;
   }
 }
