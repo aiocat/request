@@ -22,6 +22,8 @@ export default createStore({
 
       requestState: 0,
       mainState: 0,
+
+      generatedCode: "",
     };
   },
   mutations: {
@@ -30,6 +32,8 @@ export default createStore({
     setMainState: (state: any, param: number) => (state.mainState = param),
     setResponseBody: (state: any, param: string) =>
       (state.responseBody = param),
+    setGeneratedCode: (state: any, param: string) =>
+      (state.generatedCode = param),
     setResponseStatus: (state: any, param: number) =>
       (state.responseStatus = param),
     setResponsePerformance: (state: any, param: number) =>

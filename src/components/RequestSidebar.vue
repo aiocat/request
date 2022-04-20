@@ -13,11 +13,13 @@
   </div>
   <Request v-if="state === 0" />
   <Response v-else-if="state === 1" />
+  <CodeGenerator v-else-if="state === 2" />
 </template>
 
 <script setup lang="ts">
 import Request from "./Request.vue";
 import Response from "./Response.vue";
+import CodeGenerator from "./CodeGenerator.vue";
 
 import { useStore } from "vuex";
 import { computed } from "vue";
