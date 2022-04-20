@@ -36,6 +36,10 @@
 import { invoke } from "@tauri-apps/api";
 import { Totify } from "../notify/index";
 import { StoreManager } from "../helpers/storeManager";
+import {
+  generateRequestFormat,
+  generateSaveFormat,
+} from "../helpers/objectFormatter";
 
 import RequestNavbar from "./RequestNavbar.vue";
 
@@ -47,63 +51,6 @@ let bodyType = store.getState("bodyType");
 let headers = store.getState("headers");
 let queryParameters = store.getState("queryParameters");
 
-function generateRequestFormat(): Record<string, any> {
-  let newHeaders: Record<string, string> = {};
-
-  for (let data of headers.value) {
-    newHeaders[data[0]] = data[1];
-  }
-
-  let queryTail: string = "?";
-
-  for (let data of queryParameters.value) {
-    queryTail += `${data[0]}=${data[1]}&`;
-  }
-
-  queryTail = queryTail.slice(0, -1);
-
-  return {
-    body: body.value,
-    bodyType: bodyType.value,
-    headers: newHeaders,
-    url: url.value + queryTail,
-    method: method.value,
-  };
-}
-
-function generateSaveFormat(): Record<string, any> {
-  let newHeaders: Record<string, string> = {};
-  let newQuery: Record<string, string> = {};
-
-  let titleSplitted: Array<string> = url.value
-    .split("/")
-    .filter((v: string) => v != "");
-  let title: string = titleSplitted[titleSplitted.length - 1];
-
-  if (title.length > 9) {
-    title = `${title.substring(7)}...`;
-  }
-
-  for (let data of headers.value) {
-    newHeaders[data[0]] = data[1];
-  }
-
-  for (let data of queryParameters.value) {
-    newQuery[data[0]] = data[1];
-  }
-
-  return {
-    name: title,
-    key: url.value + method.value,
-    url: url.value,
-    method: method.value,
-    body: body.value,
-    bodyType: bodyType.value,
-    headers: newHeaders,
-    queryParameters: newQuery,
-  };
-}
-
 async function sendRequest(): Promise<void> {
   if (!/https?:\/\/.*?\..*/g.test(url.value)) {
     Totify.error("Invalid URL");
@@ -112,7 +59,14 @@ async function sendRequest(): Promise<void> {
 
   let beforeResponse: number = Date.now();
   let response: Record<string, any> = await invoke("send_request", {
-    request: generateRequestFormat(),
+    request: generateRequestFormat({
+      url: url.value,
+      method: method.value,
+      body: body.value,
+      bodyType: bodyType.value,
+      queryParameters: queryParameters.value,
+      headers: headers.value,
+    }),
   });
   let responseTime: number = Date.now() - beforeResponse;
 
@@ -131,7 +85,14 @@ function saveRequest(): void {
   }
 
   invoke("write_json_file", {
-    save: generateSaveFormat(),
+    save: generateSaveFormat({
+      url: url.value,
+      method: method.value,
+      body: body.value,
+      bodyType: bodyType.value,
+      queryParameters: queryParameters.value,
+      headers: headers.value,
+    }),
   });
 
   store.store.commit("setMainState", 0);

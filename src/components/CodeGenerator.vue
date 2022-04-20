@@ -19,9 +19,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { useStore } from "vuex";
-import { Totify } from "../notify/index";
+import { onMounted, ref } from "vue";
+import {
+  generateJavaScriptFetch,
+  generatePythonRequests,
+} from "../helpers/codeGenerators";
+import { StoreManager } from "../helpers/storeManager";
 
 import ace from "ace-builds";
 
@@ -31,39 +34,32 @@ import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
 let selectedLang = ref<string>("JavaScript (fetch)");
 
-const store = useStore();
-let url = computed(function () {
-  return store.state.url;
-});
+let store = new StoreManager();
 
-let method = computed(function () {
-  return store.state.method;
-});
-
-let body = computed(function () {
-  return store.state.body;
-});
-
-let bodyType = computed(function () {
-  return store.state.bodyType;
-});
-
-let headers = computed(function () {
-  return store.state.headers;
-});
-
-let queryParameters = computed(function () {
-  return store.state.queryParameters;
-});
+let url = store.getState("url");
+let method = store.getState("method");
+let body = store.getState("body");
+let bodyType = store.getState("bodyType");
+let queryParameters = store.getState("queryParameters");
+let headers = store.getState("headers");
 
 function generateCode() {
+  let allInOne = {
+    url: url.value,
+    method: method.value,
+    body: body.value,
+    bodyType: bodyType.value,
+    queryParameters: queryParameters.value,
+    headers: headers.value,
+  };
+
   switch (selectedLang.value) {
     case "JavaScript (fetch)":
-      aceBody.setValue(generateJavaScriptFetch());
+      aceBody.setValue(generateJavaScriptFetch(allInOne));
       aceBody.getSession().setMode("ace/mode/javascript");
       break;
     case "Python (requests)":
-      aceBody.setValue(generatePythonRequests());
+      aceBody.setValue(generatePythonRequests(allInOne));
       aceBody.getSession().setMode("ace/mode/python");
       break;
   }
@@ -82,122 +78,6 @@ onMounted(() => {
 
   generateCode();
 });
-
-function generateQueryParameterTail(): string {
-  let queryTail: string = "?";
-
-  for (let data of queryParameters.value) {
-    queryTail += `${data[0]}=${data[1]}&`;
-  }
-
-  queryTail = queryTail.slice(0, -1);
-  return queryTail;
-}
-
-// code generator starts here:
-// javascript (fetch api) code generator
-function generateJavaScriptFetch(): string {
-  let bodyTypeIsNone: boolean = bodyType.value === "None";
-  let newUrl = url.value;
-
-  // add query parameter (if exists)
-  newUrl += generateQueryParameterTail();
-
-  let code: string = `let response = await fetch("${newUrl}", {\n  method: "${method.value}",\n`;
-
-  // check method
-  if (
-    (method.value === "POST" ||
-      method.value === "PUT" ||
-      method.value === "PATCH") &&
-    !bodyTypeIsNone
-  ) {
-    if (bodyType.value === "Json") {
-      try {
-        JSON.parse(body.value);
-      } catch {
-        Totify.error("Invalid JSON Format");
-        return "";
-      }
-
-      code += `  body: JSON.stringify(${body.value}),\n`;
-    } else {
-      // escape `
-      code += `  body: \`${body.value.replaceAll("`", "\\`")}\`,\n`;
-    }
-  }
-
-  // check header exists
-  if (headers.value.length > 0) {
-    let newHeaders: Record<string, string> = {};
-
-    for (let data of headers.value) {
-      newHeaders[data[0]] = data[1];
-    }
-
-    code += `  headers: ${JSON.stringify(newHeaders, null, 4).slice(
-      0,
-      -1
-    )}  }\n`;
-  }
-
-  code += "});";
-  return code;
-}
-
-// python (requests) code generator
-function generatePythonRequests(): string {
-  let bodyTypeIsNone: boolean = bodyType.value === "None";
-  let newUrl = url.value;
-
-  // add query parameter (if exists)
-  newUrl += generateQueryParameterTail();
-
-  let code: string = `import requests, json\n\nresponse = requests.${method.value.toLowerCase()}(\n  "${newUrl}",\n`;
-
-  // check methods
-  if (
-    (method.value === "POST" ||
-      method.value === "PUT" ||
-      method.value === "PATCH") &&
-    !bodyTypeIsNone
-  ) {
-    if (bodyType.value === "Json") {
-      try {
-        JSON.parse(body.value);
-      } catch {
-        Totify.error("Invalid JSON Format");
-        return "";
-      }
-
-      // escape quote
-      code += `  json = json.loads("""${body.value.replaceAll(
-        '"',
-        '\\"'
-      )}"""),\n`;
-    } else {
-      // escape quote
-      code += `  data = """${body.value.replaceAll('"', '\\"')}""",\n`;
-    }
-  }
-
-  // check header exists
-  if (headers.value.length > 0) {
-    let newHeaders: Record<string, string> = {};
-
-    for (let data of headers.value) {
-      newHeaders[data[0]] = data[1];
-    }
-
-    let headerStr: string = JSON.stringify(newHeaders);
-    headerStr = headerStr.replaceAll('"', '\\"');
-
-    code += `  headers = json.loads("""${headerStr}""")\n`;
-  }
-
-  code += ")";
-  return code;
-}
 </script>
 
 <style scoped>
