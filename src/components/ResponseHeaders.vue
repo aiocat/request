@@ -11,16 +11,22 @@
       <input type="text" :value="data[0]" disabled />
       <input type="text" :value="data[1]" disabled />
     </div>
-    <button @click="writeText(`${data[0]}: ${data[1]}`)">Copy</button>
+    <button @click="copyHeader(data)">Copy</button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { writeText } from "@tauri-apps/api/clipboard";
 import { StoreManager } from "../helpers/storeManager";
+import { Totify } from "../notify/index";
 
 const store = new StoreManager();
-let responseHeaders = store.getState("responseHeaders")
+let responseHeaders = store.getState("responseHeaders");
+
+function copyHeader(data: Array<string>): void {
+  Totify.info("Header copied to clipboard");
+  writeText(`${data[0]}: ${data[1]}`);
+}
 </script>
 
 <style scoped>

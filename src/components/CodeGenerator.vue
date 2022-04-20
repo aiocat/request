@@ -7,16 +7,18 @@
 
 <template>
   <div class="code-generation">
-    <span>
-      <p>Select Language</p>
-      <select data-selected @change="generateCode" v-model="selectedLang">
-        <option value="JavaScript (fetch)">JavaScript (fetch)</option>
-        <option value="Python (requests)">Python (requests)</option>
-        <option value="Go (net/http)">Go (net/http)</option>
-        <option value="Rust (reqwest)">Rust (reqwest)</option>
-      </select>
-    </span>
-    <div id="generated-code"></div>
+    <div class="container">
+      <span>
+        <p>Select Language</p>
+        <select data-selected @change="generateCode" v-model="selectedLang">
+          <option value="JavaScript (fetch)">JavaScript (fetch)</option>
+          <option value="Python (requests)">Python (requests)</option>
+          <option value="Go (net/http)">Go (net/http)</option>
+          <option value="Rust (reqwest)">Rust (reqwest)</option>
+        </select>
+      </span>
+      <div id="generated-code"></div>
+    </div>
   </div>
 </template>
 
@@ -29,6 +31,7 @@ import {
   generateRustReqwest,
 } from "../helpers/codeGenerators";
 import { StoreManager } from "../helpers/storeManager";
+import { Totify } from "../notify/index";
 
 import ace from "ace-builds";
 
@@ -58,6 +61,10 @@ function generateCode() {
     queryParameters: queryParameters.value,
     headers: headers.value,
   };
+
+  if (!/https?:\/\/.*?\..*/g.test(url.value)) {
+    Totify.warn("URL is invalid, your code may be broken");
+  }
 
   switch (selectedLang.value) {
     case "JavaScript (fetch)":
@@ -103,12 +110,17 @@ onMounted(() => {
   overflow: auto;
 }
 
+.container {
+  margin: 0px auto;
+  width: 90%;
+}
+
 span {
   display: flex;
   align-items: center;
   justify-content: space-between;
   text-align: left;
-  padding: 5px;
+  margin-bottom: 5px;
 }
 
 p {

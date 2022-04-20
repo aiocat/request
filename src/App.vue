@@ -63,7 +63,7 @@ select {
   font-size: 18px;
   font-weight: 700;
   font-family: "Nunito", sans-serif;
-  color: #fff;
+  color: #000;
    animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
 
@@ -73,7 +73,7 @@ select {
   font-size: 12px;
   font-weight: 600;
   font-family: "Nunito", sans-serif;
-  color: #ddd;
+  color: #0a0a0a;
 }
 
 @keyframes slide-left {

@@ -70,6 +70,8 @@ async function sendRequest(): Promise<void> {
   });
   let responseTime: number = Date.now() - beforeResponse;
 
+  Totify.success("Request sent successfully");
+
   store.store.commit("setResponseBody", response.body);
   store.store.commit("setResponseStatus", response.status);
   store.store.commit("setResponsePerformance", responseTime);
@@ -94,6 +96,8 @@ function saveRequest(): void {
       headers: headers.value,
     }),
   });
+
+  Totify.success("Request saved successfully");
 
   store.store.commit("setMainState", 0);
   store.store.commit("setRequestState", 0);

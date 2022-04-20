@@ -28,6 +28,7 @@
 import { onMounted } from "vue";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { StoreManager } from "../helpers/storeManager";
+import { Totify } from "../notify/index";
 
 import ace from "ace-builds";
 
@@ -64,6 +65,7 @@ function clearContent(): void {
 
 function copyContent(): void {
   writeText(aceBody.getValue());
+  Totify.info("Body copied to clipboard");
 }
 
 onMounted(() => {
