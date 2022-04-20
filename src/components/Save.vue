@@ -13,14 +13,16 @@
     </div>
     <div class="flex-center">
       <button @click="loadSave(data)">Load</button>
-      <button @click="writeText(data.url)">Copy Url</button>
+      <button @click="copyUrl(data)">Copy Url</button>
       <button @click="removeSave(data)">Remove</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import type { SaveRequest } from "../types/Request";
 import { writeText } from "@tauri-apps/api/clipboard";
+import { Totify } from "../notify/index";
 import { invoke } from "@tauri-apps/api";
 import { useStore } from "vuex";
 import { ref } from "vue";
@@ -32,7 +34,7 @@ defineProps<{
 let valid = ref<boolean>(true);
 const store = useStore();
 
-function loadSave(data: Record<string, any>): void {
+function loadSave(data: SaveRequest): void {
   store.commit("setUrl", data.url);
   store.commit("setMethod", data.method);
   store.commit("setBody", data.body);
@@ -45,9 +47,14 @@ function loadSave(data: Record<string, any>): void {
   store.commit("setRequestState", 0);
 }
 
-function removeSave(data: Record<string, any>): void {
+function removeSave(data: SaveRequest): void {
   invoke("remove_from_json_file", { save: data });
   valid.value = false;
+}
+
+function copyUrl(data: SaveRequest): void {
+  writeText(data.url);
+  Totify.info("URL copied to clipboard");
 }
 </script>
 

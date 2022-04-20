@@ -18,6 +18,9 @@
         </select>
       </span>
       <div id="generated-code"></div>
+      <span>
+        <button @click="copyText">Copy Code</button>
+      </span>
     </div>
   </div>
 </template>
@@ -32,6 +35,7 @@ import {
 } from "../helpers/codeGenerators";
 import { StoreManager } from "../helpers/storeManager";
 import { Totify } from "../notify/index";
+import { writeText } from "@tauri-apps/api/clipboard";
 
 import ace from "ace-builds";
 
@@ -86,6 +90,11 @@ function generateCode() {
   }
 }
 
+function copyText(): void {
+  writeText(aceBody.getValue());
+  Totify.info("Code copied to clipboard");
+}
+
 let aceBody: ace.Ace.Editor;
 
 onMounted(() => {
@@ -120,7 +129,6 @@ span {
   align-items: center;
   justify-content: space-between;
   text-align: left;
-  margin-bottom: 5px;
 }
 
 p {
@@ -152,5 +160,27 @@ select:focus {
 
 .ace_editor {
   height: 70vh;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+span button {
+  outline: none;
+  border: none;
+  color: #ddd;
+  background: #0a0a0a;
+  border: 2px solid #111;
+  padding: 2px 6px 2px 6px;
+  font-size: 18px;
+  font-weight: 700;
+  transition: 200ms;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+span button:hover {
+  color: #fff;
+  background: #111;
+  border: 2px solid #1a1a1a;
 }
 </style>

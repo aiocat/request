@@ -4,8 +4,11 @@
 # Request
 Open-source api development application for minimalists, with new front-end.
 ## Screenshots
-![s1](/public/ss1.png)
-![s2](/public/ss2.png)
+![s1](/screenshots/ss1.png)
+![s2](/screenshots/ss2.png)
+![s3](/screenshots/ss3.png)
+![s4](/screenshots/ss4.png)
+![s5](/screenshots/ss5.png)
 
 </div>
 

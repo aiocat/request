@@ -52,7 +52,7 @@ export function generateSaveFormat(request: Request): SaveRequest {
   return {
     name: title,
     key: request.url + request.method,
-    url: request.url + generateQueryParameterTail(request.queryParameters),
+    url: request.url,
     method: request.method,
     body: request.body,
     bodyType: request.bodyType,
