@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import type { SaveRequest } from "../types/Request";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { Totify } from "../notify/index";
 import { invoke } from "@tauri-apps/api";
@@ -34,7 +33,7 @@ defineProps<{
 let valid = ref<boolean>(true);
 const store = useStore();
 
-function loadSave(data: SaveRequest): void {
+function loadSave(data: Record<string, any>): void {
   store.commit("setUrl", data.url);
   store.commit("setMethod", data.method);
   store.commit("setBody", data.body);
@@ -47,12 +46,12 @@ function loadSave(data: SaveRequest): void {
   store.commit("setRequestState", 0);
 }
 
-function removeSave(data: SaveRequest): void {
+function removeSave(data: Record<string, any>): void {
   invoke("remove_from_json_file", { save: data });
   valid.value = false;
 }
 
-function copyUrl(data: SaveRequest): void {
+function copyUrl(data: Record<string, any>): void {
   writeText(data.url);
   Totify.info("URL copied to clipboard");
 }
