@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-export interface Request {
+export interface Request extends Record<string, any> {
     url: string,
     method: string,
     body: string,
@@ -12,7 +12,7 @@ export interface Request {
     queryParameters: Array<Array<string>>,
 }
 
-export interface RustRequest {
+export interface RustRequest extends Record<string, any> {
     url: string,
     method: string,
     body: string,
@@ -20,7 +20,7 @@ export interface RustRequest {
     headers: Record<string, string>,
 }
 
-export interface SaveRequest {
+export interface SaveRequest extends Record<string, any> {
     name: string,
     key: string,
     url: string,
