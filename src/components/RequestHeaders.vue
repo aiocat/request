@@ -30,21 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed } from "vue";
+import { StoreManager } from "../helpers/storeManager";
 
-const store = useStore();
-let headers = computed(function () {
-  return store.state.headers;
-});
+const store = new StoreManager();
+let headers = store.getState("headers");
 
-const addHeader = () => store.commit("newHeader");
+const addHeader = () => store.store.commit("newHeader");
 const updateHeaderKey = (index: number, key: string) =>
-  store.commit("editHeaderKey", { index, key });
+  store.store.commit("editHeaderKey", { index, key });
 const updateHeaderValue = (index: number, value: string) =>
-  store.commit("editHeaderValue", { index, value });
+  store.store.commit("editHeaderValue", { index, value });
 const removeHeader = (index: number) =>
-  store.commit("deleteHeader", index);
+  store.store.commit("deleteHeader", index);
 </script>
 
 <style scoped>

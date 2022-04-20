@@ -30,21 +30,18 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed } from "vue";
+import { StoreManager } from "../helpers/storeManager";
 
-const store = useStore();
-let queryParameters = computed(function () {
-  return store.state.queryParameters;
-});
+const store = new StoreManager();
+let queryParameters = store.getState("queryParameters");
 
-const addQueryParameter = () => store.commit("newQueryParameter");
+const addQueryParameter = () => store.store.commit("newQueryParameter");
 const updateQueryParameterKey = (index: number, key: string) =>
-  store.commit("editQueryParameterKey", { index, key });
+  store.store.commit("editQueryParameterKey", { index, key });
 const updateQueryParameterValue = (index: number, value: string) =>
-  store.commit("editQueryParameterValue", { index, value });
+  store.store.commit("editQueryParameterValue", { index, value });
 const removeQueryParameter = (index: number) =>
-  store.commit("deleteQueryParameter", index);
+  store.store.commit("deleteQueryParameter", index);
 </script>
 
 <style scoped>

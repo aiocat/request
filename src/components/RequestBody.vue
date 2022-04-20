@@ -8,7 +8,11 @@
 <template>
   <span>
     <p>Edit Mode</p>
-    <select data-selected @change="changeBodyType" :value="bodyType">
+    <select
+      data-selected
+      @change="(e: any) => store.store.commit('setBodyType', e.target.value)"
+      :value="bodyType"
+    >
       <option value="None">None</option>
       <option value="Json">JSON</option>
       <option value="Text">Text</option>
@@ -19,26 +23,17 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed, onMounted } from "vue";
+import { onMounted } from "vue";
+import { StoreManager } from "../helpers/storeManager";
 
 import ace from "ace-builds";
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
-const store = useStore();
-let body = computed(function () {
-  return store.state.body;
-});
-
-let bodyType = computed(function () {
-  return store.state.bodyType;
-});
-
-function changeBodyType(event: any): void {
-  store.commit("setBodyType", event.target.value);
-}
+const store = new StoreManager();
+let body = store.getState("body");
+let bodyType = store.getState("bodyType");
 
 onMounted(() => {
   let aceBody: ace.Ace.Editor = ace.edit("body-editor");
@@ -47,7 +42,7 @@ onMounted(() => {
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
   aceBody.getSession().setMode("ace/mode/json");
   aceBody.addEventListener("input", () =>
-    store.commit("setBody", aceBody.getValue())
+    store.store.commit("setBody", aceBody.getValue())
   );
   aceBody.setValue(body.value);
 });

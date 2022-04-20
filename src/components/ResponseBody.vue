@@ -25,9 +25,9 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed, onMounted } from "vue";
+import { onMounted } from "vue";
 import { writeText } from "@tauri-apps/api/clipboard";
+import { StoreManager } from "../helpers/storeManager";
 
 import ace from "ace-builds";
 
@@ -39,22 +39,11 @@ import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-xml";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
-const store = useStore();
-let responseBody = computed(function () {
-  return store.state.responseBody;
-});
-
-let responseStatus = computed(function () {
-  return store.state.responseStatus;
-});
-
-let responsePerformance = computed(function () {
-  return store.state.responsePerformance;
-});
-
-let responseHeaders = computed(function () {
-  return store.state.responseHeaders;
-});
+const store = new StoreManager();
+let responseBody = store.getState("responseBody");
+let responseStatus = store.getState("responseStatus");
+let responsePerformance = store.getState("responsePerformance");
+let responseHeaders = store.getState("responseHeaders");
 
 function toRecord(response: Array<Array<string>>): Record<string, string> {
   let newRecord: Record<string, string> = {};
@@ -84,7 +73,8 @@ onMounted(() => {
   aceBody.setFontSize("12pt");
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
 
-  let contentType: string = toRecord(responseHeaders.value)["content-type"] || "";
+  let contentType: string =
+    toRecord(responseHeaders.value)["content-type"] || "";
 
   if (contentType.includes("json")) {
     aceBody.getSession().setMode("ace/mode/json");

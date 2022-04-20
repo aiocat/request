@@ -8,14 +8,23 @@
 <template>
   <div class="request">
     <span>
-      <select data-selected @change="changeMethod" :value="method">
+      <select
+        data-selected
+        @change="(e: any) => store.store.commit('setMethod', e.target.value)"
+        :value="method"
+      >
         <option value="GET">GET</option>
         <option value="POST">POST</option>
         <option value="PUT">PUT</option>
         <option value="PATCH">PATCH</option>
         <option value="DELETE">DELETE</option>
       </select>
-      <input type="text" placeholder="Url" @input="changeUrl" :value="url" />
+      <input
+        type="text"
+        placeholder="Url"
+        @input="(e: any) => store.store.commit('setUrl', e.target.value)"
+        :value="url"
+      />
       <button @click="sendRequest">Send</button>
       <button @click="saveRequest">Save</button>
     </span>
@@ -24,62 +33,21 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed } from "vue";
-import RequestNavbar from "./RequestNavbar.vue";
 import { invoke } from "@tauri-apps/api";
 import { Totify } from "../notify/index";
+import { StoreManager } from "../helpers/storeManager";
 
-const store = useStore();
-let url = computed(function () {
-  return store.state.url;
-});
+import RequestNavbar from "./RequestNavbar.vue";
 
-let method = computed(function () {
-  return store.state.method;
-});
+let store = new StoreManager();
+let url = store.getState("url");
+let method = store.getState("method");
+let body = store.getState("body");
+let bodyType = store.getState("bodyType");
+let headers = store.getState("headers");
+let queryParameters = store.getState("queryParameters");
 
-let body = computed(function () {
-  return store.state.body;
-});
-
-let bodyType = computed(function () {
-  return store.state.bodyType;
-});
-
-let headers = computed(function () {
-  return store.state.headers;
-});
-
-let queryParameters = computed(function () {
-  return store.state.queryParameters;
-});
-
-function changeUrl(event: any): void {
-  store.commit("setUrl", event.target.value);
-}
-
-function changeMethod(event: any): void {
-  store.commit("setMethod", event.target.value);
-}
-
-function setResponseBody(value: string): void {
-  store.commit("setResponseBody", value);
-}
-
-function setResponseStatus(value: number): void {
-  store.commit("setResponseStatus", value);
-}
-
-function setResponsePerformance(value: number): void {
-  store.commit("setResponsePerformance", value);
-}
-
-function setResponseHeaders(headers: Record<string, string>): void {
-  store.commit("setResponseHeaders", headers);
-}
-
-function generateRequestFormat(): Record<string, Record<string, any>> {
+function generateRequestFormat(): Record<string, any> {
   let newHeaders: Record<string, string> = {};
 
   for (let data of headers.value) {
@@ -95,13 +63,11 @@ function generateRequestFormat(): Record<string, Record<string, any>> {
   queryTail = queryTail.slice(0, -1);
 
   return {
-    request: {
-      body: body.value,
-      bodyType: bodyType.value,
-      headers: newHeaders,
-      url: url.value + queryTail,
-      method: method.value,
-    },
+    body: body.value,
+    bodyType: bodyType.value,
+    headers: newHeaders,
+    url: url.value + queryTail,
+    method: method.value,
   };
 }
 
@@ -127,16 +93,14 @@ function generateSaveFormat(): Record<string, any> {
   }
 
   return {
-    save: {
-      name: title,
-      key: url.value + method.value,
-      url: url.value,
-      method: method.value,
-      body: body.value,
-      bodyType: bodyType.value,
-      headers: newHeaders,
-      queryParameters: newQuery,
-    },
+    name: title,
+    key: url.value + method.value,
+    url: url.value,
+    method: method.value,
+    body: body.value,
+    bodyType: bodyType.value,
+    headers: newHeaders,
+    queryParameters: newQuery,
   };
 }
 
@@ -147,19 +111,17 @@ async function sendRequest(): Promise<void> {
   }
 
   let beforeResponse: number = Date.now();
-  let response: Record<string, any> = await invoke(
-    "send_request",
-    generateRequestFormat()
-  );
+  let response: Record<string, any> = await invoke("send_request", {
+    request: generateRequestFormat(),
+  });
   let responseTime: number = Date.now() - beforeResponse;
 
-  setResponseBody(response.body);
-  setResponseStatus(response.status);
-  setResponsePerformance(responseTime);
-  setResponseHeaders(response.headers);
-
-  store.commit("setMainState", 1);
-  store.commit("setRequestState", 1);
+  store.store.commit("setResponseBody", response.body);
+  store.store.commit("setResponseStatus", response.status);
+  store.store.commit("setResponsePerformance", responseTime);
+  store.store.commit("setResponseHeaders", response.headers);
+  store.store.commit("setMainState", 1);
+  store.store.commit("setRequestState", 1);
 }
 
 function saveRequest(): void {
@@ -168,9 +130,12 @@ function saveRequest(): void {
     return;
   }
 
-  invoke("write_json_file", generateSaveFormat());
-  store.commit("setMainState", 0);
-  store.commit("setRequestState", 0);
+  invoke("write_json_file", {
+    save: generateSaveFormat(),
+  });
+
+  store.store.commit("setMainState", 0);
+  store.store.commit("setRequestState", 0);
 }
 </script>
 

@@ -16,14 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "vuex";
-import { computed } from "vue";
 import { writeText } from "@tauri-apps/api/clipboard";
+import { StoreManager } from "../helpers/storeManager";
 
-const store = useStore();
-let responseHeaders = computed(function () {
-  return store.state.responseHeaders;
-});
+const store = new StoreManager();
+let responseHeaders = store.getState("responseHeaders")
 </script>
 
 <style scoped>

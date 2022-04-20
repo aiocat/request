@@ -7,11 +7,15 @@
 
 <template>
   <div class="navbar">
-    <img src="/floppy-disk-solid.svg" alt="save" @click="setState(0)" />
+    <img
+      src="/floppy-disk-solid.svg"
+      alt="save"
+      @click="store.store.commit('setMainState', 0)"
+    />
     <img
       src="/arrow-right-arrow-left-solid.svg"
       alt="request"
-      @click="setState(1)"
+      @click="store.store.commit('setMainState', 1)"
     />
   </div>
   <Saves v-if="state === 0" />
@@ -21,18 +25,10 @@
 <script setup lang="ts">
 import Saves from "./Saves.vue";
 import RequestSidebar from "./RequestSidebar.vue";
+import { StoreManager } from "../helpers/storeManager";
 
-import { useStore } from "vuex";
-import { computed } from "vue";
-
-const store = useStore();
-let state = computed(function () {
-  return store.state.mainState;
-});
-
-function setState(val: number) {
-  store.commit("setMainState", val);
-}
+let store = new StoreManager();
+let state = store.getState("mainState");
 </script>
 
 <style scoped>
