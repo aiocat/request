@@ -30,7 +30,7 @@ If you want to add your language, go to [this](https://github.com/aiocat/request
 Languages are not limited to countries, You can add other languages (like pirate, pig latin etc...)
 
 
-Don't forget to change [select box](https://github.com/aiocat/request/blob/main/src/components/Settings.vue#L13) or users can't use your language.
+Don't forget to change [select box](https://github.com/aiocat/request/blob/main/src/components/Settings.vue#L13) or users won't able to use your language.
 
 ## Technologies
 
@@ -56,7 +56,7 @@ Clone the repo and:
 
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
 
-- **Current Version**: `v1.0.0`
+- **Current Version**: `v1.1.0`
 
 ## License
 
