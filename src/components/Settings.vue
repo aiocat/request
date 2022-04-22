@@ -8,7 +8,7 @@
 <template>
   <div class="settings">
     <span>
-      <p>Change Language</p>
+      <p>{{ i18n.settings.change_language }}</p>
       <select data-selected @change="changeLanguage" :value="i18nLanguage">
         <option value="en">English</option>
         <option value="tr">Türkçe</option>
@@ -26,6 +26,7 @@ let i18n = store.getState("i18n");
 let i18nLanguage = store.getState("i18nLanguage");
 
 async function changeLanguage(event: any) {
+  event.target.disabled = true;
   store.store.commit("setL10NLang", event.target.value);
 
   await invoke("write_i18n", {
@@ -34,6 +35,7 @@ async function changeLanguage(event: any) {
   let response = await invoke("fetch_i18n");
 
   store.store.commit("setL10N", response);
+  event.target.disabled = false;
 }
 </script>
 
@@ -48,6 +50,8 @@ async function changeLanguage(event: any) {
 
 span {
   width: 100%;
+  box-sizing: border-box;
+  margin: 5px auto;
   background-color: #0a0a0a;
   border: 2px solid #111;
   border-radius: 5px;
