@@ -12,6 +12,7 @@
       <select data-selected @change="changeLanguage" :value="i18nLanguage">
         <option value="en">English</option>
         <option value="tr">Türkçe</option>
+        <option value="jp">日本語</option>
       </select>
     </span>
   </div>

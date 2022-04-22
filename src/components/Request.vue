@@ -133,7 +133,7 @@ span input {
   font-weight: 800;
   padding: 2px 5px 2px 5px;
   color: #ddd;
-  width: 75%;
+  width: 70%;
   transition: 200ms;
 }
 
@@ -149,7 +149,7 @@ span button {
   font-size: 18px;
   font-weight: 800;
   color: #fff;
-  width: 10%;
+  width: 15%;
   transition: 200ms;
   cursor: pointer;
   padding: 2px 5px 2px 5px;
