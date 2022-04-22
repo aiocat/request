@@ -6,11 +6,23 @@
 -->
 
 <template>
-  <MainSidebar />
+  <MainSidebar v-if="ready" />
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import MainSidebar from "./components/MainSidebar.vue";
+import { StoreManager } from "./helpers/storeManager";
+import { invoke } from "@tauri-apps/api";
+
+const ready = ref<boolean>(false);
+let store = new StoreManager();
+
+onMounted(async () => {
+  let response = await invoke("fetch_i18n");
+  store.store.commit("setL10N", response);
+  ready.value = true;
+});
 </script>
 
 <style>
@@ -64,7 +76,7 @@ select {
   font-weight: 700;
   font-family: "Nunito", sans-serif;
   color: #000;
-   animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 #TOTIFY_NOTIFICATIONS div::after {

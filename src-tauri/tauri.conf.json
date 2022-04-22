@@ -64,9 +64,9 @@
       {
         "title": "Request HTTP Client",
         "width": 1000,
-        "height": 700,
+        "height": 600,
         "minWidth": 1000,
-        "minHeight": 700,
+        "minHeight": 600,
         "resizable": true,
         "fullscreen": false
       }

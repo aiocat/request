@@ -12,9 +12,9 @@
       <h2>{{ data.method }}</h2>
     </div>
     <div class="flex-center">
-      <button @click="loadSave(data)">Load</button>
-      <button @click="copyUrl(data)">Copy Url</button>
-      <button @click="removeSave(data)">Remove</button>
+      <button @click="loadSave(data)">{{ i18n.saves.load_button }}</button>
+      <button @click="copyUrl(data)">{{ i18n.saves.copy_button }}</button>
+      <button @click="removeSave(data)">{{ i18n.saves.remove_button }}</button>
     </div>
   </div>
 </template>
@@ -23,7 +23,7 @@
 import { writeText } from "@tauri-apps/api/clipboard";
 import { Totify } from "../notify/index";
 import { invoke } from "@tauri-apps/api";
-import { useStore } from "vuex";
+import { StoreManager } from "../helpers/storeManager";
 import { ref } from "vue";
 
 defineProps<{
@@ -31,19 +31,21 @@ defineProps<{
 }>();
 
 let valid = ref<boolean>(true);
-const store = useStore();
+
+let store = new StoreManager();
+let i18n = store.getState("i18n");
 
 function loadSave(data: Record<string, any>): void {
-  store.commit("setUrl", data.url);
-  store.commit("setMethod", data.method);
-  store.commit("setBody", data.body);
-  store.commit("setBodyType", data.bodyType);
-  store.commit("setHeaders", data.headers);
+  store.store.commit("setUrl", data.url);
+  store.store.commit("setMethod", data.method);
+  store.store.commit("setBody", data.body);
+  store.store.commit("setBodyType", data.bodyType);
+  store.store.commit("setHeaders", data.headers);
 
   if (!data.queryParameters) data.queryParameters = {};
-  store.commit("setQueryParameters", data.queryParameters);
-  store.commit("setMainState", 1);
-  store.commit("setRequestState", 0);
+  store.store.commit("setQueryParameters", data.queryParameters);
+  store.store.commit("setMainState", 1);
+  store.store.commit("setRequestState", 0);
 }
 
 function removeSave(data: Record<string, any>): void {

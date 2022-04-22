@@ -10,11 +10,11 @@
     <span>
       <input
         type="text"
-        placeholder="Filter Name or Method"
+        :placeholder="i18n.saves.input"
         v-model="filter"
         @keyup.enter="updateFilter"
       />
-      <button @click="updateFilter">Filter</button>
+      <button @click="updateFilter">{{ i18n.saves.filter_button }}</button>
     </span>
     <div class="flex">
       <Save v-for="data in filtered" :data="data" />
@@ -26,6 +26,10 @@
 import { ref } from "vue";
 import { invoke } from "@tauri-apps/api";
 import Save from "./Save.vue";
+import { StoreManager } from "../helpers/storeManager";
+
+let store = new StoreManager();
+let i18n = store.getState("i18n");
 
 const saves = ref<Record<string, any>[]>([]);
 const filtered = ref<Record<string, any>[]>([]);
@@ -37,9 +41,7 @@ invoke("read_json_file").then((response: any) => {
 });
 
 function updateFilter(): void {
-  filtered.value = saves.value.filter(
-    (v) => v.key.indexOf(filter.value) != -1
-  );
+  filtered.value = saves.value.filter((v) => v.key.indexOf(filter.value) != -1);
   filter.value = "";
 }
 </script>
@@ -71,7 +73,7 @@ span input {
   font-weight: 800;
   padding: 2px 5px 2px 5px;
   color: #ddd;
-  width: 90%;
+  width: 80%;
   transition: 200ms;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -89,7 +91,7 @@ span button {
   font-size: 18px;
   font-weight: 800;
   color: #fff;
-  width: 10%;
+  width: 20%;
   transition: 200ms;
   cursor: pointer;
   padding: 2px 5px 2px 5px;

@@ -7,7 +7,7 @@
 
 <template>
   <span>
-    <p>Edit Mode</p>
+    <p>{{ i18n.request.body.text }}</p>
     <select
       data-selected
       @change="(e: any) => store.store.commit('setBodyType', e.target.value)"
@@ -32,6 +32,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
 const store = new StoreManager();
+let i18n = store.getState("i18n");
 let body = store.getState("body");
 let bodyType = store.getState("bodyType");
 

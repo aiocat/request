@@ -8,8 +8,8 @@
 <template>
   <div class="response">
     <div class="navbar">
-      <p @click="selected = 0">Body</p>
-      <p @click="selected = 1">Headers</p>
+      <p @click="selected = 0">{{ i18n.response.body.name }}</p>
+      <p @click="selected = 1">{{ i18n.response.headers.name }}</p>
     </div>
     <ResponseBody v-if="selected === 0" />
     <ResponseHeaders v-else />
@@ -18,10 +18,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { StoreManager } from "../helpers/storeManager";
 import ResponseBody from "./ResponseBody.vue";
 import ResponseHeaders from "./ResponseHeaders.vue";
 
 const selected = ref(0);
+
+const store = new StoreManager();
+let i18n = store.getState("i18n");
 </script>
 
 <style scoped>

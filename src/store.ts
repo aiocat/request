@@ -24,9 +24,12 @@ export default createStore({
       mainState: 0,
 
       generatedCode: "",
+      i18n: {}
     };
   },
   mutations: {
+    setL10N: (state: any, param: string) =>
+      (state.i18n = JSON.parse(param)),
     setRequestState: (state: any, param: number) =>
       (state.requestState = param),
     setMainState: (state: any, param: number) => (state.mainState = param),
