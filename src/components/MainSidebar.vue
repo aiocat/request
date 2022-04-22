@@ -17,14 +17,21 @@
       alt="request"
       @click="store.store.commit('setMainState', 1)"
     />
+    <img
+      src="/gear-solid.svg"
+      alt="setting"
+      @click="store.store.commit('setMainState', 2)"
+    />
   </div>
   <Saves v-if="state === 0" />
-  <RequestSidebar v-else />
+  <RequestSidebar v-else-if="state === 1"  />
+  <Settings v-else />
 </template>
 
 <script setup lang="ts">
 import Saves from "./Saves.vue";
 import RequestSidebar from "./RequestSidebar.vue";
+import Settings from "./Settings.vue";
 import { StoreManager } from "../helpers/storeManager";
 
 let store = new StoreManager();

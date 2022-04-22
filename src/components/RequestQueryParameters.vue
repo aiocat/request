@@ -7,8 +7,10 @@
 
 <template>
   <span>
-    <p>Manage Query Parameters</p>
-    <button @click="addQueryParameter">Add Parameter</button>
+    <p>{{ i18n.request.query_parameters.text }}</p>
+    <button @click="addQueryParameter">
+      {{ i18n.request.query_parameters.add_button }}
+    </button>
   </span>
   <div class="query-parameter" v-for="(data, index) in queryParameters">
     <div>
@@ -16,16 +18,18 @@
         type="text"
         :value="data[0]"
         @input="(e: any) => updateQueryParameterKey(index, e.target.value)"
-        placeholder="Key"
+        :placeholder="i18n.request.query_parameters.key_input"
       />
       <input
         type="text"
         :value="data[1]"
         @input="(e: any) => updateQueryParameterValue(index, e.target.value)"
-        placeholder="Value"
+        :placeholder="i18n.request.query_parameters.value_input"
       />
     </div>
-    <button @click="removeQueryParameter(index)">Remove</button>
+    <button @click="removeQueryParameter(index)">
+      {{ i18n.request.query_parameters.remove_button }}
+    </button>
   </div>
 </template>
 
@@ -33,6 +37,7 @@
 import { StoreManager } from "../helpers/storeManager";
 
 const store = new StoreManager();
+let i18n = store.getState("i18n");
 let queryParameters = store.getState("queryParameters");
 
 const addQueryParameter = () => store.store.commit("newQueryParameter");

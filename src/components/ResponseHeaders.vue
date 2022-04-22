@@ -6,12 +6,14 @@
 -->
 
 <template>
-  <div class="header" v-for="(data, index) in responseHeaders">
+  <div class="header" v-for="data in responseHeaders">
     <div>
       <input type="text" :value="data[0]" disabled />
       <input type="text" :value="data[1]" disabled />
     </div>
-    <button @click="copyHeader(data)">Copy</button>
+    <button @click="copyHeader(data)">
+      {{ i18n.response.headers.copy_button }}
+    </button>
   </div>
 </template>
 
@@ -21,6 +23,7 @@ import { StoreManager } from "../helpers/storeManager";
 import { Totify } from "../notify/index";
 
 const store = new StoreManager();
+let i18n = store.getState("i18n");
 let responseHeaders = store.getState("responseHeaders");
 
 function copyHeader(data: Array<string>): void {

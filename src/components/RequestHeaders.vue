@@ -7,8 +7,8 @@
 
 <template>
   <span>
-    <p>Manage Headers</p>
-    <button @click="addHeader">Add Header</button>
+    <p>{{ i18n.request.headers.text }}</p>
+    <button @click="addHeader">{{ i18n.request.headers.add_button }}</button>
   </span>
   <div class="header" v-for="(data, index) in headers">
     <div>
@@ -16,16 +16,18 @@
         type="text"
         :value="data[0]"
         @input="(e: any) => updateHeaderKey(index, e.target.value)"
-        placeholder="Key"
+        :placeholder="i18n.request.headers.key_input"
       />
       <input
         type="text"
         :value="data[1]"
         @input="(e: any) => updateHeaderValue(index, e.target.value)"
-        placeholder="Value"
+        :placeholder="i18n.request.headers.value_input"
       />
     </div>
-    <button @click="removeHeader(index)">Remove</button>
+    <button @click="removeHeader(index)">
+      {{ i18n.request.headers.remove_button }}
+    </button>
   </div>
 </template>
 
@@ -33,6 +35,7 @@
 import { StoreManager } from "../helpers/storeManager";
 
 const store = new StoreManager();
+let i18n = store.getState("i18n");
 let headers = store.getState("headers");
 
 const addHeader = () => store.store.commit("newHeader");

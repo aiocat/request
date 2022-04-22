@@ -25,8 +25,8 @@
         @input="(e: any) => store.store.commit('setUrl', e.target.value)"
         :value="url"
       />
-      <button @click="sendRequest">Send</button>
-      <button @click="saveRequest">Save</button>
+      <button @click="sendRequest">{{ i18n.request.send_button }}</button>
+      <button @click="saveRequest">{{ i18n.request.save_button }}</button>
     </span>
     <RequestNavbar />
   </div>
@@ -44,6 +44,7 @@ import {
 import RequestNavbar from "./RequestNavbar.vue";
 
 let store = new StoreManager();
+let i18n = store.getState("i18n");
 let url = store.getState("url");
 let method = store.getState("method");
 let body = store.getState("body");
@@ -132,7 +133,7 @@ span input {
   font-weight: 800;
   padding: 2px 5px 2px 5px;
   color: #ddd;
-  width: 75%;
+  width: 70%;
   transition: 200ms;
 }
 
@@ -148,7 +149,7 @@ span button {
   font-size: 18px;
   font-weight: 800;
   color: #fff;
-  width: 10%;
+  width: 15%;
   transition: 200ms;
   cursor: pointer;
   padding: 2px 5px 2px 5px;

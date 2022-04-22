@@ -8,18 +8,20 @@
 <template>
   <span>
     <p>
-      Status: <strong>{{ responseStatus }}</strong>
+      {{ i18n.response.body.status_text }}:
+      <strong>{{ responseStatus }}</strong>
     </p>
     <p>
-      Size: <strong>{{ responseSize }}B</strong>
+      {{ i18n.response.body.size_text }}: <strong>{{ responseSize }}B</strong>
     </p>
     <p>
-      Time: <strong>{{ responsePerformance }}ms</strong>
+      {{ i18n.response.body.time_text }}:
+      <strong>{{ responsePerformance }}ms</strong>
     </p>
   </span>
   <span>
-    <button @click="copyContent">Copy</button>
-    <button @click="clearContent">Clear</button>
+    <button @click="copyContent">{{ i18n.response.body.copy_button }}</button>
+    <button @click="clearContent">{{ i18n.response.body.clear_button }}</button>
   </span>
   <div id="response"></div>
 </template>
@@ -41,6 +43,7 @@ import "ace-builds/src-noconflict/mode-xml";
 import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 
 const store = new StoreManager();
+let i18n = store.getState("i18n");
 let responseBody = store.getState("responseBody");
 let responseStatus = store.getState("responseStatus");
 let responsePerformance = store.getState("responsePerformance");

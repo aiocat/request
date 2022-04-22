@@ -9,7 +9,7 @@
   <div class="code-generation">
     <div class="container">
       <span>
-        <p>Select Language</p>
+        <p>{{ i18n.code_generator.select_text }}</p>
         <select data-selected @change="generateCode" v-model="selectedLang">
           <option value="JavaScript (fetch)">JavaScript (fetch)</option>
           <option value="Python (requests)">Python (requests)</option>
@@ -19,7 +19,7 @@
       </span>
       <div id="generated-code"></div>
       <span>
-        <button @click="copyText">Copy Code</button>
+        <button @click="copyText">{{ i18n.code_generator.copy_button }}</button>
       </span>
     </div>
   </div>
@@ -48,6 +48,7 @@ import "ace-builds/src-noconflict/theme-tomorrow_night_eighties";
 let selectedLang = ref<string>("JavaScript (fetch)");
 
 let store = new StoreManager();
+let i18n = store.getState("i18n");
 
 let url = store.getState("url");
 let method = store.getState("method");
