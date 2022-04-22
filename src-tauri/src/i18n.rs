@@ -96,7 +96,8 @@ fn get_i18n_path() -> PathBuf {
     config_path
 }
 
-fn get_i18n() -> String {
+#[tauri::command]
+pub fn get_i18n() -> String {
     let i18n_path = get_i18n_path();
     let content = fs::read_to_string(i18n_path).expect("can't read i18n file");
 
