@@ -33,7 +33,8 @@ fn main() {
             request::send_request,
             i18n::fetch_i18n,
             i18n::write_i18n,
-            i18n::get_i18n
+            i18n::get_i18n,
+            i18n::fetch_i18n_translations
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

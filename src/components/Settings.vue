@@ -10,9 +10,9 @@
     <span>
       <p>{{ i18n.settings.change_language }}</p>
       <select data-selected @change="changeLanguage" :value="i18nLanguage">
-        <option value="en">English</option>
-        <option value="tr">Türkçe</option>
-        <option value="jp">日本語</option>
+        <option v-for="(key, value) in i18nTranslations" :value="value">
+          {{ key }}
+        </option>
       </select>
     </span>
   </div>
@@ -24,6 +24,7 @@ import { invoke } from "@tauri-apps/api";
 
 let store = new StoreManager();
 let i18n = store.getState("i18n");
+let i18nTranslations = store.getState("i18nTranslations");
 let i18nLanguage = store.getState("i18nLanguage");
 
 async function changeLanguage(event: any) {

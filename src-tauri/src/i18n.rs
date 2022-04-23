@@ -111,6 +111,14 @@ pub fn init_i18n_file() {
 }
 
 #[tauri::command]
+pub async fn fetch_i18n_translations() -> String {
+    let client = Client::new();
+    let response = client.get("https://raw.githubusercontent.com/aiocat/request-i18n/main/translations.json").send().await.expect("can't send request");
+
+    response.text().await.expect("can't get response content")
+}
+
+#[tauri::command]
 pub async fn fetch_i18n() -> String {
     let url = format!(
         "https://raw.githubusercontent.com/aiocat/request-i18n/main/{}.json",
