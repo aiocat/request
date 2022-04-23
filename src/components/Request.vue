@@ -21,7 +21,7 @@
       </select>
       <input
         type="text"
-        placeholder="Url"
+        placeholder="http://localhost:3000/"
         @input="(e: any) => store.store.commit('setUrl', e.target.value)"
         :value="url"
       />
