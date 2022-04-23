@@ -3,7 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-use reqwest;
+use reqwest::Client;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -49,10 +49,10 @@ pub async fn send_request(request: Request) -> Response {
     }
 
     // get response body
-    let response_text = response.text().await.unwrap_or(String::new());
+    let response_text = response.text().await.unwrap_or_default();
 
     Response {
-        body: response_text.to_string(),
+        body: response_text,
         status: response_status,
         headers: response_headers,
     }
@@ -61,7 +61,7 @@ pub async fn send_request(request: Request) -> Response {
 // send get request to url
 async fn send_get_request(request: &Request) -> reqwest::Response {
     // prepare get request
-    let mut client = reqwest::Client::new().get(&request.url);
+    let mut client = Client::new().get(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
@@ -75,7 +75,7 @@ async fn send_get_request(request: &Request) -> reqwest::Response {
 // send delete request to url
 async fn send_delete_request(request: &Request) -> reqwest::Response {
     // prepare delete request
-    let mut client = reqwest::Client::new().delete(&request.url);
+    let mut client = Client::new().delete(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
@@ -89,7 +89,7 @@ async fn send_delete_request(request: &Request) -> reqwest::Response {
 // send post request to url
 async fn send_post_request(request: &Request) -> reqwest::Response {
     // prepare post request
-    let mut client = reqwest::Client::new().post(&request.url);
+    let mut client = Client::new().post(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
@@ -119,7 +119,7 @@ async fn send_post_request(request: &Request) -> reqwest::Response {
 // send put request to url
 async fn send_put_request(request: &Request) -> reqwest::Response {
     // prepare put request
-    let mut client = reqwest::Client::new().put(&request.url);
+    let mut client = Client::new().put(&request.url);
 
     // add headers
     for (key, value) in &request.headers {
@@ -149,7 +149,7 @@ async fn send_put_request(request: &Request) -> reqwest::Response {
 // send patch request to url
 async fn send_patch_request(request: &Request) -> reqwest::Response {
     // prepare patch request
-    let mut client = reqwest::Client::new().patch(&request.url);
+    let mut client = Client::new().patch(&request.url);
     // add headers
     for (key, value) in &request.headers {
         client = client.header(key, value);

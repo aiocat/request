@@ -1,9 +1,9 @@
 // Copyright (c) 2022 aiocat
-// 
+//
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
-use reqwest;
+use reqwest::Client;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -99,9 +99,7 @@ fn get_i18n_path() -> PathBuf {
 #[tauri::command]
 pub fn get_i18n() -> String {
     let i18n_path = get_i18n_path();
-    let content = fs::read_to_string(i18n_path).expect("can't read i18n file");
-
-    content
+    fs::read_to_string(i18n_path).expect("can't read i18n file")
 }
 
 pub fn init_i18n_file() {
@@ -113,13 +111,22 @@ pub fn init_i18n_file() {
 }
 
 #[tauri::command]
-pub async fn fetch_i18n() -> String {
-    let url = format!("https://raw.githubusercontent.com/aiocat/request-i18n/main/{}.json", get_i18n());
+pub async fn fetch_i18n_translations() -> String {
+    let client = Client::new();
+    let response = client.get("https://raw.githubusercontent.com/aiocat/request-i18n/main/translations.json").send().await.expect("can't send request");
 
-    let client = reqwest::Client::new();
-    let response = client
-      .get(url)
-      .send().await.expect("can't send request");
+    response.text().await.expect("can't get response content")
+}
+
+#[tauri::command]
+pub async fn fetch_i18n() -> String {
+    let url = format!(
+        "https://raw.githubusercontent.com/aiocat/request-i18n/main/{}.json",
+        get_i18n()
+    );
+
+    let client = Client::new();
+    let response = client.get(url).send().await.expect("can't send request");
 
     response.text().await.expect("can't get response content")
 }

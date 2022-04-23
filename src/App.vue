@@ -19,11 +19,13 @@ const ready = ref<boolean>(false);
 let store = new StoreManager();
 
 onMounted(async () => {
-  let language = await invoke("get_i18n");
-  let response = await invoke("fetch_i18n");
+  let language: string = await invoke("get_i18n");
+  let response: string = await invoke("fetch_i18n");
+  let allLanguages: string = await invoke("fetch_i18n_translations");
 
   store.store.commit("setL10N", response);
   store.store.commit("setL10NLang", language);
+  store.store.commit("setL10NTranslations", allLanguages);
   
   ready.value = true;
 });
