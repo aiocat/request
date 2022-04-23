@@ -13,10 +13,7 @@ pub(crate) fn menu() -> Menu {
         .add_submenu(Submenu::new(
             "Request",
             Menu::new()
-                .add_native_item(MenuItem::About(
-                    "Request".to_string(),
-                    AboutMetadata::new(),
-                ))
+                .add_native_item(MenuItem::About("Request".to_string(), AboutMetadata::new()))
                 .add_native_item(MenuItem::Separator)
                 .add_native_item(MenuItem::Services)
                 .add_native_item(MenuItem::Separator)

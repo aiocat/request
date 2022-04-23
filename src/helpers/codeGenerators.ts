@@ -81,7 +81,7 @@ export function generatePythonRequests(request: Request): string {
       }
 
       // escape quote
-      code += `  json = json.loads("""$request.body.value.replaceAll(
+      code += `  json = json.loads("""${request.body.replaceAll(
         '"',
         '\\"'
       )}"""),\n`;

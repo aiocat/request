@@ -45,9 +45,7 @@ pub fn init_save_file() {
 // read save file
 fn read_save_file() -> String {
     let save_path = get_save_path();
-    let json_content = fs::read_to_string(save_path).expect("can't read save file");
-
-    json_content
+    fs::read_to_string(save_path).expect("can't read save file")
 }
 
 // write save file
@@ -74,11 +72,8 @@ pub fn write_json_file(save: SaveRequest) {
         serde_json::from_str(&json_content).expect("can't decode json file");
 
     // check if same name
-    if datas.iter().any(|val| &val.name == &save.name) {
-        let index = datas
-            .iter()
-            .position(|val| &val.name == &save.name)
-            .unwrap();
+    if datas.iter().any(|val| val.name == save.name) {
+        let index = datas.iter().position(|val| val.name == save.name).unwrap();
         datas[index] = save;
     } else {
         datas.push(save);
@@ -98,7 +93,7 @@ pub fn remove_from_json_file(save: SaveRequest) {
     let filter_content = save.name;
 
     // remove save
-    datas.retain(|obj| &obj.name != &filter_content);
+    datas.retain(|obj| obj.name != filter_content);
 
     let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
     write_save_file(new_content);
