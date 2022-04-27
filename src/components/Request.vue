@@ -23,6 +23,7 @@
         type="text"
         placeholder="http://localhost:3000/"
         @input="(e: any) => store.store.commit('setUrl', e.target.value)"
+        @keyup.enter="sendRequest"
         :value="url"
       />
       <button @click="sendRequest">{{ i18n.request.send_button }}</button>

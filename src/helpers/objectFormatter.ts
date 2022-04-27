@@ -45,8 +45,8 @@ export function generateSaveFormat(request: Request): SaveRequest {
     .filter((v: string) => v != "");
   let title: string = titleSplitted[titleSplitted.length - 1];
 
-  if (title.length > 9) {
-    title = `${title.substring(7)}...`;
+  if (title.length > 12) {
+    title = `${title.substring(9)}...`;
   }
 
   return {
