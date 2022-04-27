@@ -8,8 +8,23 @@
 <template>
   <div class="save" v-if="valid">
     <div class="flex">
-      <h1>{{ data.name }}</h1>
-      <h2>{{ data.method }}</h2>
+      <h1 v-if="!edit">{{ data.name }}</h1>
+      <input type="text" v-if="edit" v-model="editedName" maxlength="12" />
+      <div class="flex">
+        <img
+          src="/pen-to-square-solid.svg"
+          alt="edit"
+          v-if="!edit"
+          @click="editName(data)"
+        />
+        <img
+          src="/check-solid.svg"
+          alt="save-edit"
+          v-if="edit"
+          @click="saveEdit(data)"
+        />
+        <h2>{{ data.method }}</h2>
+      </div>
     </div>
     <div class="flex-center">
       <button @click="loadSave(data)">{{ i18n.saves.load_button }}</button>
@@ -31,6 +46,8 @@ defineProps<{
 }>();
 
 let valid = ref<boolean>(true);
+let edit = ref<boolean>(false);
+let editedName = ref<string>("");
 
 let store = new StoreManager();
 let i18n = store.getState("i18n");
@@ -56,6 +73,28 @@ function removeSave(data: Record<string, any>): void {
 function copyUrl(data: Record<string, any>): void {
   writeText(data.url);
   Totify.info("URL copied to clipboard");
+}
+
+function editName(data: Record<string, any>): void {
+  editedName.value = data.name;
+  edit.value = true;
+}
+
+async function saveEdit(data: Record<string, any>): Promise<void> {
+  let result = await invoke("edit_save_name", {
+    old: data.name,
+    new: editedName.value,
+  });
+
+  if (!result) {
+    Totify.error("This name already exists");
+    edit.value = false;
+
+    return;
+  }
+
+  edit.value = false;
+  data.name = editedName.value;
 }
 </script>
 
@@ -94,7 +133,7 @@ function copyUrl(data: Record<string, any>): void {
 
 .save .flex h1 {
   color: #fff;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   margin: 0px;
 }
@@ -106,8 +145,41 @@ function copyUrl(data: Record<string, any>): void {
   color: #1b3edd;
   font-size: 14px;
   font-weight: 800;
-  margin: 0px;
   transition: 200ms;
+  margin: 0px;
+}
+
+.save .flex img {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(255deg)
+    brightness(108%) contrast(101%);
+  opacity: 0.7;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.save .flex input {
+  outline: none;
+  border: 2px solid #222;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  background: transparent;
+  color: #ddd;
+  padding: 2px 6px 2px 6px;
+  transition: 200ms;
+}
+
+.save .flex input:hover {
+  border: 2px solid #2a2a2a;
+  color: #fff;
+}
+
+.save .flex img:hover {
+  opacity: 1;
 }
 
 .save .flex-center button {

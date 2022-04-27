@@ -98,3 +98,23 @@ pub fn remove_from_json_file(save: SaveRequest) {
     let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
     write_save_file(new_content);
 }
+
+// edit save name
+#[tauri::command]
+pub fn edit_save_name(old: String, new: String) -> bool {
+    let json_content = read_save_file();
+    let mut datas: Vec<SaveRequest> =
+        serde_json::from_str(&json_content).expect("can't decode json file");
+
+    // check if same name
+    if datas.iter().any(|val| &val.name == &new) {
+        return false;
+    } else {
+        let index = datas.iter().position(|val| val.name == old).unwrap();
+        datas[index].name = new;
+    }
+
+    let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
+    write_save_file(new_content);
+    true
+}
