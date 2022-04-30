@@ -81,6 +81,11 @@ function editName(data: Record<string, any>): void {
 }
 
 async function saveEdit(data: Record<string, any>): Promise<void> {
+  if (data.name === editedName.value) {
+    edit.value = false;
+    return;
+  }
+
   let result = await invoke("edit_save_name", {
     old: data.name,
     new: editedName.value,

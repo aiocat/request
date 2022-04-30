@@ -4,7 +4,7 @@
 
 # Request
 
-Open-source api development application for minimalists, with new front-end.
+Minimal http client for api development and testing.
 
 ## Screenshots
 
@@ -14,6 +14,8 @@ Open-source api development application for minimalists, with new front-end.
 ![ss4](/screenshots/ss4.png)
 ![ss5](/screenshots/ss5.png)
 ![ss6](/screenshots/ss6.png)
+![ss7](/screenshots/ss7.png)
+![ss8](/screenshots/ss8.png)
 
 </div>
 
@@ -54,7 +56,7 @@ Clone the repo and:
 
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
 
-- **Current Version**: `v1.1.2`
+- **Current Version**: `v1.1.3`
 
 ## License
 
