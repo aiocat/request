@@ -12,7 +12,8 @@
       <strong>{{ responseStatus }}</strong>
     </p>
     <p>
-      {{ i18n.response.body.size_text }}: <strong>{{ responseSize }}B</strong>
+      {{ i18n.response.body.size_text }}:
+      <strong>{{ byteFormatter(responseSize) }}</strong>
     </p>
     <p>
       {{ i18n.response.body.time_text }}:
@@ -31,6 +32,7 @@ import { onMounted } from "vue";
 import { writeText } from "@tauri-apps/api/clipboard";
 import { StoreManager } from "../helpers/storeManager";
 import { Totify } from "../notify/index";
+import { byteFormatter } from "../helpers/objectFormatter";
 
 import ace from "ace-builds";
 

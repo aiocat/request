@@ -60,3 +60,15 @@ export function generateSaveFormat(request: Request): SaveRequest {
     queryParameters: nestedToRecord(request.queryParameters),
   };
 }
+
+export function byteFormatter(val: number): string {
+  const units: Array<string> = ["B", "KB", "MB", "GB", "TB"];
+
+  // calculation
+  let index: number = 0,
+    num: number = val;
+
+  while (num >= 1024 && ++index) num /= 1024;
+
+  return num.toFixed(num < 10 && index > 0 ? 1 : 0) + " " + units[index];
+}
