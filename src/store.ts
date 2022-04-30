@@ -28,9 +28,12 @@ export default createStore({
       i18n: {},
       i18nLanguage: "en",
       i18nTranslations: {},
+
+      loading: false,
     };
   },
   mutations: {
+    setLoading: (state: any, param: boolean) => (state.loading = param),
     setL10N: (state: any, param: string) => (state.i18n = JSON.parse(param)),
     setL10NLang: (state: any, param: string) => (state.i18nLanguage = param),
     setL10NTranslations: (state: any, param: string) =>

@@ -7,6 +7,12 @@
 
 <template>
   <div class="request">
+    <div v-if="loading" class="lds-ellipsis">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
     <span>
       <select
         data-selected
@@ -52,12 +58,18 @@ let body = store.getState("body");
 let bodyType = store.getState("bodyType");
 let headers = store.getState("headers");
 let queryParameters = store.getState("queryParameters");
+let loading = store.getState("loading");
 
 async function sendRequest(): Promise<void> {
-  if (!/https?:\/\/.*?\..*/g.test(url.value)) {
+  if (loading.value === true) {
+    Totify.error("Request is still waiting...");
+    return;
+  } else if (!/https?:\/\/.*?\..*/g.test(url.value)) {
     Totify.error("Invalid URL");
     return;
   }
+
+  store.store.commit("setLoading", true);
 
   let beforeResponse: number = Date.now();
   let response: Record<string, any> = await invoke("send_request", {
@@ -70,6 +82,9 @@ async function sendRequest(): Promise<void> {
       headers: headers.value,
     }),
   });
+
+  store.store.commit("setLoading", false);
+
   let responseTime: number = Date.now() - beforeResponse;
 
   Totify.success("Request sent successfully");
@@ -193,5 +208,60 @@ span select {
 
 span select:hover {
   background-color: #222;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #2951ff;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
 }
 </style>
