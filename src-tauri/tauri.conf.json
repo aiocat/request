@@ -30,16 +30,14 @@
       "shortDescription": "Request is a minimal http client for api development and testing.",
       "longDescription": "Request is a minimal http client for api development and testing.\nRequest provides features like custom headers, performance look-up, code generation, request save and much more.\nRequest is an open-source app and you can access the source code from github.com/aiocat/requests.",
       "deb": {
-        "depends": [],
-        "useBootstrapper": false
+        "depends": []
       },
       "macOS": {
-        "frameworks": [],
-        "useBootstrapper": false,
+        "entitlements": null,
         "exceptionDomain": "",
-        "signingIdentity": null,
+        "frameworks": [],
         "providerShortName": null,
-        "entitlements": null
+        "signingIdentity": null
       },
       "windows": {
         "certificateThumbprint": null,
