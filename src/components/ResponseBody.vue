@@ -77,7 +77,7 @@ onMounted(() => {
   aceBody = ace.edit("response");
   aceBody.setShowPrintMargin(false);
   aceBody.setReadOnly(true);
-  aceBody.setFontSize("12pt");
+  aceBody.setFontSize(12);
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
 
   let contentType: string =

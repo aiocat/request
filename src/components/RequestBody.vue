@@ -39,7 +39,7 @@ let bodyType = store.getState("bodyType");
 onMounted(() => {
   let aceBody: ace.Ace.Editor = ace.edit("body-editor");
   aceBody.setShowPrintMargin(false);
-  aceBody.setFontSize("12pt");
+  aceBody.setFontSize(12);
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
   aceBody.getSession().setMode("ace/mode/json");
   aceBody.addEventListener("input", () =>
