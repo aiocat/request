@@ -101,7 +101,7 @@ let aceBody: ace.Ace.Editor;
 onMounted(() => {
   aceBody = ace.edit("generated-code");
   aceBody.setShowPrintMargin(false);
-  aceBody.setFontSize("12pt");
+  aceBody.setFontSize(12);
   aceBody.setReadOnly(true);
   aceBody.setTheme("ace/theme/tomorrow_night_eighties");
   aceBody.getSession().setMode("ace/mode/json");
