@@ -26,7 +26,7 @@ onMounted(async () => {
   store.store.commit("setL10N", response);
   store.store.commit("setL10NLang", language);
   store.store.commit("setL10NTranslations", allLanguages);
-  
+
   ready.value = true;
 });
 </script>
@@ -60,7 +60,7 @@ select {
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #111;
+  background: #333;
   border-radius: 100px;
 }
 ::-webkit-scrollbar-track {

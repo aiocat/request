@@ -6,44 +6,57 @@
 -->
 
 <template>
-  <div class="saves">
-    <span>
-      <input
-        type="text"
-        :placeholder="i18n.saves.input"
-        v-model="filter"
-        @keyup.enter="updateFilter"
-      />
-      <button @click="updateFilter">{{ i18n.saves.filter_button }}</button>
-    </span>
-    <div class="flex">
-      <Save v-for="data in filtered" :data="data" />
+  <div class="align-flex">
+    <SavesFolders />
+    <div class="saves">
+      <span>
+        <input
+          type="text"
+          :placeholder="i18n.saves.input"
+          v-model="filter"
+          @keyup.enter="updateFilter"
+        />
+        <button @click="updateFilter">{{ i18n.saves.filter_button }}</button>
+      </span>
+      <div class="flex">
+        <Save v-for="data in filtered" :data="data" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { invoke } from "@tauri-apps/api";
-import Save from "./Save.vue";
 import { StoreManager } from "../helpers/storeManager";
+import Save from "./Save.vue";
+import SavesFolders from "./SavesFolders.vue";
 
 let store = new StoreManager();
 let i18n = store.getState("i18n");
+let currentFolder = store.getState("currentFolder");
 
 const saves = ref<Record<string, any>[]>([]);
 const filtered = ref<Record<string, any>[]>([]);
 const filter = ref<string>("");
 
-invoke("read_json_file").then((response: any) => {
-  saves.value = response;
-  filtered.value = response;
-});
+function loadJson() {
+  invoke("read_json_file", { folder: currentFolder.value }).then(
+    (response: any) => {
+      saves.value = response;
+      filtered.value = response;
+    }
+  );
+}
+
+watch(currentFolder, loadJson);
 
 function updateFilter(): void {
   filtered.value = saves.value.filter((v) => v.key.indexOf(filter.value) != -1);
   filter.value = "";
 }
+
+loadJson();
 </script>
 
 <style scoped>
@@ -109,5 +122,10 @@ span button:hover {
   flex: 1 1 25%;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.align-flex {
+  width: 100%;
+  display: flex;
 }
 </style>

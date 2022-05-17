@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 
+import { invoke } from "@tauri-apps/api";
 import { createStore } from "vuex";
 
 export default createStore({
@@ -30,9 +31,18 @@ export default createStore({
       i18nTranslations: {},
 
       loading: false,
+
+      currentFolder: "Unknown",
+      folders: [],
     };
   },
   mutations: {
+    setFolders: async (state: any) => {
+      state.folders = await invoke("collect_folders");
+      console.log(state.folders);
+    },
+    setCurrentFolder: (state: any, param: string) =>
+      (state.currentFolder = param),
     setLoading: (state: any, param: boolean) => (state.loading = param),
     setL10N: (state: any, param: string) => (state.i18n = JSON.parse(param)),
     setL10NLang: (state: any, param: string) => (state.i18nLanguage = param),

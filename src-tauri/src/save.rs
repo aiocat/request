@@ -22,6 +22,9 @@ pub struct SaveRequest {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(default)]
     query_parameters: Option<HashMap<String, String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(default)]
+    folder: Option<String>,
 }
 
 // get save file
@@ -56,12 +59,22 @@ fn write_save_file(content: String) {
 
 // load json file
 #[tauri::command]
-pub fn read_json_file() -> Vec<SaveRequest> {
+pub fn read_json_file(folder: String) -> Vec<SaveRequest> {
     let json_content = read_save_file();
     let datas: Vec<SaveRequest> =
         serde_json::from_str(&json_content).expect("can't decode json file");
 
-    datas
+    if folder == String::from("Unknown") {
+        datas
+            .into_iter()
+            .filter(|value| value.folder.is_none())
+            .collect()
+    } else {
+        datas
+            .into_iter()
+            .filter(|value| !value.folder.is_none() && &value.folder.as_ref().unwrap() == &&folder)
+            .collect()
+    }
 }
 
 // write to json file
@@ -101,20 +114,104 @@ pub fn remove_from_json_file(save: SaveRequest) {
 
 // edit save name
 #[tauri::command]
-pub fn edit_save_name(old: String, new: String) -> bool {
+pub fn edit_save(old: String, new: String, folder: String) -> bool {
     let json_content = read_save_file();
     let mut datas: Vec<SaveRequest> =
         serde_json::from_str(&json_content).expect("can't decode json file");
 
     // check if same name
-    if datas.iter().any(|val| &val.name == &new) {
-        return false;
-    } else {
-        let index = datas.iter().position(|val| val.name == old).unwrap();
+    let index = datas.iter().position(|val| val.name == old).unwrap();
+    if !datas.iter().any(|val| &val.name == &new) {
         datas[index].name = new;
+    } else if old != new {
+        return false;
+    }
+
+    // check if folder needs to change
+    if folder != String::new() && folder != String::from("Unknown") {
+        datas[index].folder = Some(folder);
+    } else if folder == String::from("Unknown") {
+        datas[index].folder = None;
     }
 
     let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
     write_save_file(new_content);
     true
+}
+
+// remove folder
+#[tauri::command]
+pub fn remove_folder(folder: String) -> bool {
+    if folder == String::from("Unknown") {
+        return false;
+    }
+
+    let json_content = read_save_file();
+    let mut datas: Vec<SaveRequest> =
+        serde_json::from_str(&json_content).expect("can't decode json file");
+
+    // iterate and set found folders to None
+    for data in datas.iter_mut() {
+        if !data.folder.is_none() && &data.folder.as_ref().unwrap() == &&folder {
+            (*data).folder = None;
+        }
+    }
+
+    let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
+    write_save_file(new_content);
+    true
+}
+
+// edit folder name
+#[tauri::command]
+pub fn edit_folder(folder: String, new: String) -> bool {
+    if folder == String::from("Unknown") || new == String::from("Unknown") || folder == new {
+        return false;
+    }
+
+    let json_content = read_save_file();
+    let mut datas: Vec<SaveRequest> =
+        serde_json::from_str(&json_content).expect("can't decode json file");
+
+    // edit folders
+    for data in datas.iter_mut() {
+        if data.folder.is_none() {
+            continue;
+        }
+
+        let calculated = &data.folder.as_ref().unwrap();
+
+        if calculated == &&folder {
+            (*data).folder = Some(new.clone());
+        } else if calculated == &&new {
+            return false;
+        }
+    }
+
+    let new_content = serde_json::to_string(&datas).expect("can't encode file struct");
+    write_save_file(new_content);
+    true
+}
+
+// collect folders
+#[tauri::command]
+pub fn collect_folders() -> Vec<String> {
+    let mut collected: Vec<String> = vec![String::from("Unknown")];
+    let json_content = read_save_file();
+    let datas: Vec<SaveRequest> =
+        serde_json::from_str(&json_content).expect("can't decode json file");
+
+    // collect folders
+    for data in &datas {
+        if data.folder.is_none() {
+            continue;
+        }
+
+        let calculated = data.folder.as_ref().unwrap();
+        if !collected.contains(&calculated) {
+            collected.push(calculated.to_string());
+        }
+    }
+
+    collected
 }

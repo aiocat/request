@@ -31,6 +31,15 @@
       <button @click="copyUrl(data)">{{ i18n.saves.copy_button }}</button>
       <button @click="removeSave(data)">{{ i18n.saves.remove_button }}</button>
     </div>
+    <div v-if="edit">
+      <hr />
+      <input type="text" placeholder="Create new Folder" v-model="folder" />
+      <p>or select a folder.</p>
+      <div class="folders">
+        <button v-for="f in folders" @click="folder = f">{{ f }}</button>
+      </div>
+      <p>({{ folder }})</p>
+    </div>
   </div>
 </template>
 
@@ -48,8 +57,10 @@ defineProps<{
 let valid = ref<boolean>(true);
 let edit = ref<boolean>(false);
 let editedName = ref<string>("");
+let folder = ref<string>("");
 
 let store = new StoreManager();
+let folders = store.getState("folders");
 let i18n = store.getState("i18n");
 
 function loadSave(data: Record<string, any>): void {
@@ -81,25 +92,29 @@ function editName(data: Record<string, any>): void {
 }
 
 async function saveEdit(data: Record<string, any>): Promise<void> {
-  if (data.name === editedName.value) {
+  if (data.name === editedName.value && folder.value === "") {
     edit.value = false;
     return;
   }
 
-  let result = await invoke("edit_save_name", {
+  let result = await invoke("edit_save", {
     old: data.name,
     new: editedName.value,
+    folder: folder.value,
   });
 
   if (!result) {
     Totify.error("This name already exists");
     edit.value = false;
+    window.location.reload();
 
     return;
   }
 
   edit.value = false;
+  folder.value = "";
   data.name = editedName.value;
+  window.location.reload();
 }
 </script>
 
@@ -133,6 +148,7 @@ async function saveEdit(data: Record<string, any>): Promise<void> {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   margin: 5px;
 }
 
@@ -166,7 +182,7 @@ async function saveEdit(data: Record<string, any>): Promise<void> {
   transition: 200ms;
 }
 
-.save .flex input {
+input {
   outline: none;
   border: 2px solid #222;
   border-radius: 5px;
@@ -176,9 +192,10 @@ async function saveEdit(data: Record<string, any>): Promise<void> {
   color: #ddd;
   padding: 2px 6px 2px 6px;
   transition: 200ms;
+  width: 50%;
 }
 
-.save .flex input:hover {
+input:hover {
   border: 2px solid #2a2a2a;
   color: #fff;
 }
@@ -191,27 +208,72 @@ async function saveEdit(data: Record<string, any>): Promise<void> {
   outline: none;
   padding: 4px 10px 4px 10px;
   color: #fff;
-  border: none;
   font-size: 14px;
   font-weight: 700;
-  margin: 0px;
+  margin: 2px;
   background-color: #222;
   cursor: pointer;
   transition: 200ms;
+  border: none;
+  border-radius: 5px;
 }
 
 .save .flex-center button:first-child {
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
   background-color: #1b3edd;
 }
 .save .flex-center button:last-child {
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
   background-color: #dd1b1b;
 }
 
 .save .flex-center button:hover {
-  filter: brightness(70%);
+  background-color: #333;
+}
+
+.save .flex-center button:first-child:hover {
+  background-color: #5b79ff;
+}
+.save .flex-center button:last-child:hover {
+  background-color: #ff5252;
+}
+
+p {
+  margin: 5px;
+  color: #ddd;
+  font-size: 14px;
+  font-size: 600;
+  word-break: break-all;
+}
+
+hr {
+  margin: 5px;
+  border: 2px solid #2a2a2a;
+  border-radius: 10px;
+}
+
+.folders {
+  max-height: 200px;
+  width: 50%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.folders button {
+  display: block;
+  width: 100%;
+  outline: none;
+  border: none;
+  background: #222;
+  color: #fff;
+  border-radius: 5px;
+  margin: 5px auto;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 200ms;
+  cursor: pointer;
+}
+
+.folders button:hover {
+  background: #2a2a2a;
 }
 </style>
