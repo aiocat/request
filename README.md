@@ -56,7 +56,7 @@ Clone the repo and:
 
 Download request from [github releases](https://github.com/aiocat/request/releases/latest) page.
 
-- **Current Version**: `v1.1.3`
+- **Current Version**: `v1.1.4`
 
 ## License
 
