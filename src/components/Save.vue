@@ -33,8 +33,8 @@
     </div>
     <div v-if="edit">
       <hr />
-      <input type="text" placeholder="Create new Folder" v-model="folder" />
-      <p>or select a folder.</p>
+      <input type="text" :placeholder="i18n.saves.folders.input" v-model="folder" />
+      <p>{{ i18n.saves.folders.text }}</p>
       <div class="folders">
         <button v-for="f in folders" @click="folder = f">{{ f }}</button>
       </div>

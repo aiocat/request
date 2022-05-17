@@ -19,7 +19,7 @@
 
 <template>
   <div class="folders">
-    <h1>Folders</h1>
+    <h1>{{ i18n.saves.folders.title }}</h1>
     <hr />
     <SaveFolder v-for="f in folders" :folder="f" />
   </div>
@@ -31,6 +31,7 @@ import SaveFolder from "./SaveFolder.vue";
 
 let store = new StoreManager();
 let folders = store.getState("folders");
+let i18n = store.getState("i18n");
 store.store.commit("setFolders");
 </script>
 
