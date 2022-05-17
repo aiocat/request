@@ -60,6 +60,10 @@ function editFolder() {
 }
 
 async function saveEdit() {
+  if (folderName.value == editedName.value) {
+    edit.value = false;
+    return;
+  }
   let success = await invoke("edit_folder", {
     folder: folderName.value,
     new: editedName.value,
@@ -108,6 +112,7 @@ div {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 5px;
 }
 
 div:hover {
@@ -115,7 +120,8 @@ div:hover {
   border-bottom: 2px solid #222;
 }
 
-button {
+button,
+input {
   outline: none;
   border: none;
   background: transparent;
@@ -123,8 +129,19 @@ button {
   font-size: 16px;
   font-weight: 600;
   transition: 250ms;
-  cursor: pointer;
   margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+input {
+  background: #2a2a2a;
+  border: 2px solid #333;
+  width: 50%;
+  padding-left: 5px;
+  border-radius: 5px;
 }
 
 span {
