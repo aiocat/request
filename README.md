@@ -21,9 +21,9 @@ Minimal http client for api development and testing.
 
 ## Why?
 
-Lots of postman (like) program already exists. But they are really confusing and they have lots of feature we don't need.
+Lots of postman (like) programs already exist. But they are really confusing and have lots of features we don't need.
 
-Since CLI is not for everyone, I made request, http client for minimalists.
+Since CLI is not for everyone, I made request, a http client for minimalists.
 
 ## Translation
 
@@ -60,6 +60,6 @@ Download request from [github releases](https://github.com/aiocat/request/releas
 
 ## License
 
-Request is distributed under MIT license. for more information:
+Request is distributed under the MIT license. for more information:
 
 - https://raw.githubusercontent.com/aiocat/request/main/LICENSE
