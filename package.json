@@ -1,7 +1,7 @@
 {
   "name": "request-v1",
   "private": true,
-  "version": "1.1.4",
+  "version": "1.1.5",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
@@ -15,7 +15,7 @@
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1.0.0-rc.8",
+    "@tauri-apps/cli": "^1.0.0",
     "@vitejs/plugin-vue": "^2.3.1",
     "typescript": "^4.5.4",
     "vite": "^2.9.2",

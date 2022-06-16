@@ -60,18 +60,10 @@ select {
   height: 0px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #333;
-  border-radius: 100px;
+  background: #2951ff;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 100px;
-}
-::-webkit-scrollbar-track:hover {
-  background: transparent;
-}
-::-webkit-scrollbar-track:active {
-  background: transparent;
+  background: #111;
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
